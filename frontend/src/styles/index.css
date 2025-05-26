@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
+
+:root {
+  font-size: 8px;
+
+  --font-main: 'Balsamiq Sans', sans-serif;
+
+  --font-h1: 4.5rem;
+  --font-medium: 3.5rem;
+  --font-regular: 2.5rem;
+  --font-small: 1.5rem;
+  --font-xsmall: 0.75rem;
+
+  --color-beige: #FFFCEE;
+  --color-light-blue: #E2F1F7;
+  --color-light-pink: #F3DFEF;
+  --color-light-green: #DFF3E3;
+  --color-dark: #1B1212;
+  --color-blue: #7FB3D5;
+  --color-red: #D57F80;
+  --color-green: #ABD57F;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-beige);
+  color: var(--color-dark);
+  margin: 5rem;
+}
+
+h1 {
+  font-size: var(--font-h1);
+}
+
+.medium-text {
+  font-size: var(--font-medium);
+}
+
+p {
+  font-size: var(--font-regular);
+}
+
+.small-text {
+  font-size: var(--font-small);
+}
+
+.xsmall-text {
+  font-size: var(--font-xsmall);
+}
+
+button {
+  all: unset;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+}
