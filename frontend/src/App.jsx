@@ -8,6 +8,7 @@ import Journal from './pages/Journal';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ACCESS_TOKEN } from './constants';
+import './styles/index.css';
 
 // Auth-related components
 function Logout() {
