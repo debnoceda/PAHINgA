@@ -32,26 +32,32 @@ body {
   background-color: var(--color-beige);
   color: var(--color-dark);
   margin: 5rem;
+  font-weight: 500;
 }
 
 h1 {
   font-size: var(--font-h1);
+  font-weight: 700;
 }
 
 .medium-text {
   font-size: var(--font-medium);
+  font-weight: 500;
 }
 
 p {
   font-size: var(--font-regular);
+  font-weight: 500;
 }
 
 .small-text {
   font-size: var(--font-small);
+  font-weight: 500;
 }
 
 .xsmall-text {
   font-size: var(--font-xsmall);
+  font-weight: 500;
 }
 
 button {
