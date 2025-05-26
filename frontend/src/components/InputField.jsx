@@ -54,7 +54,7 @@ const InputField = ({
   value = '',
   onChange,
   placeholder = '',
-  borderColor = '#1B1212',
+  borderColor = '#7FB3D5',
   type = 'text',
   name = '',
   required = false,

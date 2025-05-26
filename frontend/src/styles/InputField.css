@@ -21,7 +21,8 @@
 }
 
 .custom-input:hover {
-  border-color: #666666;
+  border-color: #7FB3D5;
+  box-shadow: 0 0 5px 0.5px rgba(74, 144, 226, 0.5);
 }
 
 
