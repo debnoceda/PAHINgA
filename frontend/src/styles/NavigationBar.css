@@ -50,6 +50,7 @@
     padding: 0;
     cursor: pointer;
     transition: box-shadow 0.2s;
+    overflow: hidden;
 }
 
 .profile-btn:active,
@@ -60,7 +61,6 @@
 .profile-img {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     object-fit: cover;
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../styles/NavigationBar.css";
-import profilePic from "../assets/Logotrans.png";
+import profilePic from "../assets/CalendarEmoji/Calendar Angry.png";
 
 const NavigationBar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
