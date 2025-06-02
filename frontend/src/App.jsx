@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import Journal from './pages/Journal';
 import Profile from './pages/Profile';
 import Landing from './pages/Landing';
+import Welcome from './pages/Welcome';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ACCESS_TOKEN } from './constants';
 import './styles/index.css';
@@ -58,6 +59,11 @@ function App() {
         <Route path="/register" element={
           <PublicRoute>
             <Register />
+          </PublicRoute>
+        } />
+        <Route path="/welcome" element={
+          <PublicRoute>
+            <Welcome />
           </PublicRoute>
         } />
         <Route path="/logout" element={<Logout />} />
