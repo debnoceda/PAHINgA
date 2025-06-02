@@ -99,3 +99,40 @@
 .dropdown-icon {
     font-size: 2rem;
 }
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--color-dark, #1b1212);
+    margin: 0.5rem 2rem;
+    opacity: 0.2;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .mobile-only {
+        display: flex;
+    }
+
+    .navbar-left {
+        gap: 1rem;
+    }
+
+    .navbar-logo {
+        margin-right: 1rem;
+    }
+}
+
+/* Desktop styles */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+
+    .desktop-only {
+        display: block;
+    }
+}

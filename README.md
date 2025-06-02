@@ -38,7 +38,12 @@ cd PAHINgA
 
 ### Backend Setup
 
-1. Create and activate virtual environment:
+1. Navigate to the backend directory:
+```bash
+cd backend
+```
+
+2. Create and activate virtual environment:
 ```bash
 # Create virtual environment
 python -m venv venv
@@ -48,11 +53,6 @@ python -m venv venv
 venv\Scripts\activate
 # macOS/Linux:
 source venv/bin/activate
-```
-
-2. Navigate to the backend directory:
-```bash
-cd backend
 ```
 
 3. Install Python dependencies:
