@@ -8,13 +8,13 @@ class Journal(models.Model):
     date = models.DateField()
     content = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='journals')
-    moodStats = models.OneToOneField('MoodStats', on_delete=models.CASCADE, related_name='journal', null=True, blank=True)
-    insights = models.OneToOneField('Insights', on_delete=models.CASCADE, related_name='journal', null=True, blank=True)
+    moodStats = models.OneToOneField('MoodStat', on_delete=models.CASCADE, related_name='journal', null=True, blank=True)
+    insights = models.OneToOneField('Insight', on_delete=models.CASCADE, related_name='journal', null=True, blank=True)
 
     def __str__(self):
         return self.title
 
-class MoodStats(models.Model):
+class MoodStat(models.Model):
     percentHappiness = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     percentFear = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     percentSadness = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
@@ -26,7 +26,7 @@ class MoodStats(models.Model):
     def __str__(self):
         return self.dominantMood
 
-class Insights(models.Model):
+class Insight(models.Model):
     insightContent = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='insights')
 

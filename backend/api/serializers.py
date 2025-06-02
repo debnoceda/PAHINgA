@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Journal, MoodStats, Insights
+from .models import Journal, MoodStat, Insight
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,19 +12,19 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
-class MoodStatsSerializer(serializers.ModelSerializer):
+class MoodStatSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MoodStats
+        model = MoodStat
         fields = ['id', 'percentHappiness', 'percentFear', 'percentSadness', 'percentSurprise', 'percentDisgust', 'percentAnger', 'dominantMood']
 
-class InsightsSerializer(serializers.ModelSerializer):
+class InsightSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Insights
+        model = Insight
         fields = ['id', 'insightContent', 'user']
 
 class JournalSerializer(serializers.ModelSerializer):
-    moodStats = MoodStatsSerializer(read_only=True)
-    insights = InsightsSerializer(read_only=True)
+    moodStats = MoodStatSerializer(read_only=True)
+    insights = InsightSerializer(read_only=True)
     
     class Meta:
         model = Journal

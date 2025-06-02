@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Journal, MoodStats, Insights
+from .models import Journal, MoodStat, Insight
 from rest_framework import viewsets
-from .serializers import UserSerializer, JournalSerializer, MoodStatsSerializer, InsightsSerializer
+from .serializers import UserSerializer, JournalSerializer, MoodStatSerializer, InsightSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
 # Create your views here.
@@ -18,12 +18,12 @@ class JournalViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Journal.objects.filter(user=self.request.user)
 
-class MoodStatsViewSet(viewsets.ModelViewSet):
-    queryset = MoodStats.objects.all()
-    serializer_class = MoodStatsSerializer 
+class MoodStatViewSet(viewsets.ModelViewSet):
+    queryset = MoodStat.objects.all()
+    serializer_class = MoodStatSerializer 
     permission_classes = [IsAuthenticated]
 
-class InsightsViewSet(viewsets.ModelViewSet):
-    queryset = Insights.objects.all()
-    serializer_class = InsightsSerializer
+class InsightViewSet(viewsets.ModelViewSet):
+    queryset = Insight.objects.all()
+    serializer_class = InsightSerializer
     permission_classes = [IsAuthenticated]
