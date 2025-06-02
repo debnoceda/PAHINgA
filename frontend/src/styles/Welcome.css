@@ -16,6 +16,11 @@ html, body {
   justify-content: flex-start; /* Push content to top */
 }
 
+.h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
 .welcome-image {
   position: fixed;
   bottom: 0;

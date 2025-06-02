@@ -1,4 +1,4 @@
-import welcomeImage from '../assets/WelcomePic2.PNG'; // adjust path as needed
+import welcomeImage from '../assets/WelcomePic2.png'; // adjust path as needed
 import '../styles/Welcome.css'; // optional CSS
 import Button from '../components/Button';
 
