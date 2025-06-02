@@ -7,6 +7,7 @@ import profilePic from "../assets/Logotrans.png";
 const NavigationBar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const profileButtonRef = useRef(null);
     const navigate = useNavigate();
 
     // Close dropdown when clicking outside
@@ -14,6 +15,10 @@ const NavigationBar = () => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropdownOpen(false);
+                // Remove focus from profile button when closing dropdown
+                if (profileButtonRef.current) {
+                    profileButtonRef.current.blur();
+                }
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -23,12 +28,34 @@ const NavigationBar = () => {
     const handleNavigation = (path) => {
         navigate(path);
         setDropdownOpen(false); // Close dropdown when navigating
+        // Remove focus from profile button when navigating
+        if (profileButtonRef.current) {
+            profileButtonRef.current.blur();
+        }
     };
 
     const handleLogout = () => {
         localStorage.clear();
         navigate("/login");
         setDropdownOpen(false);
+        // Remove focus from profile button when logging out
+        if (profileButtonRef.current) {
+            profileButtonRef.current.blur();
+        }
+    };
+
+    const toggleDropdown = () => {
+        setDropdownOpen((open) => {
+            const newOpen = !open;
+            // Remove focus from profile button when closing dropdown
+            if (!newOpen && profileButtonRef.current) {
+                // Use setTimeout to ensure the state update happens first
+                setTimeout(() => {
+                    profileButtonRef.current.blur();
+                }, 0);
+            }
+            return newOpen;
+        });
     };
 
     return (
@@ -46,7 +73,11 @@ const NavigationBar = () => {
                 </button>
             </div>
             <div className="navbar-right" ref={dropdownRef}>
-                <button className="profile-btn" onClick={() => setDropdownOpen((open) => !open)}>
+                <button
+                    ref={profileButtonRef}
+                    className="profile-btn"
+                    onClick={toggleDropdown}
+                >
                     <img src={profilePic} alt="Profile" className="profile-img" />
                 </button>
                 {dropdownOpen && (
