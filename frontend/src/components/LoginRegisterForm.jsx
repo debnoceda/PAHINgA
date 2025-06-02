@@ -2,6 +2,8 @@ import { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
+import InputField from './InputField';
+import Button from './Button';
 import '../styles/LoginRegisterForm.css';
 
 function LoginRegisterForm({ method = 'login' }) {
@@ -13,7 +15,7 @@ function LoginRegisterForm({ method = 'login' }) {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const name = method === 'register' ? 'Register' : 'Login';
+    const name = method === 'register' ? 'Sign Up' : 'Login';
 
     // Validation functions
     const validateEmail = (email) => {
@@ -109,8 +111,7 @@ function LoginRegisterForm({ method = 'login' }) {
             <h1>{name}</h1>
             {error && <div className="error-message">{error}</div>}
 
-            <input 
-                className='form-input' 
+            <InputField 
                 type="text" 
                 placeholder='Username' 
                 value={username} 
@@ -119,8 +120,7 @@ function LoginRegisterForm({ method = 'login' }) {
             />
             
             {method === 'register' && (
-                <input 
-                    className='form-input' 
+                <InputField 
                     type="email" 
                     placeholder='Email' 
                     value={email} 
@@ -129,8 +129,7 @@ function LoginRegisterForm({ method = 'login' }) {
                 />
             )}
             
-            <input 
-                className='form-input' 
+            <InputField 
                 type="password" 
                 placeholder='Password' 
                 value={password} 
@@ -139,8 +138,7 @@ function LoginRegisterForm({ method = 'login' }) {
             />
             
             {method === 'register' && (
-                <input 
-                    className='form-input' 
+                <InputField 
                     type="password" 
                     placeholder='Confirm Password' 
                     value={confirmPassword} 
@@ -149,13 +147,12 @@ function LoginRegisterForm({ method = 'login' }) {
                 />
             )}
 
-            <button 
-                className='form-button' 
-                type='submit' 
+            <Button 
+                type="medium-compact"
                 disabled={loading}
             >
                 {loading ? 'Loading...' : name}
-            </button>
+            </Button>
         </form>
     );
 }
