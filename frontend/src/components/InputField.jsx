@@ -17,6 +17,7 @@ import { Icon } from '@iconify/react';
  *  - borderColor: string (default border color, e.g. '#000000')
  *  - type: string (input type, e.g. 'text', 'email', etc.)
  *  - name: string (input name attribute)
+ *  - id: string (input id attribute)
  *  - required: boolean (if input is required)
  *  - className: string (additional CSS classes)
  *  - hasError: boolean (if true, show error styles)
@@ -56,13 +57,23 @@ const InputField = ({
   placeholder = '',
   borderColor = '#7FB3D5',
   type = 'text',
-  name = '',
+  name,
+  id,
   required = false,
   className = '',
   hasError = false,
   errorMessage = '',
   ...props
 }) => {
+  const fallbackId = React.useMemo(() =>
+    `input-field-${Math.random().toString(36).slice(2, 11)}`,
+    []
+  );
+
+  const inputId = id || fallbackId;
+
+  const inputName = name || inputId;
+
   const style = {
     '--border-color': hasError ? '#D57F80' : borderColor,
     '--box-shadow': hasError ? '0 0 5px 0.5px rgba(213, 127, 128, 0.7)' : 'none',
@@ -75,7 +86,8 @@ const InputField = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        name={name}
+        name={inputName}
+        id={inputId}
         required={required}
         className={`custom-input ${className}`}
         style={style}
