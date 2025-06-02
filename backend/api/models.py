@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Journal(models.Model):
@@ -14,12 +15,12 @@ class Journal(models.Model):
         return self.title
 
 class MoodStats(models.Model):
-    percentHappiness = models.IntegerField()
-    percentFear = models.IntegerField()
-    percentSadness = models.IntegerField()
-    percentSurprise = models.IntegerField()
-    percentDisgust = models.IntegerField()
-    percentAnger = models.IntegerField()
+    percentHappiness = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    percentFear = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    percentSadness = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    percentSurprise = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    percentDisgust = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
+    percentAnger = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     dominantMood = models.CharField(max_length=200)
 
     def __str__(self):
