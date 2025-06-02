@@ -124,7 +124,7 @@ function LoginRegisterForm({ method = 'login' }) {
             {method === 'register' && (
                 <InputField 
                     type="email" 
-                    placeholder='Email' 
+                    placeholder='Email Address' 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)}
                     required 
