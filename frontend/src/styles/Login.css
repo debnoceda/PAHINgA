@@ -1,13 +1,6 @@
-.login-body{
-    background-color: #E2F1F7;
-    margin: 0;
-}
-
 .login-container {
     display: grid;
     grid-template-rows: auto 1fr;
-    min-height: 100vh;
-    padding: 2rem;
 }
 
 .title {
@@ -21,7 +14,6 @@
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
     align-items: center;
-    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
 }
