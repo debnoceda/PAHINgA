@@ -7,7 +7,6 @@
     font-weight: 600;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     user-select: none;
-    padding: 0 1.5rem;
     text-align: center;
     white-space: nowrap;
     outline: none;
