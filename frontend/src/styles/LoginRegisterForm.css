@@ -3,5 +3,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 2.5rem;
 }
 
+.form-title {
+    font-size: 4.5rem;
+    margin-bottom: 5rem;
+    text-transform: uppercase;
+}
+
+.form-button {
+    margin-top: 5rem;
+}
+
+.form-link{
+    color: #1B1212;
+}

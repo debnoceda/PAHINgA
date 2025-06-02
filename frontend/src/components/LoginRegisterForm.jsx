@@ -5,6 +5,8 @@ import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import InputField from './InputField';
 import Button from './Button';
 import '../styles/LoginRegisterForm.css';
+import { Link } from 'react-router-dom';
+
 
 function LoginRegisterForm({ method = 'login' }) {
     const [username, setUsername] = useState('');
@@ -108,7 +110,7 @@ function LoginRegisterForm({ method = 'login' }) {
 
     return (
         <form onSubmit={handleSubmit} className='form-container'>
-            <h1>{name}</h1>
+            <p className='form-title'>{name}</p>
             {error && <div className="error-message">{error}</div>}
 
             <InputField 
@@ -147,12 +149,20 @@ function LoginRegisterForm({ method = 'login' }) {
                 />
             )}
 
-            <Button 
+            <Button className='form-button' 
                 type="medium-compact"
                 disabled={loading}
             >
                 {loading ? 'Loading...' : name}
             </Button>
+
+            <p className='form-text'>
+                {method === 'register' ? 'Already have an account? ' : 'New here? '}
+                <Link to={method === 'register' ? '/login' : '/register'} className='form-link'>
+                    {method === 'register' ? 'Login' : 'Sign Up'}
+                </Link>
+            </p>
+            
         </form>
     );
 }
