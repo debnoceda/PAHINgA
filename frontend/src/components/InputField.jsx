@@ -80,7 +80,7 @@ const InputField = ({
   };
 
   return (
-    <div style={{ width: '100%', marginBottom: '1rem' }}>
+    <div style={{ width: '100%'}}>
       <input
         type={type}
         value={value}
