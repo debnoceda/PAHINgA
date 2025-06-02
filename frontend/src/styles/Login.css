@@ -1,19 +1,21 @@
 .login-container {
     display: grid;
     grid-template-rows: auto 1fr;
+    z-index: 1;
 }
 
 .title {
     text-align: center;
     margin: 2rem 0;
+    padding-bottom: 10rem;
     color: #1B1212;
 }
 
 .login-form-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     gap: 2rem;
-    align-items: center;
+    align-items: baseline;
     margin: 0 auto;
     width: 100%;
 }
@@ -30,19 +32,25 @@
     font-size: 8rem;
     color: #1B1212;
     margin: 0;
+    z-index: 3;
+    position: relative;
 }
 
 .text-image-container p {
     font-size: 3rem;
     color: #1B1212;
     margin: 0;
+    z-index: 3;
+    position: relative;
 }
 
 .text-image-container img {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     height: auto;
-    margin-top: 2rem;
+    margin-top: -10rem;
+    z-index: 1;
+    position: relative;
 }
 
 @media (max-width: 768px) {

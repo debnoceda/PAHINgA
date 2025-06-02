@@ -1,5 +1,5 @@
 import LoginRegisterForm from '../components/LoginRegisterForm';
-import loginImage from '../assets/login.png';
+import loginImage from '../assets/Login.png';
 import '../styles/Login.css';
 
 function Login() {

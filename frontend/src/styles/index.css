@@ -31,8 +31,10 @@ body {
   font-family: var(--font-main);
   background-color: var(--color-beige);
   color: var(--color-dark);
-  margin: 4rem;
+  padding: 4rem;
   font-weight: 500;
+  height: 100%;
+  overflow-y: hidden;
 }
 
 h1 {

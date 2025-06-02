@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../styles/NavigationBar.css";
-import profilePic from "../assets/Logotrans.png";
+import profilePic from "../assets/CalendarEmoji/Calendar Angry.png";
 
 const NavigationBar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -65,10 +65,10 @@ const NavigationBar = () => {
                 <div className="navbar-logo" onClick={() => handleNavigation("/")} style={{ cursor: "pointer" }}>
                     PAHINgA
                 </div>
-                <button className="navbar-btn" onClick={() => handleNavigation("/")}>
+                <button className="navbar-btn desktop-only" onClick={() => handleNavigation("/")}>
                     Home
                 </button>
-                <button className="navbar-btn" onClick={() => handleNavigation("/journal")}>
+                <button className="navbar-btn desktop-only" onClick={() => handleNavigation("/journal")}>
                     Journal
                 </button>
             </div>
@@ -82,6 +82,11 @@ const NavigationBar = () => {
                 </button>
                 {dropdownOpen && (
                     <div className="profile-dropdown">
+                        <button className="dropdown-item mobile-only" onClick={() => handleNavigation("/journal")}>
+                            <Icon icon="mdi:journal" className="dropdown-icon" />
+                            Journal
+                        </button>
+                        <div className="dropdown-divider mobile-only"></div>
                         <button className="dropdown-item" onClick={() => handleNavigation("/profile")}>
                             <Icon icon="ix:user-profile-filled" className="dropdown-icon" />
                             View Profile

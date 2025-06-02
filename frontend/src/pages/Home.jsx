@@ -1,10 +1,12 @@
-import NavigationBar from "../components/NavigationBar";
+import NavigationBar from '../components/NavigationBar';
+import FloatingActionButton from '../components/FloatingActionButton';
 
 function Home() {
     return (
         <div>
             <NavigationBar />
             <h1>Home</h1>
+            <FloatingActionButton />
         </div>
     );
 }
