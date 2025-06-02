@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Journal from './pages/Journal';
 import Profile from './pages/Profile';
+import Landing from './pages/Landing';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ACCESS_TOKEN } from './constants';
 import './styles/index.css';
@@ -44,6 +45,11 @@ function App() {
         } />
 
         {/* Public Routes */}
+        <Route path="/" element={
+          <PublicRoute>
+            <Landing />
+          </PublicRoute>
+        } />
         <Route path="/login" element={
           <PublicRoute>
             <Login />
