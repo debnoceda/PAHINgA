@@ -11,7 +11,9 @@ function Login() {
                 <p>Take a moment. Your thoughts are safe here.</p>
                 <img src={loginImage} alt="Login" />
             </div>
-            <LoginRegisterForm method='login' />
+            <div className='login-form'>
+                <LoginRegisterForm method='login' />
+            </div>
         </div>
     </div>
         

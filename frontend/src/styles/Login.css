@@ -7,14 +7,14 @@
 .title {
     text-align: center;
     margin: 2rem 0;
-    padding-bottom: 10rem;
+    padding-bottom: 5rem;
     color: #1B1212;
 }
 
 .login-form-container {
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 10rem;
     align-items: baseline;
     margin: 0 auto;
     width: 100%;
@@ -48,24 +48,38 @@
     width: 100%;
     max-width: 600px;
     height: auto;
-    margin-top: -10rem;
+    margin-top: -12.5rem;
     z-index: 1;
     position: relative;
 }
 
+.login-form {
+    margin-right: 10rem;
+    width: 80%;
+}
+
 @media (max-width: 768px) {
-    .login-form-container {
-        grid-template-columns: 1fr;
+    .title {
+        margin: 0.5rem 0;
+        padding-bottom: 2rem;
+        font-size: 3.5rem;
     }
-    
-    .text-image-container {
-        order: 2;
-        align-items: center;
-        text-align: center;
+
+    .login-form-container {
+        gap: 1.5rem;
+    }
+
+    .text-image-container h1{
+        font-size: 4rem;
+    }
+
+    .text-image-container p{
+        font-size: 2rem;
     }
     
     .text-image-container img {
         max-width: 300px;
+        margin-top: -5rem;
     }
 }
 
