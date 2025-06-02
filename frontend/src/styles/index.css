@@ -33,6 +33,8 @@ body {
   color: var(--color-dark);
   padding: 4rem;
   font-weight: 500;
+  height: 100%;
+  overflow-y: hidden;
 }
 
 h1 {
