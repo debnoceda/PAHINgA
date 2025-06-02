@@ -16,9 +16,8 @@ html, body {
   justify-content: flex-start; /* Push content to top */
 }
 
-.h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
+.welcome-title {
+    padding-bottom: 1.5rem;
 }
 
 .welcome-image {
@@ -41,4 +40,26 @@ html, body {
 .get-started-button:hover {
   background-color: #9AC66A !important; /* darker shade for hover effect */
   border: black 1px solid !important;/* optional: add a border on hover */
+}
+
+
+@media (max-width: 768px) {
+  .welcome-container {
+    padding: 1rem;
+  }
+
+  .welcome-title {
+    padding-top: 35rem;
+    font-size: 4.5rem;
+  }
+
+  .get-started-button {
+    background-color: #ABD57F; /* your desired background color */
+    color: black;              /* your desired text color */
+    width: 31.25rem;
+  }
+
+  .welcome-image {
+    max-width: 100%;
+  }
 }
