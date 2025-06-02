@@ -29,6 +29,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Protected Routes */}
+        <Route path="/welcome" element={
+          <ProtectedRoute>
+            <Welcome />
+          </ProtectedRoute>
+        } />
         <Route path="/" element={
           <ProtectedRoute>
             <Home />
@@ -59,11 +64,6 @@ function App() {
         <Route path="/register" element={
           <PublicRoute>
             <Register />
-          </PublicRoute>
-        } />
-        <Route path="/welcome" element={
-          <PublicRoute>
-            <Welcome />
           </PublicRoute>
         } />
         <Route path="/logout" element={<Logout />} />
