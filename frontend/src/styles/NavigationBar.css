@@ -4,6 +4,7 @@
     align-items: center;
     height: 6rem;
     font-family: var(--font-main);
+    margin-bottom: 2rem;
 }
 
 .navbar-left {
