@@ -6,6 +6,7 @@ import InputField from './InputField';
 import Button from './Button';
 import '../styles/LoginRegisterForm.css';
 import { Link } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 function LoginRegisterForm({ method = 'login' }) {
     const [username, setUsername] = useState('');
@@ -23,6 +24,7 @@ function LoginRegisterForm({ method = 'login' }) {
     const navigate = useNavigate();
 
     const name = method === 'register' ? 'Sign Up' : 'Login';
+    const notify = () => toast.success('Successfully registered');
 
     // Validation functions
     const validateEmail = (email) => {
@@ -130,6 +132,7 @@ function LoginRegisterForm({ method = 'login' }) {
             if (method === 'register') {
                 try {
                     await api.post('/users/', { username, email, password });
+                    notify();
                     navigate('/login');
                 } catch (error) {
                     if (error.response?.status === 400) {
@@ -139,10 +142,10 @@ function LoginRegisterForm({ method = 'login' }) {
                         } else if (errorData.email) {
                             setFieldErrors(prev => ({ ...prev, email: 'Email is already registered' }));
                         } else {
-                            setError('Registration failed. Please try again.');
+                            toast.error('Registration failed. Please try again.');
                         }
                     } else {
-                        setError('Registration failed. Please try again.');
+                        toast.error('Registration failed. Please try again.');
                     }
                 }
             } else {

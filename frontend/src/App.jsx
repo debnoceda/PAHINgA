@@ -13,6 +13,7 @@ import Entry from './pages/Entry';
 import { ACCESS_TOKEN } from './constants';
 import './styles/index.css';
 import { UserProvider } from './context/UserContext';
+import { Toaster } from 'react-hot-toast';
 
 // Auth-related components
 function Logout() {
@@ -29,6 +30,7 @@ function PublicRoute({ children }) {
 function App() {
   return (
     <UserProvider>
+      <Toaster position="top-right" reverseOrder={false} />
       <BrowserRouter>
         <Routes>
           {/* Protected Routes */}
