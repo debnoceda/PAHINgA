@@ -73,6 +73,18 @@
 
 .info-value {
   color: #555;
+  font-size: var(--font-regular);
+  /* Match .info-label font size */
+}
+
+.custom-input {
+  border: 1.5px solid #7FB3D5 !important;
+  box-shadow: none !important;
+}
+.custom-input:focus {
+  outline: 2px solid #7FB3D5 !important;
+  border-color: #7FB3D5 !important;
+  box-shadow: 0 0 0 2px #E2F1F7 !important;
 }
 
 

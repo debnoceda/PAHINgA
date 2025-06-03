@@ -61,55 +61,101 @@ const Profile = () => {
           <hr className="dashed-line" />
 
           <div className="profile-info">
-            <div className="info-row">
-              <span className="info-label">Username</span>
-              {!editMode ? (
-                <p className="info-value">{username}</p>
-              ) : (
-                <InputField
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
-                  hasError={!!fieldErrors.username}
-                  errorMessage={fieldErrors.username}
-                  placeholder="Username"
-                  style={{ width: '60%' }}
-                />
-              )}
-            </div>
-            <div className="info-row">
-              <span className="info-label">Email Address</span>
-              {!editMode ? (
-                <p className="info-value">{email}</p>
-              ) : (
-                <div style={{ width: '60%' }}>
-                  <InputField
-                    value={newEmail}
-                    onChange={e => setNewEmail(e.target.value)}
-                    hasError={!!fieldErrors.newEmail}
-                    errorMessage={fieldErrors.newEmail}
-                    placeholder="New Email Address"
-                    style={{ marginBottom: 8 }}
-                  />
-                  <InputField
-                    value={confirmEmail}
-                    onChange={e => setConfirmEmail(e.target.value)}
-                    hasError={!!fieldErrors.confirmEmail}
-                    errorMessage={fieldErrors.confirmEmail}
-                    placeholder="Confirm Email Address"
-                  />
+            {!editMode ? (
+              <>
+                <div className="info-row">
+                  <span className="info-label">Username</span>
+                  <span className="info-value">{username}</span>
                 </div>
-              )}
-            </div>
+                <div className="info-row">
+                  <span className="info-label">Email Address</span>
+                  <span className="info-value">{email}</span>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="info-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}>
+                  <span className="info-label">Username</span>
+                  <div style={{ width: '100%', marginTop: 4 }}>
+                    <InputField
+                      value={username}
+                      onChange={e => setUsername(e.target.value)}
+                      hasError={!!fieldErrors.username}
+                      errorMessage={fieldErrors.username}
+                      placeholder="Username"
+                    />
+                  </div>
+                </div>
+                <div className="info-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}>
+                  <span className="info-label">Email Address</span>
+                  <div style={{ width: '100%', marginTop: 4 }}>
+                    <InputField
+                      value={newEmail}
+                      onChange={e => setNewEmail(e.target.value)}
+                      hasError={!!fieldErrors.newEmail}
+                      errorMessage={fieldErrors.newEmail}
+                      placeholder="New Email Address"
+                      style={{ marginBottom: 8 }}
+                    />
+                  </div>
+                </div>
+                <div className="info-row" style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 0 }}>
+                  <span className="info-label">Confirm Email Address</span>
+                  <div style={{ width: '100%', marginTop: 4 }}>
+                    <InputField
+                      value={confirmEmail}
+                      onChange={e => setConfirmEmail(e.target.value)}
+                      hasError={!!fieldErrors.confirmEmail}
+                      errorMessage={fieldErrors.confirmEmail}
+                      placeholder="Confirm Email Address"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {editMode && (
-            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', gap: 8, marginTop: 16 }}>
-              <Button type="small-compact" onClick={handleCancel}>Cancel</Button>
-              <Button type="small-compact" onClick={handleSave}>Save</Button>
-            </div>
+            <>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', gap: 8, marginTop: 8 }}>
+                <Button
+                  type="small-compact"
+                  onClick={handleCancel}
+                  style={{ minWidth: '100px', width: '100px', height: '36px', fontSize: 'var(--font-regular)', fontWeight: 400, borderRadius: 10, padding: 0, textAlign: 'center', background: 'transparent' }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="small-compact"
+                  onClick={handleSave}
+                  style={{ minWidth: '100px', width: '100px', height: '36px', fontSize: 'var(--font-regular)', fontWeight: 400, borderRadius: 10, padding: 0, textAlign: 'center' }}
+                >
+                  Save
+                </Button>
+              </div>
+              <hr className="dashed-line" />
+              {/* Delete Account Section (Edit Mode) */}
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 24, marginBottom: 8 }}>
+                <span style={{ color: '#D57F80', fontSize: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
+                  <span className="iconify" data-icon="mdi:alert" style={{ fontSize: 40 }}></span>
+                </span>
+                <span style={{ color: '#D57F80', fontSize: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
+                  <span className="iconify" data-icon="ci:circle-warning" style={{ fontSize: 32 }}></span>
+                </span>
+                <div style={{ color: '#222', fontSize: 'var(--font-regular)', maxWidth: 600, textAlign: 'center', marginBottom: 16 }}>
+                  All your data, including journal entries and mood logs, will be lost. This action is irreversible. Please proceed with care.
+                </div>
+                <Button
+                  type="small-compact"
+                  style={{ background: '#D57F80', color: '#fff', border: '1.5px solid #222', borderRadius: 10, minWidth: 160, width: 160, height: 40, fontWeight: 400, fontSize: 'var(--font-regular)', display: 'block', margin: '0 auto' }}
+                  onClick={() => {/* TODO: Add delete logic */}}
+                >
+                  Delete Account
+                </Button>
+              </div>
+            </>
           )}
-
-          <hr className="dashed-line" />
+        <hr className="dashed-line" />
         </div>
       </div>
       <FloatingActionButton />
