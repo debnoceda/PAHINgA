@@ -20,10 +20,6 @@ export function UserProvider({ children }) {
     }
   }, []);
 
-  useEffect(() => {
-    fetchJournals();
-  }, [fetchJournals]);
-
   return (
     <UserContext.Provider value={{ journals, loading, fetchJournals }}>
       {children}
