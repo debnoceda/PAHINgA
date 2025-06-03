@@ -2,8 +2,15 @@ import "../styles/Streak.css";
 import React from "react";
 import Card from "./Card";
 import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
 function Streak() {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/entry/new');
+    };
+    
     return (
         <div className="streak-container">
             <Card className="streak-card">
@@ -13,7 +20,7 @@ function Streak() {
                 <h1>Day Streak!</h1>
                 <div className="dashed-line"></div>
                 <p>You showed up for yourself—again. Keep the light on.</p>
-                <Button>Write Today's Entry</Button>
+                <Button onClick={handleClick}>Write Today's Entry</Button>
             </Card>
         </div>
     );
