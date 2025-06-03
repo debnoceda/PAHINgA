@@ -96,7 +96,6 @@ const Profile = () => {
                       hasError={!!fieldErrors.newEmail}
                       errorMessage={fieldErrors.newEmail}
                       placeholder="New Email Address"
-                      style={{ marginBottom: 8 }}
                     />
                   </div>
                 </div>
