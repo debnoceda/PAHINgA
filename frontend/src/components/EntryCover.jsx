@@ -11,17 +11,17 @@ import '../styles/EntryCover.css';
 import { useUser } from '../context/UserContext';
 
 const moodConfig = {
-  Happy:   { img: happyImg,   bg: '#FEF6BE' },
-  Sad:     { img: sadImg,     bg: '#BDEEFF' },
-  Anger:   { img: angryImg,   bg: '#FFC5B7' },
-  Fear:    { img: fearImg,    bg: '#F1D5FF' },
-  Disgust: { img: disgustImg, bg: '#C8F0C6' },
+  happy:   { img: happyImg,   bg: '#FEF6BE' },
+  sad:     { img: sadImg,     bg: '#BDEEFF' },
+  anger:   { img: angryImg,   bg: '#FFC5B7' },
+  fear:    { img: fearImg,    bg: '#F1D5FF' },
+  disgust: { img: disgustImg, bg: '#C8F0C6' },
 };
 
 const EntryCover = ({ id, title, date, mood }) => {
   const navigate = useNavigate();
   const { deleteEntry } = useUser();
-  const { img, bg } = moodConfig[mood] || moodConfig.Happy;
+  const { img, bg } = moodConfig[mood] || moodConfig.happy; // default to happy if mood is not found BUT WILL CHANGE TO NEUTRAL
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleClick = (e) => {
