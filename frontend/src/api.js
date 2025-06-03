@@ -23,11 +23,40 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest) {
-            localStorage.removeItem(ACCESS_TOKEN);
-            localStorage.removeItem(REFRESH_TOKEN);
+        
+        // If the error is 401 and we haven't tried to refresh the token yet
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
             
+            try {
+                const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+                if (!refreshToken) {
+                    throw new Error('No refresh token available');
+                }
+
+                // Call the refresh token endpoint
+                const response = await axios.post('http://localhost:8000/api/token/refresh/', {
+                    refresh: refreshToken
+                });
+
+                const { access } = response.data;
+                
+                // Store the new access token
+                localStorage.setItem(ACCESS_TOKEN, access);
+                
+                // Update the original request's authorization header
+                originalRequest.headers['Authorization'] = `Bearer ${access}`;
+                
+                // Retry the original request
+                return api(originalRequest);
+            } catch (refreshError) {
+                // If refresh token fails, clear tokens and reject
+                localStorage.removeItem(ACCESS_TOKEN);
+                localStorage.removeItem(REFRESH_TOKEN);
+                return Promise.reject(refreshError);
+            }
         }
+        
         return Promise.reject(error);
     }
 );
