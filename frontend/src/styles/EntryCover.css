@@ -23,6 +23,7 @@
   align-items: center;
   height: 70%;
   padding: 2rem 2.5rem;
+  position: relative;
 }
 
 .entry-cover-image {
@@ -47,4 +48,31 @@
 .entry-cover-date {
   color: var(--color-gray);
   margin-top: 0.25rem;
+}
+
+.entry-cover-delete-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: background 0.2s;
+}
+
+.entry-cover-container:hover .entry-cover-delete-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.entry-cover-delete-btn svg {
+  color: #e53935;
+}
+
+.entry-cover-delete-btn:hover svg {
+  color: #942322;
 }

@@ -10,4 +10,5 @@ router.register(r'insights', InsightViewSet, basename='insights')
 
 urlpatterns = [
     path('', include(router.urls)),
-] 
+    path('journals/<int:pk>/process_emotions/', JournalViewSet.as_view({'post': 'process_emotions'}), name='journal-process-emotions'),
+]

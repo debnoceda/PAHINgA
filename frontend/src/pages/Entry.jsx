@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import PieChart from '../components/PieChart';
 import api from '../api';
+import { useUser } from '../context/UserContext';
 import '../styles/Entry.css';
 
 const sampleData = [
@@ -21,6 +22,14 @@ const sampleData2 = [
   { name: 'Sadness', value: 5 },
 ];
 
+const moodToEmotionCode = {
+  anger: 1,
+  disgust: 2,
+  fear: 3,
+  happy: 4,
+  sad: 5,
+};
+
 function Entry() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -31,7 +40,10 @@ function Entry() {
   const [text, setText] = useState('');
   const [entryId, setEntryId] = useState(isNew ? null : id);
   const [loaded, setLoaded] = useState(false);
+  const [moodStats, setMoodStats] = useState(null);
   const hasCreated = useRef(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const { deleteEntry } = useUser();
 
   // Fetch journal if editing
   const fetchJournal = async (journalId) => {
@@ -40,11 +52,13 @@ function Entry() {
       setTitle(res.data.title || '');
       setDate(res.data.date || '');
       setText(res.data.content || '');
+      setMoodStats(res.data.moodStats || null);
       setLoaded(true); // Mark as loaded after fetch
     } catch (err) {
       setTitle('');
       setDate('');
       setText('');
+      setMoodStats(null);
       setLoaded(true); // Even if error, mark as loaded
     }
   };
@@ -114,17 +128,48 @@ function Entry() {
     }
   };
 
-  const deleteEntry = async (deleteId) => {
+  const handleGoBack = () => {
+    navigate(-1); // Go back to previous page
+  };
+
+  const handlePetAnalysis = async () => {
+    if (!entryId || isAnalyzing) return;
+  
+    setIsAnalyzing(true);
     try {
-      await api.delete(`/journals/${deleteId}/`);
-      navigate('/entry/new', { replace: true });
-    } catch (err) {
-      // Optionally handle error
+      console.log('Processing emotions for entry:', entryId);
+      const response = await api.post(`/journals/${entryId}/process_emotions/`);
+      console.log('Processed emotions:', response.data);
+      
+      // Update mood stats with the new data
+      setMoodStats(response.data.moodStats);
+  
+      alert('Pet analyzed your mood and generated insights!');
+    } catch (error) {
+      console.error('Error processing emotions:', error);
+      alert('Failed to analyze pet mood. Please try again later.');
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
-  const handleGoBack = () => {
-    navigate(-1); // Go back to previous page
+  // Convert mood stats to chart data format
+  const getChartData = () => {
+    if (!moodStats) return sampleData2; // Fallback to sample data if no mood stats
+
+    return [
+      { name: 'Happiness', value: moodStats.percentHappiness },
+      { name: 'Anger', value: moodStats.percentAnger },
+      { name: 'Fear', value: moodStats.percentFear },
+      { name: 'Disgust', value: moodStats.percentDisgust },
+      { name: 'Sadness', value: moodStats.percentSadness },
+    ];
+  };
+
+  // Get emotion code for dominant mood
+  const getDominantEmotionCode = () => {
+    if (!moodStats || !moodStats.dominantMood) return 4; // default to happy
+    return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4;
   };
 
   return (
@@ -171,12 +216,23 @@ function Entry() {
           {/* Second Column - 2 Rows for Pie Charts */}
           <div className="charts-section">
             <div className="chart-container">
-              <h3>Pet</h3>
-              {/* <PieChart width={300} height={300} data={sampleData} emotionCode={1}/> */}
+              <button 
+                onClick={handlePetAnalysis}
+                disabled={isAnalyzing}
+              >
+                <h3>{isAnalyzing ? 'Analyzing...' : 'Pet'}</h3>
+              </button>
             </div>
             <div className="chart-container">
               <p>Mood Overview</p>
-              <PieChart width={200} height={200} data={sampleData2} emotionCode={4}/>
+              {moodStats && (
+                <PieChart 
+                  width={200} 
+                  height={200} 
+                  data={getChartData()} 
+                  emotionCode={getDominantEmotionCode()}
+                />
+              )}
             </div>
           </div>
         </div>

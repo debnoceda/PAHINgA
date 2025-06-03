@@ -26,7 +26,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
+  gap: 0;
 }
 
 .profile-picture-placeholder {
@@ -47,7 +47,7 @@
   width: 100%;
   border: none;
   border-top: 1px dashed #000000;
-  margin: 1rem 0;
+  margin: 0.3rem 0;
 }
 
 .profile-info {
@@ -55,18 +55,20 @@
   flex-direction: column;
   width: 100%;
   max-width: 688px;
-  gap: 2rem;
+  gap: 0;
 }
 
 .profile-title{
-    margin-top: 2.5rem;
+    font-size: 3.5rem;
+    margin-top: 0;
 }
 
 .info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+  padding-top: 1rem;
 }
 
 .info-label {
@@ -85,6 +87,10 @@
   height: auto;
 }
 
+/* Add space below the Save/Cancel button row in edit profile mode */
+.profile-card > div[style*='justify-content: flex-end'] {
+  margin-bottom: 1.2rem;
+}
 
 @media (max-width: 480px) {
   .profile-container {
