@@ -15,7 +15,7 @@ class UserSerializer(serializers.ModelSerializer):
 class MoodStatSerializer(serializers.ModelSerializer):
     class Meta:
         model = MoodStat
-        fields = ['id', 'percentHappiness', 'percentFear', 'percentSadness', 'percentSurprise', 'percentDisgust', 'percentAnger', 'dominantMood']
+        fields = ['id', 'percentHappiness', 'percentFear', 'percentSadness', 'percentDisgust', 'percentAnger', 'dominantMood']
 
 class InsightSerializer(serializers.ModelSerializer):
     class Meta:
