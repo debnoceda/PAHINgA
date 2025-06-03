@@ -1,0 +1,153 @@
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.profile-card {
+  background-color: #E2F1F7; /* light background */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+
+.edit-profile-button {
+  background: none;
+  border: none;
+  color: #000;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.dashed-line {
+  width: 100%;
+  border: none;
+  border-top: 1px dashed #000000;
+  margin: 1rem 0;
+}
+
+.profile-info {
+  width: 100%;
+  max-width: 400px;
+}
+
+.profile-title{
+    font-size: 1.5rem;
+    margin-bottom:1rem;
+}
+
+.edit-profile-button:hover {
+  color: #4A90E2; /* or any color you want on hover */
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.info-label {
+  font-weight: bold;
+}
+
+.info-value {
+  color: #555;
+}
+
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 1rem;
+  }
+  .profile-card {
+    padding: 1rem;
+    max-width: 95vw;
+  }
+  .profile-title {
+    font-size: 1.2rem;
+  }
+  .edit-profile-button {
+    font-size: 0.95rem;
+  }
+  .profile-picture,
+  .profile-picture-placeholder {
+    width: 80px;
+    height: 80px;
+    font-size: 1.2rem;
+  }
+  .profile-info {
+    max-width: 95vw;
+    font-size: 0.95rem;
+  }
+  .info-label,
+  .info-value {
+    font-size: 0.95rem;
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .profile-container {
+    width: 75vw;
+    max-width: 75vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .profile-title {
+    font-size: 2rem;
+  }
+  .edit-profile-button {
+    font-size: 1.2rem;
+  }
+  .profile-picture,
+  .profile-picture-placeholder {
+    width: 180px;
+    height: 180px;
+    font-size: 3rem;
+  }
+  .profile-card {
+    font-size: 1.25rem;
+  }
+  .profile-info {
+    font-size: 1.15rem;
+  }
+  .info-label,
+  .info-value {
+    font-size: 1.5rem;
+  }
+}
