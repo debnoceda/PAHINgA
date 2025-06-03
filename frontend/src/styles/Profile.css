@@ -51,8 +51,11 @@
 }
 
 .profile-info {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 688px;
+  gap: 2rem;
 }
 
 .profile-title{
@@ -85,6 +88,11 @@
   outline: 2px solid #7FB3D5 !important;
   border-color: #7FB3D5 !important;
   box-shadow: 0 0 0 2px #E2F1F7 !important;
+}
+
+.alert-icon {
+  width: 75px;
+  height: auto;
 }
 
 

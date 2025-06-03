@@ -5,6 +5,7 @@ import NavigationBar from '../components/NavigationBar';
 import FloatingActionButton from '../components/FloatingActionButton';
 import InputField from '../components/InputField';
 import Button from '../components/Button';
+import { Icon } from '@iconify/react';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -136,12 +137,7 @@ const Profile = () => {
               <hr className="dashed-line" />
               {/* Delete Account Section (Edit Mode) */}
               <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 24, marginBottom: 8 }}>
-                <span style={{ color: '#D57F80', fontSize: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
-                  <span className="iconify" data-icon="mdi:alert" style={{ fontSize: 40 }}></span>
-                </span>
-                <span style={{ color: '#D57F80', fontSize: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
-                  <span className="iconify" data-icon="ci:circle-warning" style={{ fontSize: 32 }}></span>
-                </span>
+                <Icon className="alert-icon" icon="mingcute:alert-fill" width="24" height="24"  style={{color: '#D57F80'}} />
                 <div style={{ color: '#222', fontSize: 'var(--font-regular)', maxWidth: 600, textAlign: 'center', marginBottom: 16 }}>
                   All your data, including journal entries and mood logs, will be lost. This action is irreversible. Please proceed with care.
                 </div>
