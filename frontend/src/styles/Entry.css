@@ -1,0 +1,209 @@
+.entry-container {
+  height: calc(100vh - 8rem); /* Account for body padding (4rem top + 4rem bottom) */
+  width: 100%;
+  position: relative;
+}
+
+/* Back Button */
+.back-button {
+  background: var(--color-beige);
+  border: 2px solid var(--color-dark);
+  border-radius: 50%;
+  width: 6rem;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: rotate(180deg); /* Flip the chevron to point left */
+  align-self: start;
+}
+
+.back-button:hover {
+  background: var(--color-dark);
+  color: var(--color-beige);
+}
+
+/* Main Grid Layout */
+.entry-grid {
+  display: grid;
+  grid-template-columns: auto 1.75fr 1fr; /* Back button, dotted paper, charts */
+  height: 100%;
+  gap: 2rem;
+  padding: 2rem;
+  align-items: start;
+}
+
+/* First Column - Dotted Paper Style */
+.dotted-paper-section {
+  background: white;
+  border-radius: 2rem;
+  box-shadow: 0 0px 8px rgba(0, 0, 0, 0.25);
+  background-image:
+    radial-gradient(circle, var(--color-gray) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+  background-position: 1rem 1rem;
+  padding: 3rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.entry-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.entry-title {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--color-dark);
+  font-size: var(--font-medium);
+  font-weight: 700;
+  font-family: var(--font-main);
+  color: var(--color-dark);
+  padding: 1rem 0;
+  outline: none;
+}
+
+.entry-title::placeholder {
+  color: rgba(0, 0, 0, 0.25)
+}
+
+.entry-date {
+  background: transparent;
+  border: none;
+  font-family: var(--font-main);
+  color: var(--color-dark);
+  outline: none;
+  width: fit-content;
+}
+
+.entry-content {
+  flex: 1;
+  min-height: 40rem; /* Minimum height for content area */
+  display: flex;
+  flex-direction: column;
+}
+
+.entry-text {
+  width: 100%;
+  flex: 1;
+  background: transparent;
+  border: none;
+  resize: none;
+  outline: none;
+  font-family: var(--font-main);
+  font-size: var(--font-regular);
+  color: var(--color-dark);
+  line-height: 2rem;
+  letter-spacing: 0.05rem;
+  min-height: 30rem; /* Minimum height for textarea */
+}
+
+.entry-text::placeholder {
+  color: rgba(0, 0, 0, 0.25)
+}
+
+.save-button {
+  background: var(--color-green);
+  color: var(--color-dark);
+  border: 2px solid var(--color-dark);
+  border-radius: 1rem;
+  padding: 1.5rem 3rem;
+  font-size: var(--font-regular);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  flex-shrink: 0; /* Prevent shrinking */
+  margin-top: 2rem;
+}
+
+.save-button:hover {
+  background: var(--color-dark);
+  color: var(--color-green);
+}
+
+/* Second Column - Charts Section */
+.charts-section {
+  background: var(--color-light-blue);
+  border-radius: 2rem;
+  padding: 3rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 2rem;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0; /* Allow shrinking */
+}
+
+.chart-container h3 {
+  font-size: var(--font-medium);
+  color: var(--color-dark);
+  margin: 0;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .entry-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  .charts-section {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .back-button {
+    width: 6rem;
+    height: 6rem;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .entry-grid {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .dotted-paper-section,
+  .charts-section {
+    padding: 2rem;
+  }
+  
+  .charts-section {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  
+  .chart-container {
+    padding: 1.5rem;
+  }
+  
+  .entry-title {
+    font-size: var(--font-medium);
+  }
+  
+  .back-button {
+    width: 5rem;
+    height: 5rem;
+  }
+}
