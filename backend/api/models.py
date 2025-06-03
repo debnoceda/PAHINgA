@@ -7,6 +7,7 @@ class Journal(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField()
     content = models.TextField()
+    lastProcessedContent = models.TextField(null=True, blank=True) # For checking if the content has been processed to avoid processing the same content multiple times
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='journals')
     moodStats = models.OneToOneField('MoodStat', on_delete=models.CASCADE, related_name='journal', null=True, blank=True)
     insights = models.OneToOneField('Insight', on_delete=models.CASCADE, related_name='journal', null=True, blank=True)
@@ -18,7 +19,6 @@ class MoodStat(models.Model):
     percentHappiness = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     percentFear = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     percentSadness = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
-    percentSurprise = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     percentDisgust = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     percentAnger = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(100.0)])
     dominantMood = models.CharField(max_length=200)
