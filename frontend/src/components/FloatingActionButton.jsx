@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import '../styles/FloatingActionButton.css';
 
 const FloatingActionButton = () => {
-  const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    setIsActive(!isActive);
-    // Add your custom functionality here
-    console.log('Floating Action Button toggled:', !isActive);
+    navigate('/entry/new');
   };
 
   return (
     <button
-      className={`floating-action-button ${isActive ? 'active' : ''}`}
+      className="floating-action-button"
       onClick={handleClick}
     >
       <Icon icon="solar:pen-new-square-bold" className="fab-icon" />

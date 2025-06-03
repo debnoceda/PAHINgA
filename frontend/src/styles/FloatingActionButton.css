@@ -19,19 +19,16 @@
 .floating-action-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
-.floating-action-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.floating-action-button.active {
   background: var(--color-dark, #1b1212);
   border-color: var(--color-dark, #1b1212);
 }
 
-.floating-action-button.active .fab-icon {
+/* .floating-action-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+} */
+
+.floating-action-button:hover .fab-icon {
   color: var(--color-white, #ffffff);
 }
 
