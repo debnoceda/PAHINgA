@@ -32,6 +32,7 @@ function Entry() {
   const [entryId, setEntryId] = useState(isNew ? null : id);
   const [loaded, setLoaded] = useState(false);
   const hasCreated = useRef(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // Fetch journal if editing
   const fetchJournal = async (journalId) => {
@@ -127,6 +128,24 @@ function Entry() {
     navigate(-1); // Go back to previous page
   };
 
+  const handlePetAnalysis = async () => {
+    if (!entryId || isAnalyzing) return;
+  
+    setIsAnalyzing(true);
+    try {
+      console.log('Processing emotions for entry:', entryId);
+      const response = await api.post(`/journals/${entryId}/process_emotions/`);
+      console.log('Processed emotions:', response.data);
+  
+      alert('Pet analyzed your mood and generated insights!');
+    } catch (error) {
+      console.error('Error processing emotions:', error);
+      alert('Failed to analyze pet mood. Please try again later.');
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   return (
     <div>
       <div className="entry-container">
@@ -171,7 +190,12 @@ function Entry() {
           {/* Second Column - 2 Rows for Pie Charts */}
           <div className="charts-section">
             <div className="chart-container">
-              <h3>Pet</h3>
+              <button 
+                onClick={handlePetAnalysis}
+                disabled={isAnalyzing}
+              >
+                <h3>{isAnalyzing ? 'Analyzing...' : 'Pet'}</h3>
+              </button>
               {/* <PieChart width={300} height={300} data={sampleData} emotionCode={1}/> */}
             </div>
             <div className="chart-container">

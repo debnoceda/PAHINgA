@@ -32,6 +32,3 @@ class Insight(models.Model):
 
     def __str__(self):
         return self.insightContent
-
-
-# Create your models here.
