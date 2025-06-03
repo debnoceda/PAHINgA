@@ -7,7 +7,6 @@ import Button from './Button';
 import '../styles/LoginRegisterForm.css';
 import { Link } from 'react-router-dom';
 
-
 function LoginRegisterForm({ method = 'login' }) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -15,6 +14,12 @@ function LoginRegisterForm({ method = 'login' }) {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [fieldErrors, setFieldErrors] = useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    });
     const navigate = useNavigate();
 
     const name = method === 'register' ? 'Sign Up' : 'Login';
@@ -44,37 +49,85 @@ function LoginRegisterForm({ method = 'login' }) {
             errors
         };
     };
+
+    const validateField = (field, value) => {
+        const newErrors = { ...fieldErrors };
+        
+        switch (field) {
+            case 'username':
+                newErrors.username = value.trim() === '' ? 'Username is required' : '';
+                break;
+            case 'email':
+                if (method === 'register') {
+                    if (value.trim() === '') {
+                        newErrors.email = 'Email is required';
+                    } else if (!validateEmail(value)) {
+                        newErrors.email = 'Please enter a valid email address';
+                    } else {
+                        newErrors.email = '';
+                    }
+                }
+                break;
+            case 'password':
+                if (value.trim() === '') {
+                    newErrors.password = 'Password is required';
+                } else if (method === 'register') {
+                    const passwordValidation = validatePassword(value);
+                    if (!passwordValidation.isValid) {
+                        newErrors.password = passwordValidation.errors[0];
+                    } else {
+                        newErrors.password = '';
+                    }
+                } else {
+                    newErrors.password = '';
+                }
+                break;
+            case 'confirmPassword':
+                if (method === 'register') {
+                    if (value.trim() === '') {
+                        newErrors.confirmPassword = 'Please confirm your password';
+                    } else if (value !== password) {
+                        newErrors.confirmPassword = 'Passwords do not match';
+                    } else {
+                        newErrors.confirmPassword = '';
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        
+        setFieldErrors(newErrors);
+        return Object.values(newErrors).every(error => error === '');
+    };
+
+    const validateAllFields = () => {
+        // Validate all fields at once
+        const newErrors = {
+            username: username.trim() === '' ? 'Username is required' : '',
+            email: method === 'register' ? (email.trim() === '' ? 'Email is required' : (!validateEmail(email) ? 'Please enter a valid email address' : '')) : '',
+            password: password.trim() === '' ? 'Password is required' : (method === 'register' ? (validatePassword(password).isValid ? '' : validatePassword(password).errors[0]) : ''),
+            confirmPassword: method === 'register' ? (confirmPassword.trim() === '' ? 'Please confirm your password' : (confirmPassword !== password ? 'Passwords do not match' : '')) : ''
+        };
+
+        setFieldErrors(newErrors);
+        return Object.values(newErrors).every(error => error === '');
+    };
     
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setLoading(true);
 
+        // Validate all fields at once
+        const isValid = validateAllFields();
+        if (!isValid) {
+            setLoading(false);
+            return;
+        }
+
         try {
             if (method === 'register') {
-                // Validate email format
-                if (!validateEmail(email)) {
-                    setError('Please enter a valid email address');
-                    setLoading(false);
-                    return;
-                }
-
-                // Validate password strength
-                const passwordValidation = validatePassword(password);
-                if (!passwordValidation.isValid) {
-                    setError(passwordValidation.errors.join('\n'));
-                    setLoading(false);
-                    return;
-                }
-
-                // Check if passwords match
-                if (password !== confirmPassword) {
-                    setError('Passwords do not match');
-                    setLoading(false);
-                    return;
-                }
-
-                // Check if username or email is already taken
                 try {
                     await api.post('/users/', { username, email, password });
                     navigate('/login');
@@ -82,9 +135,9 @@ function LoginRegisterForm({ method = 'login' }) {
                     if (error.response?.status === 400) {
                         const errorData = error.response.data;
                         if (errorData.username) {
-                            setError('Username is already taken');
+                            setFieldErrors(prev => ({ ...prev, username: 'Username is already taken' }));
                         } else if (errorData.email) {
-                            setError('Email is already registered');
+                            setFieldErrors(prev => ({ ...prev, email: 'Email is already registered' }));
                         } else {
                             setError('Registration failed. Please try again.');
                         }
@@ -101,7 +154,11 @@ function LoginRegisterForm({ method = 'login' }) {
         } catch (error) {
             console.error(`Error ${method}ing:`, error);
             if (method === 'login') {
-                setError('Invalid username or password');
+                setFieldErrors(prev => ({
+                    ...prev,
+                    username: 'Invalid username or password',
+                    password: 'Invalid username or password'
+                }));
             }
         } finally {
             setLoading(false);
@@ -117,8 +174,13 @@ function LoginRegisterForm({ method = 'login' }) {
                 type="text" 
                 placeholder='Username' 
                 value={username} 
-                onChange={(e) => setUsername(e.target.value)}
-                required 
+                onChange={(e) => {
+                    setUsername(e.target.value);
+                    validateField('username', e.target.value);
+                }}
+                onBlur={(e) => validateField('username', e.target.value)}
+                hasError={!!fieldErrors.username}
+                errorMessage={fieldErrors.username}
             />
             
             {method === 'register' && (
@@ -126,8 +188,13 @@ function LoginRegisterForm({ method = 'login' }) {
                     type="email" 
                     placeholder='Email Address' 
                     value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    required 
+                    onChange={(e) => {
+                        setEmail(e.target.value);
+                        validateField('email', e.target.value);
+                    }}
+                    onBlur={(e) => validateField('email', e.target.value)}
+                    hasError={!!fieldErrors.email}
+                    errorMessage={fieldErrors.email}
                 />
             )}
             
@@ -135,8 +202,16 @@ function LoginRegisterForm({ method = 'login' }) {
                 type="password" 
                 placeholder='Password' 
                 value={password} 
-                onChange={(e) => setPassword(e.target.value)}
-                required 
+                onChange={(e) => {
+                    setPassword(e.target.value);
+                    validateField('password', e.target.value);
+                    if (method === 'register' && confirmPassword) {
+                        validateField('confirmPassword', confirmPassword);
+                    }
+                }}
+                onBlur={(e) => validateField('password', e.target.value)}
+                hasError={!!fieldErrors.password}
+                errorMessage={fieldErrors.password}
             />
             
             {method === 'register' && (
@@ -144,8 +219,13 @@ function LoginRegisterForm({ method = 'login' }) {
                     type="password" 
                     placeholder='Confirm Password' 
                     value={confirmPassword} 
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required 
+                    onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                        validateField('confirmPassword', e.target.value);
+                    }}
+                    onBlur={(e) => validateField('confirmPassword', e.target.value)}
+                    hasError={!!fieldErrors.confirmPassword}
+                    errorMessage={fieldErrors.confirmPassword}
                 />
             )}
 
@@ -162,7 +242,6 @@ function LoginRegisterForm({ method = 'login' }) {
                     {method === 'register' ? 'Login' : 'Sign Up'}
                 </Link>
             </p>
-            
         </form>
     );
 }
