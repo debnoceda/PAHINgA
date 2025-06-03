@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import PieChart from '../components/PieChart';
 import api from '../api';
+import { useUser } from '../context/UserContext';
 import '../styles/Entry.css';
 
 const sampleData = [
@@ -33,6 +34,7 @@ function Entry() {
   const [loaded, setLoaded] = useState(false);
   const hasCreated = useRef(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const { deleteEntry } = useUser();
 
   // Fetch journal if editing
   const fetchJournal = async (journalId) => {
@@ -112,15 +114,6 @@ function Entry() {
       // alert('Entry updated!');
     } catch (err) {
       alert('Failed to update entry');
-    }
-  };
-
-  const deleteEntry = async (deleteId) => {
-    try {
-      await api.delete(`/journals/${deleteId}/`);
-      navigate('/entry/new', { replace: true });
-    } catch (err) {
-      // Optionally handle error
     }
   };
 

@@ -20,8 +20,19 @@ export function UserProvider({ children }) {
     }
   }, []);
 
+  // Add deleteEntry here
+  const deleteEntry = useCallback(async (deleteId) => {
+    try {
+      await api.delete(`/journals/${deleteId}/`);
+      // Optionally update local state
+      setJournals(prev => prev.filter(j => j.id !== deleteId));
+    } catch (err) {
+      // Optionally handle error
+    }
+  }, []);
+
   return (
-    <UserContext.Provider value={{ journals, loading, fetchJournals }}>
+    <UserContext.Provider value={{ journals, loading, fetchJournals, deleteEntry }}>
       {children}
     </UserContext.Provider>
   );
