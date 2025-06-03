@@ -25,7 +25,7 @@ class InsightSerializer(serializers.ModelSerializer):
 class JournalSerializer(serializers.ModelSerializer):
     moodStats = MoodStatSerializer(read_only=True)
     insights = InsightSerializer(read_only=True)
-    
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = Journal
         fields = ['id', 'title', 'date', 'content', 'user', 'moodStats', 'insights']

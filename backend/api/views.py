@@ -21,6 +21,9 @@ class JournalViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Journal.objects.filter(user=self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     def _process_journal_content(self, content: str):
         """Process journal content to get emotions and advice"""
