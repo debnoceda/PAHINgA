@@ -59,7 +59,7 @@ function App() {
           } />
 
           {/* Public Routes */}
-          <Route path="/" element={
+          <Route path="/landing" element={
             <PublicRoute>
               <LandingPage />
             </PublicRoute>
