@@ -1,0 +1,73 @@
+.filter-dropdown {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+  z-index: 100;
+  padding: 8px 0;
+}
+
+.filter-section {
+  padding: 8px 0;
+}
+
+.filter-section-title {
+  padding: 8px 16px;
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.filter-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.filter-icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.filter-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 8px 0;
+}
+
+.mood-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.mood-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.mood-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.mood-icon {
+  font-size: 1.2rem;
+}
