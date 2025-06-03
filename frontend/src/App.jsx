@@ -6,7 +6,7 @@ import Register from './pages/Register';
 import NotFound from './pages/NotFound';
 import Journal from './pages/Journal';
 import Profile from './pages/Profile';
-import Landing from './pages/Landing';
+import LandingPage from './pages/LandingPage';
 import Welcome from './pages/Welcome';
 import ProtectedRoute from './components/ProtectedRoute';
 import Entry from './pages/Entry';
@@ -37,7 +37,7 @@ function App() {
               <Welcome />
             </ProtectedRoute>
           } />
-          <Route path="/" element={
+          <Route path="/home" element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
@@ -61,7 +61,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={
             <PublicRoute>
-              <Landing />
+              <LandingPage />
             </PublicRoute>
           } />
           <Route path="/login" element={
