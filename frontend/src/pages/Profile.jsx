@@ -49,9 +49,13 @@ const Profile = () => {
           <h1 className="profile-title">Profile Page</h1>
 
           {!editMode ? (
-            <button className="edit-profile-button" onClick={handleEditProfile}>
+            <Button
+              type="text-only"
+              underline
+              onClick={handleEditProfile}
+            >
               Edit Profile
-            </button>
+            </Button>
           ) : null}
 
           <hr className="dashed-line" />
@@ -60,7 +64,7 @@ const Profile = () => {
             <div className="info-row">
               <span className="info-label">Username</span>
               {!editMode ? (
-                <span className="info-value">{username}</span>
+                <p className="info-value">{username}</p>
               ) : (
                 <InputField
                   value={username}
@@ -75,7 +79,7 @@ const Profile = () => {
             <div className="info-row">
               <span className="info-label">Email Address</span>
               {!editMode ? (
-                <span className="info-value">{email}</span>
+                <p className="info-value">{email}</p>
               ) : (
                 <div style={{ width: '60%' }}>
                   <InputField
