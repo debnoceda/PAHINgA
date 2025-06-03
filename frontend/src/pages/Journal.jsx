@@ -46,7 +46,7 @@ function Journal() {
                     </button>
                 </div>
             </div>
-            <JournalList />
+            <JournalList search={search} />
             <FloatingActionButton />
         </div>
     );
