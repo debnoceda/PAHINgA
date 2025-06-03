@@ -30,17 +30,24 @@ function Entry() {
   const [date, setDate] = useState('');
   const [text, setText] = useState('');
 
-  // Fetch existing entry if not new
+  const fetchJournal = async (journalId) => {
+    try {
+      const res = await api.get(`/journals/${journalId}/`);
+      setTitle(res.data.title || '');
+      setDate(res.data.date || '');
+      setText(res.data.content || '');
+    } catch (err) {
+      setTitle('');
+      setDate('');
+      setText('');
+    }
+  };
+
   useEffect(() => {
     if (!isNew) {
-      api.get(`/journals/${id}/`)
-        .then(res => {
-          setTitle(res.data.title || '');
-          setDate(res.data.date || '');
-          setText(res.data.content || '');
-        });
+      fetchJournal(id);
     } else {
-      setDate(new Date().toISOString().slice(0, 10));
+      setDate(new Date().toISOString().slice(0, 10)); // Set to today's date
     }
   }, [id, isNew]);
 
