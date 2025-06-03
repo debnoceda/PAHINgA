@@ -9,8 +9,10 @@ import Profile from './pages/Profile';
 import Landing from './pages/Landing';
 import Welcome from './pages/Welcome';
 import ProtectedRoute from './components/ProtectedRoute';
+import Entry from './pages/Entry';
 import { ACCESS_TOKEN } from './constants';
 import './styles/index.css';
+import { UserProvider } from './context/UserContext';
 
 // Auth-related components
 function Logout() {
@@ -26,52 +28,59 @@ function PublicRoute({ children }) {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Protected Routes */}
-        <Route path="/welcome" element={
-          <ProtectedRoute>
-            <Welcome />
-          </ProtectedRoute>
-        } />
-        <Route path="/" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        } />
-        <Route path="/journal" element={
-          <ProtectedRoute>
-            <Journal />
-          </ProtectedRoute>
-        } />
-        <Route path="/profile" element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        } />
+    <UserProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Protected Routes */}
+          <Route path="/welcome" element={
+            <ProtectedRoute>
+              <Welcome />
+            </ProtectedRoute>
+          } />
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          } />
+          <Route path="/journal" element={
+            <ProtectedRoute>
+              <Journal />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } />
+          <Route path="/entry/:id" element={
+            <ProtectedRoute>
+              <Entry />
+            </ProtectedRoute>
+          } />
 
-        {/* Public Routes */}
-        <Route path="/" element={
-          <PublicRoute>
-            <Landing />
-          </PublicRoute>
-        } />
-        <Route path="/login" element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        } />
-        <Route path="/register" element={
-          <PublicRoute>
-            <Register />
-          </PublicRoute>
-        } />
-        <Route path="/logout" element={<Logout />} />
+          {/* Public Routes */}
+          <Route path="/" element={
+            <PublicRoute>
+              <Landing />
+            </PublicRoute>
+          } />
+          <Route path="/login" element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } />
+          <Route path="/register" element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          } />
+          <Route path="/logout" element={<Logout />} />
 
-        {/* 404 Route */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+          {/* 404 Route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
