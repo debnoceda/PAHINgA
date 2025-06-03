@@ -1,0 +1,41 @@
+.journal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.journal-searchbar {
+    display: flex;
+    align-items: center;
+    width: 40rem;
+}
+
+.journal-search-input-wrapper {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.journal-search-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: black;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.journal-search-input {
+    padding: 1.5rem 2.5rem 1.5rem 4.5rem;
+    border-radius: 2.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    outline: none;
+    background-color: white;
+    height: auto;
+}
+
+.journal-filter-icon {
+    margin-left: 12px;
+}
