@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import PieChart from '../components/PieChart';
@@ -29,20 +29,62 @@ function Entry() {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
   const [text, setText] = useState('');
+  const [entryId, setEntryId] = useState(isNew ? null : id);
+  const [loaded, setLoaded] = useState(false);
+  const hasCreated = useRef(false);
 
-  // Fetch existing entry if not new
+  // Fetch journal if editing
+  const fetchJournal = async (journalId) => {
+    try {
+      const res = await api.get(`/journals/${journalId}/`);
+      setTitle(res.data.title || '');
+      setDate(res.data.date || '');
+      setText(res.data.content || '');
+      setLoaded(true); // Mark as loaded after fetch
+    } catch (err) {
+      setTitle('');
+      setDate('');
+      setText('');
+      setLoaded(true); // Even if error, mark as loaded
+    }
+  };
+
   useEffect(() => {
     if (!isNew) {
-      api.get(`/journals/${id}/`)
-        .then(res => {
-          setTitle(res.data.title || '');
-          setDate(res.data.date || '');
-          setText(res.data.content || '');
-        });
+      fetchJournal(id);
+      setEntryId(id);
     } else {
       setDate(new Date().toISOString().slice(0, 10));
+      setEntryId(null);
+      setLoaded(true); // For new, mark as loaded immediately
     }
+    hasCreated.current = false;
+    // eslint-disable-next-line
   }, [id, isNew]);
+
+  // Auto-save and auto-delete logic
+  useEffect(() => {
+    // Only auto-delete if loaded
+    if (loaded && entryId && !title && !text) {
+      deleteEntry(entryId);
+      return;
+    }
+
+    // If new entry and either field is filled, auto-create
+    if (isNew && !hasCreated.current && (title || text)) {
+      addEntry();
+      return;
+    }
+
+    // If editing existing entry and either field changes, auto-update
+    if (entryId && (title || text)) {
+      const timeout = setTimeout(() => {
+        updateEntry(entryId);
+      }, 500); // debounce to avoid too many requests
+      return () => clearTimeout(timeout);
+    }
+    // eslint-disable-next-line
+  }, [title, text, date, entryId, isNew, loaded]);
 
   const addEntry = async () => {
     try {
@@ -51,30 +93,33 @@ function Entry() {
         date,
         content: text,
       });
-      navigate(`/entry/${res.data.id}`);
+      hasCreated.current = true;
+      setEntryId(res.data.id);
+      navigate(`/entry/${res.data.id}`, { replace: true });
     } catch (err) {
       alert('Failed to create entry');
     }
   };
 
-  const updateEntry = async () => {
+  const updateEntry = async (updateId) => {
     try {
-      await api.put(`/journals/${id}/`, {
+      await api.put(`/journals/${updateId}/`, {
         title,
         date,
         content: text,
       });
-      alert('Entry updated!');
+      // alert('Entry updated!');
     } catch (err) {
       alert('Failed to update entry');
     }
   };
 
-  const handleSave = async () => {
-    if (isNew) {
-      await addEntry();
-    } else {
-      await updateEntry();
+  const deleteEntry = async (deleteId) => {
+    try {
+      await api.delete(`/journals/${deleteId}/`);
+      navigate('/entry/new', { replace: true });
+    } catch (err) {
+      // Optionally handle error
     }
   };
 
