@@ -19,6 +19,7 @@
   --color-blue: #7FB3D5;
   --color-red: #D57F80;
   --color-green: #ABD57F;
+  --color-gray: rgba(27, 18, 18, 0.5);
 }
 
 * {
