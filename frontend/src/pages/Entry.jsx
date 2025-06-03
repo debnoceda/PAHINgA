@@ -32,6 +32,7 @@ function Entry() {
   const [text, setText] = useState('');
   const [entryId, setEntryId] = useState(isNew ? null : id);
   const [loaded, setLoaded] = useState(false);
+  const [moodStats, setMoodStats] = useState(null);
   const hasCreated = useRef(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const { deleteEntry } = useUser();
@@ -43,11 +44,13 @@ function Entry() {
       setTitle(res.data.title || '');
       setDate(res.data.date || '');
       setText(res.data.content || '');
+      setMoodStats(res.data.moodStats || null);
       setLoaded(true); // Mark as loaded after fetch
     } catch (err) {
       setTitle('');
       setDate('');
       setText('');
+      setMoodStats(null);
       setLoaded(true); // Even if error, mark as loaded
     }
   };
@@ -129,6 +132,9 @@ function Entry() {
       console.log('Processing emotions for entry:', entryId);
       const response = await api.post(`/journals/${entryId}/process_emotions/`);
       console.log('Processed emotions:', response.data);
+      
+      // Update mood stats with the new data
+      setMoodStats(response.data.moodStats);
   
       alert('Pet analyzed your mood and generated insights!');
     } catch (error) {
@@ -137,6 +143,19 @@ function Entry() {
     } finally {
       setIsAnalyzing(false);
     }
+  };
+
+  // Convert mood stats to chart data format
+  const getChartData = () => {
+    if (!moodStats) return sampleData2; // Fallback to sample data if no mood stats
+
+    return [
+      { name: 'Happiness', value: moodStats.percentHappiness },
+      { name: 'Anger', value: moodStats.percentAnger },
+      { name: 'Fear', value: moodStats.percentFear },
+      { name: 'Disgust', value: moodStats.percentDisgust },
+      { name: 'Sadness', value: moodStats.percentSadness },
+    ];
   };
 
   return (
@@ -189,11 +208,17 @@ function Entry() {
               >
                 <h3>{isAnalyzing ? 'Analyzing...' : 'Pet'}</h3>
               </button>
-              {/* <PieChart width={300} height={300} data={sampleData} emotionCode={1}/> */}
             </div>
             <div className="chart-container">
               <p>Mood Overview</p>
-              <PieChart width={200} height={200} data={sampleData2} emotionCode={4}/>
+              {moodStats && (
+                <PieChart 
+                  width={200} 
+                  height={200} 
+                  data={getChartData()} 
+                  emotionCode={4}
+                />
+              )}
             </div>
           </div>
         </div>
