@@ -37,7 +37,7 @@ function App() {
               <Welcome />
             </ProtectedRoute>
           } />
-          <Route path="/home" element={
+          <Route path="/" element={
             <ProtectedRoute>
               <Home />
             </ProtectedRoute>
