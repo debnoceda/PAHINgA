@@ -22,6 +22,14 @@ const sampleData2 = [
   { name: 'Sadness', value: 5 },
 ];
 
+const moodToEmotionCode = {
+  anger: 1,
+  disgust: 2,
+  fear: 3,
+  happy: 4,
+  sad: 5,
+};
+
 function Entry() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -158,6 +166,12 @@ function Entry() {
     ];
   };
 
+  // Get emotion code for dominant mood
+  const getDominantEmotionCode = () => {
+    if (!moodStats || !moodStats.dominantMood) return 4; // default to happy
+    return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4;
+  };
+
   return (
     <div>
       <div className="entry-container">
@@ -216,7 +230,7 @@ function Entry() {
                   width={200} 
                   height={200} 
                   data={getChartData()} 
-                  emotionCode={4}
+                  emotionCode={getDominantEmotionCode()}
                 />
               )}
             </div>
