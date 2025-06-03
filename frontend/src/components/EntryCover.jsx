@@ -36,7 +36,7 @@ const EntryCover = ({ id, title, date, mood }) => {
         />
       </div>
       <div className="entry-cover-content">
-        <p className="entry-cover-title">{title}</p>
+        <p className="entry-cover-title">{title || "Untitled"}</p>
         <p className="entry-cover-date small-text">{date}</p>
       </div>
     </button>
