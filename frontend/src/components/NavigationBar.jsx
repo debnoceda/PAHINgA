@@ -59,7 +59,7 @@ const NavigationBar = () => {
 
     const handleLogout = () => {
         localStorage.clear();
-        navigate("/login");
+        navigate("/landing");
         setDropdownOpen(false);
         setStreakDropdownOpen(false);
         // Remove focus from profile button when logging out
