@@ -16,6 +16,12 @@ const NavigationBar = () => {
     const navigate = useNavigate();
     const { user } = useUser();
 
+    useEffect(() => {
+        console.log('NavigationBar - User data:', user);
+        console.log('NavigationBar - Streak data:', user?.streak);
+        console.log('NavigationBar - Current streak:', user?.streak?.current_streak);
+    }, [user]);
+
     // Close dropdown when clicking outside
     useEffect(() => {
         function handleClickOutside(event) {
