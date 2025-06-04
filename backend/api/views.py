@@ -8,12 +8,23 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from gemini_wrapper.gemini_utils import get_emotion_probabilities, get_thought_advice
 from django.utils import timezone
 from django.db import transaction
+from rest_framework.decorators import action
 
 # Create your views here.
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+    def get_permissions(self):
+        if self.action == 'me':
+            return [IsAuthenticated()]
+        return super().get_permissions()
+
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
 
 class JournalViewSet(viewsets.ModelViewSet):
     serializer_class = JournalSerializer
@@ -23,7 +34,10 @@ class JournalViewSet(viewsets.ModelViewSet):
         return Journal.objects.filter(user=self.request.user).order_by('-id', '-date')
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        journal = serializer.save(user=self.request.user)
+        # Update user's streak
+        user_streak = self.request.user.streak
+        user_streak.update_streak(journal.date)
 
     def _process_journal_content(self, content: str):
         """Process journal content to get emotions and advice"""

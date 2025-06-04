@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Journal(models.Model):
@@ -32,3 +34,37 @@ class Insight(models.Model):
 
     def __str__(self):
         return self.insightContent
+
+class UserStreak(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='streak')
+    current_streak = models.IntegerField(default=0)
+    longest_streak = models.IntegerField(default=0)
+    last_journal_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s streak: {self.current_streak}"
+
+    def update_streak(self, journal_date):
+        if not self.last_journal_date:
+            self.current_streak = 1
+        else:
+            # Calculate days between last journal and new journal
+            days_diff = (journal_date - self.last_journal_date).days
+            
+            if days_diff == 1:  # Consecutive day
+                self.current_streak += 1
+            elif days_diff > 1:  # Streak broken
+                self.current_streak = 1
+            # If days_diff == 0, it's the same day, don't update streak
+        
+        # Update longest streak if current streak is higher
+        if self.current_streak > self.longest_streak:
+            self.longest_streak = self.current_streak
+        
+        self.last_journal_date = journal_date
+        self.save()
+
+@receiver(post_save, sender=User)
+def create_user_streak(sender, instance, created, **kwargs):
+    if created:
+        UserStreak.objects.create(user=instance)

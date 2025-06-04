@@ -1,11 +1,18 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Journal, MoodStat, Insight
+from .models import Journal, MoodStat, Insight, UserStreak
+
+class UserStreakSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserStreak
+        fields = ['current_streak', 'longest_streak']
 
 class UserSerializer(serializers.ModelSerializer):
+    streak = UserStreakSerializer(read_only=True)
+    
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password']
+        fields = ['id', 'username', 'email', 'password', 'streak']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
