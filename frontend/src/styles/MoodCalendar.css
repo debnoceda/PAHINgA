@@ -153,23 +153,23 @@ background-position: center !important;
 
 /* Style past dates without mood */
 .react-calendar__tile--past {
-  border: 2px solid rgba(179, 71, 152, 0.3) !important;  /* Light purple border */
-  border-radius: 1.5rem;
+  background-color: rgba(179, 71, 152, 0.10) !important;
+  opacity: 0.8;
 }
 
 /* Keep hover effect for past dates */
-.react-calendar__tile--past:enabled,
+/* .react-calendar__tile--past:enabled,
 .react-calendar__tile--past:active {
   background-color: #F3DFEF !important;
-}
+} */
 
 /* FUTURE DATE STYLE */
 
 /* Style future dates */
 .react-calendar__tile--future,
 .react-calendar__tile--future:enabled {
-  background-color: rgba(179, 71, 152, 0.10) !important;
-  opacity: 0.8;
+  border: 2px solid rgba(179, 71, 152, 0.3) !important;  /* Light purple border */
+  border-radius: 1.5rem;
 }
 
 /* Navigation button states */
