@@ -18,7 +18,7 @@ import { Toaster } from 'react-hot-toast';
 // Auth-related components
 function Logout() {
   localStorage.clear();
-  return <Navigate to="/login" replace />;
+  return <Navigate to="/landing" replace />;
 }
 
 // Public routes that should redirect to home if user is authenticated
