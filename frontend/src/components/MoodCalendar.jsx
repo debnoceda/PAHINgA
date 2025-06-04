@@ -31,13 +31,15 @@ const MoodCalendar = ({ moodData = {} }) => {
         const key = date.toISOString().split('T')[0];
         const mood = moodData?.[key];
         const isFuture = date > new Date();
-        const isPast = date < new Date() && !mood;  // Add this line
-        
+        const isPast = date < new Date() && !mood;
+        const dayOfWeek = date.getDay(); // Get day of week (0-6)
+
         let classes = ['calendar-tile'];
+        classes.push(`weekday-${dayOfWeek}`); // Add weekday class
         if (view === 'month' && mood) classes.push(`mood-${mood}`);
         if (isFuture) classes.push('react-calendar__tile--future');
-        if (isPast) classes.push('react-calendar__tile--past');  // Add this line
-        
+        if (isPast) classes.push('react-calendar__tile--past');
+
         return classes.join(' ');
       }}
     />
