@@ -42,7 +42,7 @@ def get_emotion_probabilities(text: str) -> Dict[str, float]:
     mood_prompt = f"""
 You are a sentiment classifier. Given a user's input text, classify it into one or more of the following moods: happy, sad, fear, disgust, and anger.
 
-Return the result as a JSON object with keys as the moods and values as probabilities between 0 and 1 (representing the likelihood of each emotion). Probabilities should sum to 1.
+Return the result as a JSON object where the keys are emotion labels and the values are their respective probabilities (ranging from 0 to 1). The sum of all probabilities must equal 1. The output must have one clear dominant emotion — meaning only one emotion should have the highest probability (except if input is gibberish). There should not be multiple emotions tied for the highest value (except if input is gibberish).
 
 Do not include any text before or after the JSON. Only output the raw JSON.
 

@@ -27,7 +27,7 @@ class MoodStatSerializer(serializers.ModelSerializer):
 class InsightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Insight
-        fields = ['id', 'insightContent', 'user']
+        fields = ['id', 'advice_messages', 'user']
 
 class JournalSerializer(serializers.ModelSerializer):
     title = serializers.CharField(allow_blank=True)

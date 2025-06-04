@@ -1,0 +1,66 @@
+.dialog-box {
+  position: relative;
+  display: inline-block;
+  background: var(--color-beige, #FFFCEE);
+  border: 0.25rem solid #111;
+  border-radius: 2.5rem;
+  padding: 2.5rem 3.5rem;
+  font-family: var(--font-main);
+  font-size: 2.5rem;
+  color: #222;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+  text-align: center;
+  max-width: 90vw;
+  min-width: 220px;
+  width: fit-content;
+  min-width: 180px;
+}
+
+.dialog-message {
+  display: block;
+  font-size: var(--font-regular);
+  font-family: var(--font-main);
+  font-weight: 500;
+  word-break: break-word;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  max-width: 60vw;
+  margin: 0 auto;
+}
+
+.dialog-pointer {
+  position: absolute;
+  left: 60px;
+  bottom: -32px;
+  width: 0;
+  height: 0;
+  border: 24px solid transparent;
+  border-top: 32px solid var(--color-beige, #FFFCEE);
+  border-bottom: 0;
+  border-right: 0;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+  z-index: 2;
+}
+
+.dialog-box {
+  /* Responsive adjustments */
+  width: fit-content;
+  min-width: 180px;
+}
+
+@media (max-width: 600px) {
+  .dialog-box {
+    font-size: 1.4rem;
+    min-width: 120px;
+    max-width: 98vw;
+  }
+  .dialog-message {
+    max-width: 90vw;
+  }
+  .dialog-pointer {
+    left: 24px;
+    bottom: -18px;
+    border-width: 12px;
+    border-top-width: 18px;
+  }
+}

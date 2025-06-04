@@ -41,9 +41,27 @@ function Entry() {
   const [entryId, setEntryId] = useState(isNew ? null : id);
   const [loaded, setLoaded] = useState(false);
   const [moodStats, setMoodStats] = useState(null);
+  const [adviceMessages, setAdviceMessages] = useState([]);
+  const [currentAdviceIndex, setCurrentAdviceIndex] = useState(0);
   const hasCreated = useRef(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const { deleteEntry } = useUser();
+
+  // Add useEffect for advice rotation
+  useEffect(() => {
+    if (adviceMessages.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentAdviceIndex((prevIndex) => (prevIndex + 1) % adviceMessages.length);
+    }, 10000); // Rotate every 10 seconds
+
+    return () => clearInterval(interval);
+  }, [adviceMessages]);
+
+  const handleAdviceClick = () => {
+    if (adviceMessages.length <= 1) return;
+    setCurrentAdviceIndex((prevIndex) => (prevIndex + 1) % adviceMessages.length);
+  };
 
   // Fetch journal if editing
   const fetchJournal = async (journalId) => {
@@ -53,12 +71,14 @@ function Entry() {
       setDate(res.data.date || '');
       setText(res.data.content || '');
       setMoodStats(res.data.moodStats || null);
+      setAdviceMessages(res.data.insights?.advice_messages || []);
       setLoaded(true); // Mark as loaded after fetch
     } catch (err) {
       setTitle('');
       setDate('');
       setText('');
       setMoodStats(null);
+      setAdviceMessages([]);
       setLoaded(true); // Even if error, mark as loaded
     }
   };
@@ -141,8 +161,9 @@ function Entry() {
       const response = await api.post(`/journals/${entryId}/process_emotions/`);
       console.log('Processed emotions:', response.data);
       
-      // Update mood stats with the new data
       setMoodStats(response.data.moodStats);
+      setAdviceMessages(response.data.insights?.advice_messages || []);
+      setCurrentAdviceIndex(0); // Reset to first message
   
       alert('Pet analyzed your mood and generated insights!');
     } catch (error) {
@@ -222,16 +243,22 @@ function Entry() {
               >
                 <h3>{isAnalyzing ? 'Analyzing...' : 'Pet'}</h3>
               </button>
+              {adviceMessages.length > 0 && (
+                <div 
+                  className="advice-message" 
+                  onClick={handleAdviceClick}
+                  style={{ cursor: adviceMessages.length > 1 ? 'pointer' : 'default' }}
+                >
+                  <p>{adviceMessages[currentAdviceIndex]}</p>
+                  {adviceMessages.length > 1 && (
+                    <small className="advice-hint">Click to see next advice</small>
+                  )}
+                </div>
+              )}
             </div>
             <div className="chart-container">
-              <p>Mood Overview</p>
               {moodStats && (
-                <PieChart 
-                  width={200} 
-                  height={200} 
-                  data={getChartData()} 
-                  emotionCode={getDominantEmotionCode()}
-                />
+                <PieChart data={getChartData()} emotionCode={getDominantEmotionCode()}/>
               )}
             </div>
           </div>

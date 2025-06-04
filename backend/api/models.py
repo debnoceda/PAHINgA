@@ -29,11 +29,11 @@ class MoodStat(models.Model):
         return self.dominantMood
 
 class Insight(models.Model):
-    insightContent = models.TextField()
+    advice_messages = models.JSONField(default=list)  # List of advice messages
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='insights')
 
     def __str__(self):
-        return self.insightContent
+        return f"Insight for {self.user.username}"
 
 class UserStreak(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='streak')

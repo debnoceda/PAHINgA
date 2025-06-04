@@ -70,3 +70,11 @@ button {
   color: inherit;
   cursor: pointer;
 }
+
+@media (max-width: 1200px) {
+  body {
+    overflow-y: auto;
+  }
+}
+
+
