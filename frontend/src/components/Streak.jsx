@@ -6,13 +6,6 @@ import { useUser } from "../context/UserContext";
 function Streak() {
     const { user } = useUser();
 
-    useEffect(() => {
-        console.log('Full user object:', user);
-        console.log('Streak object:', user?.streak);
-        console.log('Current streak value:', user?.streak?.current_streak);
-        console.log('Longest streak value:', user?.streak?.longest_streak);
-    }, [user]);
-
     return (
         <div className="streak-container">
             <Card className="streak-card">
