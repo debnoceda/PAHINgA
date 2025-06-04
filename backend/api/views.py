@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Journal, MoodStat, Insight
+from .models import Journal, MoodStat, Insight, UserStreak
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import UserSerializer, JournalSerializer, MoodStatSerializer, InsightSerializer
@@ -47,8 +47,8 @@ class JournalViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         journal = serializer.save(user=self.request.user)
-        # Update user's streak
-        user_streak = self.request.user.streak
+        # Get or create user's streak
+        user_streak, created = UserStreak.objects.get_or_create(user=self.request.user)
         user_streak.update_streak(journal.date)
 
     def _process_journal_content(self, content: str):
