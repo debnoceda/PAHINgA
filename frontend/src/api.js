@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants';
 
+const API_URL = import.meta.env.VITE_API_URL || 'https://pahinga-backend.onrender.com/api/';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: API_URL,
 });
 
 api.interceptors.request.use(
@@ -35,7 +36,7 @@ api.interceptors.response.use(
                 }
 
                 // Call the refresh token endpoint
-                const response = await axios.post('http://localhost:8000/api/token/refresh/', {
+                const response = await axios.post(`${API_URL}token/refresh/`, {
                     refresh: refreshToken
                 });
 
