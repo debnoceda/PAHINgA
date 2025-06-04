@@ -194,3 +194,12 @@ background-position: center !important;
 .react-calendar__navigation button:focus {
   outline: none;
 }
+
+.react-calendar__year-view__months *,
+.react-calendar__decade-view__years__year,
+.react-calendar__century-view__decades__decade {
+    height: 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
