@@ -67,6 +67,12 @@ const PieChart = ({ data, emotionCode = 4 }) => {
     'Sadness': '#FEF6BE',
   };
 
+  // Responsive sizes based on radius
+  const innerRadius = Math.max(radius * 0.25, 20); // Minimum 20px, scales with chart
+  const imageSize = innerRadius * 3; // Make image bigger - increased from 2 to 3
+  const baseFontSize = "2rem"; // Fixed size as requested
+  const nameFontSize = "2rem"; // Fixed size as requested
+
   return (
     <div className="card pie-chart-container" ref={containerRef}>
       <svg
@@ -104,10 +110,10 @@ const PieChart = ({ data, emotionCode = 4 }) => {
                   transform={`translate(${labelArcGenerator.centroid(slice)})`}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fontSize={isHovered ? "14" : "12"}
+                  fontSize={isHovered ? baseFontSize : baseFontSize}
                   fontWeight="bold"
                   fill="var(--color-dark)"
-                  dy="-8"
+                  dy={-12}
                   style={{
                     transition: 'all 0.2s ease-in-out',
                     pointerEvents: 'none',
@@ -120,10 +126,10 @@ const PieChart = ({ data, emotionCode = 4 }) => {
                   transform={`translate(${labelArcGenerator.centroid(slice)})`}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fontSize={isHovered ? "11" : "10"}
+                  fontSize={isHovered ? nameFontSize : nameFontSize}
                   fontWeight="500"
                   fill={nameColors[slice.data.name] || '#FEF6BE'}
-                  dy="8"
+                  dy={16}
                   style={{
                     textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
                     transition: 'all 0.2s ease-in-out',
