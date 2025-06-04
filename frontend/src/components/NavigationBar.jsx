@@ -16,12 +16,6 @@ const NavigationBar = () => {
     const navigate = useNavigate();
     const { user, fetchUserData } = useUser();
 
-    // Log user data changes
-    useEffect(() => {
-        console.log('NavigationBar - User data updated:', user);
-        console.log('NavigationBar - Current streak:', user?.streak?.current_streak);
-    }, [user]);
-
     // Fetch user data when component mounts
     useEffect(() => {
         fetchUserData();

@@ -25,9 +25,7 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      console.log('Fetching user data...');
       const response = await api.get('/users/me/');
-      console.log('User data response:', response.data);
       setUser(response.data);
     } catch (error) {
       console.error('Error fetching user data:', error);
