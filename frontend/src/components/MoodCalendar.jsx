@@ -3,6 +3,7 @@ import Calendar from 'react-calendar';
 import { Icon } from '@iconify/react';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/MoodCalendar.css';
+import { useNavigate } from 'react-router-dom';
 
 import happyImg from '../assets/CalendarEmoji/CalendarHappy.png';
 import sadImg from '../assets/CalendarEmoji/CalendarSad.png';
@@ -20,12 +21,24 @@ const moodIcons = {
 };
 
 const MoodCalendar = ({ moodData = {} }) => {
+  const navigate = useNavigate();
+
+  const handleDateClick = (date) => {
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    }); // Format: "June 5, 2025"
+    navigate(`/journal?date=${encodeURIComponent(formattedDate)}`);
+  };
+
   return (
     <Calendar
       calendarType="gregory"
       prevLabel={<Icon icon="lucide:circle-chevron-left" width="24" height="24" />}
       nextLabel={<Icon icon="lucide:circle-chevron-right" width="24" height="24" />}
       showNeighboringMonth={false}
+      onClickDay={handleDateClick}
       tileClassName={({ date, view }) => {
         // Format date to match the moodData keys format (YYYY-MM-DD)
         const key = date.toLocaleDateString('en-CA'); // This formats as YYYY-MM-DD

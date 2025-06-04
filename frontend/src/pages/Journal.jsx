@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
 import FloatingActionButton from '../components/FloatingActionButton';
 import Card from '../components/Card';
@@ -11,10 +12,17 @@ import { Icon } from '@iconify/react';
 function Journal() {
     const { fetchJournals } = useUser();
     const [search, setSearch] = React.useState('');
+    const location = useLocation();
 
     useEffect(() => {
         fetchJournals();
-    }, [fetchJournals]);
+        // Get date from URL parameters
+        const params = new URLSearchParams(location.search);
+        const dateParam = params.get('date');
+        if (dateParam) {
+            setSearch(dateParam);
+        }
+    }, [fetchJournals, location.search]);
 
     return (
         <div>
