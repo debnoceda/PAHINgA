@@ -1,0 +1,149 @@
+.react-calendar {
+  width: 100%;
+  max-width: 400px;
+  background: #F3DFEF;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 10px;
+  font: inherit;
+  font-size: 2rem;
+}
+
+.react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+}
+
+.react-calendar__tile {
+  aspect-ratio: 1;
+  border-radius: 1.5rem;
+  font-size: 1rem;
+  position: relative;
+  text-align: center;
+  padding: 1rem;
+  margin: 0 !important;
+  margin-inline: 0 !important;
+}
+
+/* Add hover effect */
+/* .react-calendar__tile:enabled:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+} */
+
+/* Style the active date */
+/* .react-calendar__tile--active {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+} */
+
+/* Style future dates */
+.react-calendar__tile--future {
+  background-color: rgba(179, 71, 152, 0.10);
+  opacity: 0.8;
+}
+  /* color: rgba(255, 255, 255, 0.5); Make text slightly transparent */
+  /* opacity: 0.7; Make the whole tile slightly transparent */
+
+
+.emoji {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
+}
+
+/* Hide date numbers only for tiles with moods */
+.mood-happy abbr,
+.mood-sad abbr,
+.mood-angry abbr,
+.mood-fear abbr,
+.mood-disgust abbr {
+  display: none;
+}
+
+/* Mood-specific background colors */
+.mood-happy {
+  background-image: url('../assets/CalendarEmoji/CalendarHappy.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-sad {
+  background-image: url('../assets/CalendarEmoji/CalendarSad.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-angry {
+  background-image: url('../assets/CalendarEmoji/CalendarAngry.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-fear {
+  background-image: url('../assets/CalendarEmoji/CalendarFear.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-disgust {
+  background-image: url('../assets/CalendarEmoji/CalendarDisgust.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Make the date number visible on top of the background image */
+.react-calendar__tile abbr {
+  position: relative;
+  z-index: 1;
+  color: var(--color-dark);
+}
+
+/* Adjust spacing for remaining navigation buttons */
+.react-calendar__navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-calendar__navigation * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hide year navigation buttons */
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+.react-calendar__navigation__label {
+  flex-grow: 0;
+  padding: 0 1rem;
+  font-weight: 500;
+}
+
+/* DATE NOW STYLE */
+
+/* Style today's date with border */
+.react-calendar__tile--now {
+  border: 2px solid #B34798 !important;
+}
+
+/* Keep hover effect for today's date */
+.react-calendar__tile--now:enabled:hover {
+  border-color: #B34798;
+}
+
+/* Handle both today and active states */
+.react-calendar__tile--now.react-calendar__tile--active {
+  border: 2px solid #B34798;
+}
