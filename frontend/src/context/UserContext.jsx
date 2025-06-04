@@ -4,35 +4,56 @@ import { ACCESS_TOKEN } from '../constants';
 
 const UserContext = createContext();
 
-export function UserProvider({ children }) {
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
+};
+
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [journals, setJournals] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  //Fetch user data
   const fetchUserData = useCallback(async () => {
     try {
       const token = localStorage.getItem(ACCESS_TOKEN);
-  
-      const res = await api.get('/users/me/');
-      setUser(res.data);
-    } catch (err) {
-      console.error('Error fetching user data:', err);
-      console.error('Error details:', {
-        status: err.response?.status,
-        statusText: err.response?.statusText,
-        data: err.response?.data,
-        headers: err.response?.headers
-      });
+      if (!token) {
+        setUser(null);
+        return;
+      }
+
+      console.log('Fetching user data...');
+      const response = await api.get('/users/me/');
+      console.log('User data response:', response.data);
+      setUser(response.data);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
       setUser(null);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
   // Fetch user data when component mounts
   useEffect(() => {
     fetchUserData();
+  }, [fetchUserData]);
+
+  // Listen for token changes
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === ACCESS_TOKEN) {
+        if (e.newValue) {
+          fetchUserData();
+        } else {
+          setUser(null);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, [fetchUserData]);
 
   // Separate fetchJournals function
@@ -59,13 +80,18 @@ export function UserProvider({ children }) {
     }
   }, []);
 
+  const value = {
+    user,
+    journals,
+    loading,
+    fetchUserData,
+    fetchJournals,
+    deleteEntry
+  };
+
   return (
-    <UserContext.Provider value={{ user, journals, loading, fetchUserData, fetchJournals, deleteEntry }}>
+    <UserContext.Provider value={value}>
       {children}
     </UserContext.Provider>
   );
-}
-
-export function useUser() {
-  return useContext(UserContext);
-}
+};

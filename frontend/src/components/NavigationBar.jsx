@@ -14,21 +14,30 @@ const NavigationBar = () => {
     const profileButtonRef = useRef(null);
     const streakButtonRef = useRef(null);
     const navigate = useNavigate();
-    const { user } = useUser();
+    const { user, fetchUserData } = useUser();
+
+    // Log user data changes
+    useEffect(() => {
+        console.log('NavigationBar - User data updated:', user);
+        console.log('NavigationBar - Current streak:', user?.streak?.current_streak);
+    }, [user]);
+
+    // Fetch user data when component mounts
+    useEffect(() => {
+        fetchUserData();
+    }, [fetchUserData]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropdownOpen(false);
-                // Remove focus from profile button when closing dropdown
                 if (profileButtonRef.current) {
                     profileButtonRef.current.blur();
                 }
             }
             if (streakDropdownRef.current && !streakDropdownRef.current.contains(event.target)) {
                 setStreakDropdownOpen(false);
-                // Remove focus from streak button when closing dropdown
                 if (streakButtonRef.current) {
                     streakButtonRef.current.blur();
                 }
@@ -40,9 +49,8 @@ const NavigationBar = () => {
 
     const handleNavigation = (path) => {
         navigate(path);
-        setDropdownOpen(false); // Close dropdown when navigating
+        setDropdownOpen(false);
         setStreakDropdownOpen(false);
-        // Remove focus from profile button when navigating
         if (profileButtonRef.current) {
             profileButtonRef.current.blur();
         }
@@ -56,7 +64,6 @@ const NavigationBar = () => {
         navigate("/landing");
         setDropdownOpen(false);
         setStreakDropdownOpen(false);
-        // Remove focus from profile button when logging out
         if (profileButtonRef.current) {
             profileButtonRef.current.blur();
         }
@@ -65,13 +72,10 @@ const NavigationBar = () => {
     const toggleDropdown = () => {
         setDropdownOpen((open) => {
             const newOpen = !open;
-            // Close streak dropdown when opening profile dropdown
             if (newOpen) {
                 setStreakDropdownOpen(false);
             }
-            // Remove focus from profile button when closing dropdown
             if (!newOpen && profileButtonRef.current) {
-                // Use setTimeout to ensure the state update happens first
                 setTimeout(() => {
                     profileButtonRef.current.blur();
                 }, 0);
@@ -83,11 +87,9 @@ const NavigationBar = () => {
     const toggleStreakDropdown = () => {
         setStreakDropdownOpen((open) => {
             const newOpen = !open;
-            // Close profile dropdown when opening streak dropdown
             if (newOpen) {
                 setDropdownOpen(false);
             }
-            // Remove focus from streak button when closing dropdown
             if (!newOpen && streakButtonRef.current) {
                 setTimeout(() => {
                     streakButtonRef.current.blur();
@@ -100,7 +102,6 @@ const NavigationBar = () => {
     return (
         <nav className="navbar">
             <div className="navbar-left">
-                {/* change this to png logo later */}
                 <div className="navbar-logo" onClick={() => handleNavigation("/")} style={{ cursor: "pointer" }}>
                     PAHINgA
                 </div>
@@ -112,7 +113,6 @@ const NavigationBar = () => {
                 </button>
             </div>
             <div className="navbar-right">
-                {/* Streak Dropdown */}
                 <div className="streak-dropdown-container" ref={streakDropdownRef}>
                     <button
                         ref={streakButtonRef}
@@ -132,7 +132,6 @@ const NavigationBar = () => {
                     )}
                 </div>
 
-                {/* Profile Dropdown */}
                 <div className="profile-dropdown-container" ref={dropdownRef}>
                     <button
                         ref={profileButtonRef}
