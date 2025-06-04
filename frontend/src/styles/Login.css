@@ -1,6 +1,6 @@
 .login-container {
-    display: grid;
-    grid-template-rows: auto 1fr;
+    display: flex;
+    flex-direction: column;
     z-index: 1;
 }
 
@@ -12,12 +12,13 @@
 }
 
 .login-form-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
     gap: 10rem;
     align-items: baseline;
     margin: 0 auto;
     width: 100%;
+    height: calc(100vh - 20rem);
 }
 
 .text-image-container {
@@ -26,6 +27,7 @@
     align-items: center;
     gap: 1.5rem;
     padding: 2rem;
+    text-align: center;
 }
 
 .text-image-container h1 {
@@ -54,7 +56,7 @@
 }
 
 .login-form {
-    width: 80%;
+    width: 50%;
 }
 
 @media (max-width: 768px) {
@@ -65,7 +67,9 @@
     }
 
     .login-form-container {
+        flex-direction: column;
         gap: 1.5rem;
+        align-items: center;
     }
 
     .text-image-container h1{
@@ -79,6 +83,10 @@
     .text-image-container img {
         max-width: 300px;
         margin-top: -5rem;
+    }
+    
+    .login-form {
+        width: 100%;
     }
 }
 
