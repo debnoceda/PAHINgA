@@ -5,6 +5,7 @@ import FloatingActionButton from '../components/FloatingActionButton';
 import PieChart from '../components/PieChart';
 import Pet from '../components/Pet';
 import JournalList from '../components/JournalList';
+import Button from '../components/Button';
 import { useUser } from '../context/UserContext';
 import '../styles/Home.css';
 
@@ -19,7 +20,7 @@ const sampleData = [
 const yourBackendValue = 0;
 
 function Home() {
-    const { fetchJournals } = useUser();
+    const { fetchJournals, journals, loading } = useUser();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,6 +29,10 @@ function Home() {
 
     const handleSeeAllClick = () => {
         navigate('/journal');
+    };
+
+    const handleCreateEntryClick = () => {
+        navigate('/entry/new');
     };
 
     return (
@@ -58,7 +63,21 @@ function Home() {
                             </button>
                         </div>
                         <div className="recent-entries-content">
-                            <JournalList limit={6} />
+                            {loading ? (
+                                <div className="recent-entries-empty-state">
+                                    <p className="empty-state-text">Loading entries...</p>
+                                </div>
+                            ) : journals.length === 0 ? (
+                                <div className="recent-entries-empty-state">
+                                    <p className="empty-state-text">No journal entries yet</p>
+                                    <p className="empty-state-subtext">Start your journaling journey by writing your first entry</p>
+                                    <Button className="small-compact empty-state-btn" onClick={handleCreateEntryClick}>
+                                        Write Your First Entry
+                                    </Button>
+                                </div>
+                            ) : (
+                                <JournalList limit={6} />
+                            )}
                         </div>
                     </div>
                 </div>
