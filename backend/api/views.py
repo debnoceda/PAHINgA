@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Journal, MoodStat, Insight, UserStreak
+from .models import Journal, MoodStat, Insight, UserStreak, UserProfile
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import UserSerializer, JournalSerializer, MoodStatSerializer, InsightSerializer
@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_permissions(self):
-        if self.action in ['me', 'delete_account', 'update']:
+        if self.action in ['me', 'delete_account', 'update', 'mark_welcome_seen']:
             return [IsAuthenticated()]
         return super().get_permissions()
 
@@ -41,6 +41,19 @@ class UserViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response(
                 {"error": f"Failed to delete account: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['post'])
+    def mark_welcome_seen(self, request):
+        try:
+            user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+            user_profile.has_seen_welcome = True
+            user_profile.save()
+            return Response({'status': 'success'})
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update welcome status: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

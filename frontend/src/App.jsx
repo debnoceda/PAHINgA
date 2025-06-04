@@ -14,6 +14,7 @@ import { ACCESS_TOKEN } from './constants';
 import './styles/index.css';
 import { UserProvider } from './context/UserContext';
 import { Toaster } from 'react-hot-toast';
+import { useUser } from './context/UserContext';
 
 // Auth-related components
 function Logout() {
@@ -25,6 +26,22 @@ function Logout() {
 function PublicRoute({ children }) {
   const isAuthenticated = localStorage.getItem(ACCESS_TOKEN) !== null;
   return isAuthenticated ? <Navigate to="/" replace /> : children;
+}
+
+// Protected route that checks if user has seen welcome page
+function WelcomeCheckRoute({ children }) {
+  const { user } = useUser();
+  const isAuthenticated = localStorage.getItem(ACCESS_TOKEN) !== null;
+
+  if (!isAuthenticated) {
+    return <Navigate to="/landing" replace />;
+  }
+
+  if (user && !user.profile?.has_seen_welcome) {
+    return <Navigate to="/welcome" replace />;
+  }
+
+  return children;
 }
 
 function App() {
@@ -41,22 +58,30 @@ function App() {
           } />
           <Route path="/" element={
             <ProtectedRoute>
-              <Home />
+              <WelcomeCheckRoute>
+                <Home />
+              </WelcomeCheckRoute>
             </ProtectedRoute>
           } />
           <Route path="/journal" element={
             <ProtectedRoute>
-              <Journal />
+              <WelcomeCheckRoute>
+                <Journal />
+              </WelcomeCheckRoute>
             </ProtectedRoute>
           } />
           <Route path="/profile" element={
             <ProtectedRoute>
-              <Profile />
+              <WelcomeCheckRoute>
+                <Profile />
+              </WelcomeCheckRoute>
             </ProtectedRoute>
           } />
           <Route path="/entry/:id" element={
             <ProtectedRoute>
-              <Entry />
+              <WelcomeCheckRoute>
+                <Entry />
+              </WelcomeCheckRoute>
             </ProtectedRoute>
           } />
 
