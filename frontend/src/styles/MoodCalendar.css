@@ -147,3 +147,21 @@
 .react-calendar__tile--now.react-calendar__tile--active {
   border: 2px solid #B34798;
 }
+
+/* PAST DATE STYLE */
+
+/* Style past dates without mood */
+.react-calendar__tile--past {
+  border: 2px solid rgba(179, 71, 152, 0.3) !important;  /* Light purple border */
+  border-radius: 1.5rem;
+}
+
+/* Keep hover effect for past dates */
+.react-calendar__tile--past:enabled:hover {
+  border-color: rgba(179, 71, 152, 0.5);
+}
+
+/* Handle both past and active states */
+.react-calendar__tile--past.react-calendar__tile--active {
+  border: 2px solid rgba(179, 71, 152, 0.3);
+}

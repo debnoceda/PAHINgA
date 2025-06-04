@@ -31,10 +31,12 @@ const MoodCalendar = ({ moodData = {} }) => {
         const key = date.toISOString().split('T')[0];
         const mood = moodData?.[key];
         const isFuture = date > new Date();
+        const isPast = date < new Date() && !mood;  // Add this line
         
         let classes = ['calendar-tile'];
         if (view === 'month' && mood) classes.push(`mood-${mood}`);
         if (isFuture) classes.push('react-calendar__tile--future');
+        if (isPast) classes.push('react-calendar__tile--past');  // Add this line
         
         return classes.join(' ');
       }}
