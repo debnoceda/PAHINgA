@@ -1,5 +1,5 @@
 .pie-chart-container {
     height: 100%;
     width: 100%;
-    background-color: #FFEAE5;
+    background-color: var(--color-light-green);
 }

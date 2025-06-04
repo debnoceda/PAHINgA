@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Journal, MoodStat, Insight
+from .models import Journal, MoodStat, Insight, UserStreak, UserProfile
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .serializers import UserSerializer, JournalSerializer, MoodStatSerializer, InsightSerializer
@@ -17,14 +17,45 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_permissions(self):
-        if self.action == 'me':
+        if self.action in ['me', 'delete_account', 'update', 'mark_welcome_seen']:
             return [IsAuthenticated()]
         return super().get_permissions()
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=['get', 'put'])
     def me(self, request):
+        if request.method == 'PUT':
+            serializer = self.get_serializer(request.user, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['delete'])
+    def delete_account(self, request):
+        try:
+            user = request.user
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to delete account: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=False, methods=['post'])
+    def mark_welcome_seen(self, request):
+        try:
+            user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+            user_profile.has_seen_welcome = True
+            user_profile.save()
+            return Response({'status': 'success'})
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update welcome status: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class JournalViewSet(viewsets.ModelViewSet):
     serializer_class = JournalSerializer
@@ -35,8 +66,8 @@ class JournalViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         journal = serializer.save(user=self.request.user)
-        # Update user's streak
-        user_streak = self.request.user.streak
+        # Get or create user's streak
+        user_streak, created = UserStreak.objects.get_or_create(user=self.request.user)
         user_streak.update_streak(journal.date)
 
     def _process_journal_content(self, content: str):

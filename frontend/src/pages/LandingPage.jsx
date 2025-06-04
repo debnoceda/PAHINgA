@@ -1,30 +1,60 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Landing.css';
+import mallow from '../assets/AngryAnim/PNG_0001.png';
+import mascot1 from '../assets/GIFs/SadAnim.gif';
+import mascot2 from '../assets/GIFs/AngryAnim.gif';
+import mascot3 from '../assets/GIFs/HappyAnim.gif';
+import mascot4 from '../assets/GIFs/FearAnim.gif';
+import mascot5 from '../assets/GIFs/DisgustAnim.gif';
 
 function LandingPage() {
-  useEffect(() => {
-    const originalPadding = document.body.style.padding;
-    document.body.style.padding = '0';
+  const navigate = useNavigate();
+  const [mainMascot, setMainMascot] = useState(mallow); // Track current mascot
 
+  useEffect(() => {
+    document.body.style.padding = '0';
+    document.body.style.overflowY = 'hidden';
     return () => {
-      document.body.style.padding = originalPadding;
+      document.body.style.padding = '';
+      document.body.style.overflowY = 'auto';
     };
   }, []);
 
   return (
-    <div className="landing-page">
-      <header className="header">
-        <nav className="landing-navbar">
-          <a href="/login">Log In</a>
-          <div className="logo">PAHINgA</div>
-          <a href="/register">Sign Up</a>
-        </nav>
-      </header>
+    <div className="landing-container">
+      <img src="Landing2.gif" alt="Background Animation" className="background-video" />
 
-      <main className="landing-hero">
-        <h1 className="landing-title">tEST</h1>
-        <a href="/register" className="main-button">Get Started</a>
-      </main>
+      <div className="mascot-section">
+        <img src={mainMascot} alt="Mascot" className="mascot-image" />
+      </div>
+
+      <div className="content-section">
+        <h1>PAHINgA</h1>
+        <p>Pause. Breathe. Begin Again.</p>
+
+        <div className="mini-mascots">
+          {[mascot1, mascot2, mascot3, mascot4, mascot5].map((src, index) => (
+            <img
+              key={index}
+              src={src}
+              alt={`Mini Mascot ${index + 1}`}
+              className="mini-mascot-image"
+              onClick={() => setMainMascot(src)} // Change mascot on click
+              style={{ cursor: 'pointer' }}
+            />
+          ))}
+        </div>
+
+        <div className="button-group">
+          <button className="custom-button medium-compact" onClick={() => navigate('/login')}>
+            Login
+          </button>
+          <button className="custom-button medium-compact" onClick={() => navigate('/register')}>
+            Register
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

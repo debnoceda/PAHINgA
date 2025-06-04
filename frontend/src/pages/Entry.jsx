@@ -193,6 +193,17 @@ function Entry() {
     return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4;
   };
 
+  // Format date to "June 4, 2025" format
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   return (
     <div>
       <div className="entry-container">
@@ -213,12 +224,9 @@ function Entry() {
                 value={title}
                 onChange={e => setTitle(e.target.value)}
               />
-              <input
-                className="entry-date small-text"
-                type="date"
-                value={date}
-                onChange={e => setDate(e.target.value)}
-              />
+              <div className="entry-date small-text">
+                {formatDate(date)}
+              </div>
             </div>
             <div className="entry-content">
               <textarea

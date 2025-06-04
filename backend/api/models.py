@@ -5,6 +5,13 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    has_seen_welcome = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username}'s profile"
+
 class Journal(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField()
@@ -68,3 +75,4 @@ class UserStreak(models.Model):
 def create_user_streak(sender, instance, created, **kwargs):
     if created:
         UserStreak.objects.create(user=instance)
+        UserProfile.objects.create(user=instance)
