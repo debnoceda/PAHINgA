@@ -145,11 +145,11 @@
     border: 1px solid black;
     border-radius: 1rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    min-width: 16rem;
+    min-width: 23rem;
     z-index: 100;
     display: flex;
     flex-direction: column;
-    padding: 0.5rem 0;
+    overflow: auto;
 }
 
 .dropdown-item {
@@ -158,7 +158,7 @@
     gap: 1rem;
     background: none;
     border: none;
-    font-size: var(--font-small);
+    font-size: var(--font-regular);
     color: var(--color-dark, #1b1212);
     padding: 1rem 2rem;
     cursor: pointer;
@@ -170,7 +170,7 @@
 }
 
 .dropdown-icon {
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
 .dropdown-divider {
