@@ -59,8 +59,8 @@ const PieChart = ({ data, emotionCode = 4 }) => {
     'Happiness': '#FEF6BE',
     'Anger': '#FFC5B7',
     'Fear': '#F1D5FF',
-    'Disgust': '#FEF6BE',
-    'Sadness': '#FEF6BE',
+    'Disgust': '#C8F0C6',
+    'Sadness': '#BDEEFF',
   };
 
   // Responsive sizes based on radius
@@ -95,7 +95,7 @@ const PieChart = ({ data, emotionCode = 4 }) => {
               <g key={index}>
                 <path
                   d={isHovered ? hoverArcGenerator(slice) : arcGenerator(slice)}
-                  fill={colorScale(slice.data.name)}
+                  fill={nameColors[slice.data.name] || '#FEF6BE'} // Changed from colorScale to nameColors
                   stroke="var(--color-dark)"
                   strokeWidth={isHovered ? 3 : 2}
                   style={{
@@ -116,6 +116,7 @@ const PieChart = ({ data, emotionCode = 4 }) => {
                   fill="var(--color-dark)"
                   dy={-12}
                   style={{
+                    // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
                     transition: 'all 0.2s ease-in-out',
                     pointerEvents: 'none',
                     opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1
@@ -129,10 +130,11 @@ const PieChart = ({ data, emotionCode = 4 }) => {
                   dominantBaseline="middle"
                   fontSize={isHovered ? nameFontSize : nameFontSize}
                   fontWeight="500"
-                  fill={nameColors[slice.data.name] || '#FEF6BE'}
+                  fill={'black'}
                   dy={16}
                   style={{
-                    textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+                    color: 'rgba(0,0,0,0.7)',
+                    // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
                     transition: 'all 0.2s ease-in-out',
                     pointerEvents: 'none',
                     opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1
