@@ -172,3 +172,25 @@ background-position: center !important;
   background-color: rgba(179, 71, 152, 0.10) !important;
   opacity: 0.8;
 }
+
+/* Navigation button states */
+.react-calendar__navigation button,
+.react-calendar__navigation button:enabled,
+.react-calendar__navigation button:disabled,
+.react-calendar__navigation button:focus,
+.react-calendar__navigation button:hover,
+.react-calendar__navigation button:active {
+  background-color: transparent !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Override active states */
+.react-calendar__navigation__label--active,
+.react-calendar__navigation__arrow--active {
+  background-color: transparent !important;
+}
+
+/* Remove focus outline */
+.react-calendar__navigation button:focus {
+  outline: none;
+}
