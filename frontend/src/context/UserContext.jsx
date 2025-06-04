@@ -12,12 +12,9 @@ export function UserProvider({ children }) {
   //Fetch user data
   const fetchUserData = useCallback(async () => {
     try {
-      console.log('Fetching user data...');
       const token = localStorage.getItem(ACCESS_TOKEN);
-      console.log('Access token:', token ? 'Present' : 'Missing');
-      
+  
       const res = await api.get('/users/me/');
-      console.log('User data response:', res.data);
       setUser(res.data);
     } catch (err) {
       console.error('Error fetching user data:', err);
@@ -35,7 +32,6 @@ export function UserProvider({ children }) {
 
   // Fetch user data when component mounts
   useEffect(() => {
-    console.log('UserProvider mounted, fetching user data...');
     fetchUserData();
   }, [fetchUserData]);
 
