@@ -9,6 +9,10 @@
   font-size: 2rem;
 }
 
+.react-calendar button:hover {
+    background-color: rgba(179, 71, 152, 0.3) !important;
+}
+
 .react-calendar__month-view__days {
   display: grid !important;
   grid-template-columns: repeat(7, 1fr);
@@ -33,40 +37,11 @@
 .react-calendar__tile {
   aspect-ratio: 1;
   border-radius: 1.5rem;
-  font-size: 1rem;
   position: relative;
   text-align: center;
   padding: 1rem;
   margin: 0 !important;
   margin-inline: 0 !important;
-}
-
-/* Add hover effect */
-/* .react-calendar__tile:enabled:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-} */
-
-/* Style the active date */
-/* .react-calendar__tile--active {
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-} */
-
-/* Style future dates */
-.react-calendar__tile--future {
-  background-color: rgba(179, 71, 152, 0.10);
-  opacity: 0.8;
-}
-  /* color: rgba(255, 255, 255, 0.5); Make text slightly transparent */
-  /* opacity: 0.7; Make the whole tile slightly transparent */
-
-
-.emoji {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 4px;
 }
 
 /* Hide date numbers only for tiles with moods */
@@ -78,37 +53,43 @@
   display: none;
 }
 
+[class^="mood-"] {
+background-size: contain !important;
+background-repeat: no-repeat !important;
+background-position: center !important;
+}
+
 /* Mood-specific background colors */
-.mood-happy {
-  background-image: url('../assets/CalendarEmoji/CalendarHappy.png');
+.mood-happy  {
+  background-image: url('../assets/CalendarEmoji/CalendarHappy.png') !important;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.mood-sad {
-  background-image: url('../assets/CalendarEmoji/CalendarSad.png');
+.mood-sad, .mood-sad:active, .mood-sad:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarSad.png') !important;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.mood-angry {
-  background-image: url('../assets/CalendarEmoji/CalendarAngry.png');
+.mood-angry, .mood-angry:active, .mood-angry:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarAngry.png') !important;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.mood-fear {
-  background-image: url('../assets/CalendarEmoji/CalendarFear.png');
+.mood-fear, .mood-fear:active, .mood-fear:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarFear.png') !important;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-.mood-disgust {
-  background-image: url('../assets/CalendarEmoji/CalendarDisgust.png');
+.mood-disgust, .mood-disgust:active, .mood-disgust:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarDisgust.png') !important;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -118,7 +99,7 @@
 .react-calendar__tile abbr {
   position: relative;
   z-index: 1;
-  color: var(--color-dark);
+  color: rgba(0, 0, 0, 0.35);;
 }
 
 /* Adjust spacing for remaining navigation buttons */
@@ -149,8 +130,14 @@
 /* DATE NOW STYLE */
 
 /* Style today's date with border */
-.react-calendar__tile--now {
+.react-calendar__tile--now,
+.react-calendar__tile--now:enabled {
   border: 2px solid #B34798 !important;
+  background-color: #B34798 !important;
+}
+
+.react-calendar__tile--now abbr {
+  color: black !important;
 }
 
 /* Keep hover effect for today's date */
@@ -172,11 +159,16 @@
 }
 
 /* Keep hover effect for past dates */
-.react-calendar__tile--past:enabled:hover {
-  border-color: rgba(179, 71, 152, 0.5);
+.react-calendar__tile--past:enabled,
+.react-calendar__tile--past:active {
+  background-color: #F3DFEF !important;
 }
 
-/* Handle both past and active states */
-.react-calendar__tile--past.react-calendar__tile--active {
-  border: 2px solid rgba(179, 71, 152, 0.3);
+/* FUTURE DATE STYLE */
+
+/* Style future dates */
+.react-calendar__tile--future,
+.react-calendar__tile--future:enabled {
+  background-color: rgba(179, 71, 152, 0.10) !important;
+  opacity: 0.8;
 }
