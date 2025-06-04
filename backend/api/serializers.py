@@ -1,6 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Journal, MoodStat, Insight, UserStreak
+from .models import Journal, MoodStat, Insight, UserStreak, UserProfile
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['has_seen_welcome']
 
 class UserStreakSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,11 +14,12 @@ class UserStreakSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     streak = UserStreakSerializer(read_only=True)
+    profile = UserProfileSerializer(read_only=True)
     old_password = serializers.CharField(write_only=True, required=False)
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password', 'old_password', 'streak']
+        fields = ['id', 'username', 'email', 'password', 'old_password', 'streak', 'profile']
         extra_kwargs = {
             'password': {'write_only': True},
             'username': {'required': False},
