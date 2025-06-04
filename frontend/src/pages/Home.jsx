@@ -3,7 +3,6 @@ import FloatingActionButton from '../components/FloatingActionButton';
 import PieChart from '../components/PieChart';
 import Pet from '../components/Pet';
 import '../styles/Home.css';
-import MoodCalendar from '../components/MoodCalendar';
 
 const sampleData = [
   { name: 'Happiness', value: 90 },
@@ -16,17 +15,6 @@ const sampleData = [
 const yourBackendValue = 0;
 
 function Home() {
-
-        // Sample mood data
-    const sampleMoodData = {
-        '2025-06-01': 'happy',
-        '2025-06-02': 'sad',
-        '2025-05-31': 'happy',
-        '2025-05-30': 'happy',
-        '2025-05-29': 'happy',
-        '2025-05-28': 'fear',
-    };
-
     return (
         <div>
             <NavigationBar />
@@ -37,9 +25,9 @@ function Home() {
                 </div>
                 <div className="home-content-top">
                     <div className="home-calendar-section">
+                        {/* Calendar Placeholder */}
                         <div className="calendar-box">
                             <p>Calendar</p>
-                            <MoodCalendar moodData={sampleMoodData} />
                         </div>
                     </div>
                     <div className="home-pie-section">
@@ -47,6 +35,7 @@ function Home() {
                     </div>
                 </div>
                 <div className="home-content-bottom">
+                    
                     <div className="home-recent-section card">
                         <div className="recent-entries-box-header">Recent Entries</div>
                     </div>
