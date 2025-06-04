@@ -51,10 +51,6 @@ const PieChart = ({ data, emotionCode = 4 }) => {
   const pieGenerator = d3.pie().value(d => d.value);
   const pieData = pieGenerator(data);
 
-  const arcGenerator = d3.arc().innerRadius(40).outerRadius(radius);
-  const hoverArcGenerator = d3.arc().innerRadius(40).outerRadius(radius + 10);
-  const labelArcGenerator = d3.arc().innerRadius(radius * 0.8).outerRadius(radius * 0.8);
-
   const colorScale = d3.scaleOrdinal()
     .domain(data.map(d => d.name))
     .range(d3.schemeCategory10);
@@ -68,10 +64,15 @@ const PieChart = ({ data, emotionCode = 4 }) => {
   };
 
   // Responsive sizes based on radius
-  const innerRadius = Math.max(radius * 0.25, 20); // Minimum 20px, scales with chart
-  const imageSize = innerRadius * 3; // Make image bigger - increased from 2 to 3
+  const innerRadius = Math.max(radius * 0.33, 20); // Minimum 20px, scales with chart
+  const imageSize = innerRadius * 2; // Make image bigger - increased from 2 to 3
   const baseFontSize = "2rem"; // Fixed size as requested
   const nameFontSize = "2rem"; // Fixed size as requested
+
+  // Arc generators (defined after innerRadius)
+  const arcGenerator = d3.arc().innerRadius(innerRadius).outerRadius(radius);
+  const hoverArcGenerator = d3.arc().innerRadius(innerRadius).outerRadius(radius + 10);
+  const labelArcGenerator = d3.arc().innerRadius(radius * 0.8).outerRadius(radius * 0.8);
 
   return (
     <div className="card pie-chart-container" ref={containerRef}>
@@ -83,7 +84,7 @@ const PieChart = ({ data, emotionCode = 4 }) => {
       >
         <defs>
           <clipPath id="circleClip">
-            <circle cx="0" cy="0" r="40" />
+            <circle cx="0" cy="0" r={innerRadius} />
           </clipPath>
         </defs>
         <g transform={`translate(${width / 2}, ${height / 2})`}>
@@ -144,10 +145,10 @@ const PieChart = ({ data, emotionCode = 4 }) => {
           })}
           <image
             href={currentEmotionImage}
-            x="-40"
-            y="-40"
-            width="80"
-            height="80"
+            x={-imageSize / 2}
+            y={-imageSize / 2}
+            width={imageSize}
+            height={imageSize}
             clipPath="url(#circleClip)"
             style={{
               pointerEvents: 'none',
