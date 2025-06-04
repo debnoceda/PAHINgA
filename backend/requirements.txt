@@ -16,7 +16,7 @@ holidays==0.74
 httpcore==1.0.9
 httpx==0.28.1
 idna==3.10
-psycopg2-binary==2.9.10
+psycopg2-binary==2.9.9
 pyasn1==0.6.1
 pyasn1_modules==0.4.2
 pydantic==2.11.5
@@ -35,3 +35,5 @@ typing_extensions==4.14.0
 tzdata==2025.2
 urllib3==2.4.0
 websockets==15.0.1
+gunicorn==21.2.0
+dj-database-url==2.1.0
