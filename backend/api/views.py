@@ -119,12 +119,12 @@ class JournalViewSet(viewsets.ModelViewSet):
             try:
                 if instance.insights:
                     print("Updating existing Insight")
-                    instance.insights.insightContent = insight['insightContent']
+                    instance.insights.advice_messages = insight['insightContent'].split('\n')
                     instance.insights.save()
                 else:
                     print("Creating new Insight")
                     instance.insights = Insight.objects.create(
-                        insightContent=insight['insightContent'],
+                        advice_messages=insight['insightContent'].split('\n'),
                         user=request.user
                     )
             except Exception as e:
