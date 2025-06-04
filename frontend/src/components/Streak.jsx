@@ -1,18 +1,11 @@
 import "../styles/Streak.css";
 import React from "react";
 import Card from "./Card";
-import Button from "./Button";
-import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 
 function Streak() {
-    const navigate = useNavigate();
     const { user } = useUser();
 
-    const handleClick = () => {
-        navigate('/entry/new');
-    };
-    
     return (
         <div className="streak-container">
             <Card className="streak-card">
@@ -31,7 +24,6 @@ function Streak() {
                         Longest streak: {user.streak.longest_streak} days
                     </p>
                 )}
-                <Button onClick={handleClick}>Write Today's Entry</Button>
             </Card>
         </div>
     );
