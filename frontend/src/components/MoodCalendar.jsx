@@ -28,14 +28,15 @@ const MoodCalendar = ({ moodData = {} }) => {
       nextLabel={<Icon icon="lucide:circle-chevron-right" width="24" height="24" />}
       showNeighboringMonth={false}
       tileClassName={({ date, view }) => {
-        const key = date.toISOString().split('T')[0];
+        // Format date to match the moodData keys format (YYYY-MM-DD)
+        const key = date.toLocaleDateString('en-CA'); // This formats as YYYY-MM-DD
         const mood = moodData?.[key];
         const isFuture = date > new Date();
-        const isPast = date < new Date() && !mood;
-        const dayOfWeek = date.getDay(); // Get day of week (0-6)
+        const isPast = view === 'month' && date < new Date() && !mood;
+        const dayOfWeek = date.getDay();
 
         let classes = ['calendar-tile'];
-        classes.push(`weekday-${dayOfWeek}`); // Add weekday class
+        classes.push(`weekday-${dayOfWeek}`);
         if (view === 'month' && mood) classes.push(`mood-${mood}`);
         if (isFuture) classes.push('react-calendar__tile--future');
         if (isPast) classes.push('react-calendar__tile--past');
