@@ -17,7 +17,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_permissions(self):
-        if self.action == 'me':
+        if self.action in ['me', 'delete_account']:
             return [IsAuthenticated()]
         return super().get_permissions()
 
@@ -25,6 +25,18 @@ class UserViewSet(viewsets.ModelViewSet):
     def me(self, request):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['delete'])
+    def delete_account(self, request):
+        try:
+            user = request.user
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to delete account: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class JournalViewSet(viewsets.ModelViewSet):
     serializer_class = JournalSerializer
@@ -107,12 +119,12 @@ class JournalViewSet(viewsets.ModelViewSet):
             try:
                 if instance.insights:
                     print("Updating existing Insight")
-                    instance.insights.advice_messages = insight['insightContent'].split('\n')
+                    instance.insights.insightContent = insight['insightContent']
                     instance.insights.save()
                 else:
                     print("Creating new Insight")
                     instance.insights = Insight.objects.create(
-                        advice_messages=insight['insightContent'].split('\n'),
+                        insightContent=insight['insightContent'],
                         user=request.user
                     )
             except Exception as e:
