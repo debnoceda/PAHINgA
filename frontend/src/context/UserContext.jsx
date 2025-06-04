@@ -4,8 +4,22 @@ import api from '../api'; // Import your configured Axios instance
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
   const [journals, setJournals] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  //Fetch user data
+  const fetchUserData = useCallback(async () => {
+    try {
+      const res = await api.get('/users/me/');
+      setUser(res.data);
+    } catch (err) {
+      setUser(null);
+      console.error('Error fetching user data:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   // Separate fetchJournals function
   const fetchJournals = useCallback(async () => {
@@ -32,7 +46,7 @@ export function UserProvider({ children }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ journals, loading, fetchJournals, deleteEntry }}>
+    <UserContext.Provider value={{ user, journals, loading, fetchUserData, fetchJournals, deleteEntry }}>
       {children}
     </UserContext.Provider>
   );
