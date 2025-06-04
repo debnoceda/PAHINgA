@@ -1,0 +1,21 @@
+.notfound-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  gap: 2rem;
+}
+
+.mascott-img {
+  max-width: 40rem;
+  width: 80%;
+  height: auto;
+}
+
+.notfound-button {
+  max-width: 20rem;
+  width: 100%;
+  text-decoration: none;
+}
