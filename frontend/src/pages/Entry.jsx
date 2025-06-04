@@ -224,14 +224,8 @@ function Entry() {
               </button>
             </div>
             <div className="chart-container">
-              <p>Mood Overview</p>
               {moodStats && (
-                <PieChart 
-                  width={200} 
-                  height={200} 
-                  data={getChartData()} 
-                  emotionCode={getDominantEmotionCode()}
-                />
+                <PieChart data={getChartData()} emotionCode={getDominantEmotionCode()}/>
               )}
             </div>
           </div>

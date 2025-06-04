@@ -1,0 +1,25 @@
+.pet-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.pet-gif {
+  width: 37.5rem;
+  max-width: 60vw;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .pet-gif {
+    width: 120px;
+    max-width: 90vw;
+    margin-top: 1rem;
+  }
+  .pet-container {
+    margin-top: 1rem;
+  }
+}
