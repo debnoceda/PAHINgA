@@ -1,0 +1,204 @@
+.react-calendar {
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font: inherit;
+  font-size: 2rem;
+}
+
+.react-calendar button:hover {
+    background-color: rgba(179, 71, 152, 0.3) !important;
+}
+
+.react-calendar__month-view__days {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+}
+
+/* Position tiles based on weekday */
+.weekday-0 { grid-column: 1; } /* Sunday */
+.weekday-1 { grid-column: 2; } /* Monday */
+.weekday-2 { grid-column: 3; } /* Tuesday */
+.weekday-3 { grid-column: 4; } /* Wednesday */
+.weekday-4 { grid-column: 5; } /* Thursday */
+.weekday-5 { grid-column: 6; } /* Friday */
+.weekday-6 { grid-column: 7; } /* Saturday */
+
+/* Reset any default positioning */
+.react-calendar__month-view__days__day:first-of-type {
+  margin-left: 0 !important;
+  margin-inline-start: 0 !important;
+}
+
+.react-calendar__tile {
+  aspect-ratio: 1;
+  border-radius: 1.5rem;
+  position: relative;
+  text-align: center;
+  padding: 1rem;
+  margin: 0 !important;
+  margin-inline: 0 !important;
+}
+
+/* Hide date numbers only for tiles with moods */
+.mood-happy abbr,
+.mood-sad abbr,
+.mood-angry abbr,
+.mood-fear abbr,
+.mood-disgust abbr {
+  display: none;
+}
+
+[class^="mood-"] {
+background-size: contain !important;
+background-repeat: no-repeat !important;
+background-position: center !important;
+}
+
+/* Mood-specific background colors */
+.mood-happy  {
+  background-image: url('../assets/CalendarEmoji/CalendarHappy.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-sad, .mood-sad:active, .mood-sad:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarSad.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-angry, .mood-angry:active, .mood-angry:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarAngry.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-fear, .mood-fear:active, .mood-fear:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarFear.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-disgust, .mood-disgust:active, .mood-disgust:hover {
+  background-image: url('../assets/CalendarEmoji/CalendarDisgust.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Make the date number visible on top of the background image */
+.react-calendar__tile abbr {
+  position: relative;
+  z-index: 1;
+  color: rgba(0, 0, 0, 0.35);;
+}
+
+/* Adjust spacing for remaining navigation buttons */
+.react-calendar__navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-calendar__navigation * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hide year navigation buttons */
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+.react-calendar__navigation__label {
+  flex-grow: 0;
+  padding: 0 1rem;
+  font-weight: 500;
+}
+
+/* DATE NOW STYLE */
+
+/* Style today's date with border */
+.react-calendar__tile--now,
+.react-calendar__tile--now:enabled {
+  border: 2px solid #B34798 !important;
+  background-color: #B34798 !important;
+}
+
+.react-calendar__tile--now abbr {
+  color: black !important;
+}
+
+/* Keep hover effect for today's date */
+.react-calendar__tile--now:enabled:hover {
+  border-color: #B34798;
+}
+
+/* Handle both today and active states */
+.react-calendar__tile--now.react-calendar__tile--active {
+  border: 2px solid #B34798;
+}
+
+/* PAST DATE STYLE */
+
+/* Style past dates without mood */
+.react-calendar__tile--past {
+  background-color: rgba(179, 71, 152, 0.10) !important;
+  opacity: 0.8;
+}
+
+/* Keep hover effect for past dates */
+/* .react-calendar__tile--past:enabled,
+.react-calendar__tile--past:active {
+  background-color: #F3DFEF !important;
+} */
+
+/* FUTURE DATE STYLE */
+
+/* Style future dates */
+.react-calendar__tile--future,
+.react-calendar__tile--future:enabled {
+  border: 2px solid rgba(179, 71, 152, 0.3) !important;  /* Light purple border */
+  border-radius: 1.5rem;
+}
+
+/* Navigation button states */
+.react-calendar__navigation button,
+.react-calendar__navigation button:enabled,
+.react-calendar__navigation button:disabled,
+.react-calendar__navigation button:focus,
+.react-calendar__navigation button:hover,
+.react-calendar__navigation button:active {
+  background-color: transparent !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Override active states */
+.react-calendar__navigation__label--active,
+.react-calendar__navigation__arrow--active {
+  background-color: transparent !important;
+}
+
+/* Remove focus outline */
+.react-calendar__navigation button:focus {
+  outline: none;
+}
+
+.react-calendar__year-view__months *,
+.react-calendar__decade-view__years__year,
+.react-calendar__century-view__decades__decade {
+    height: 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}

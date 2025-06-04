@@ -8,6 +8,7 @@ import JournalList from '../components/JournalList';
 import Button from '../components/Button';
 import { useUser } from '../context/UserContext';
 import '../styles/Home.css';
+import MoodCalendar from '../components/MoodCalendar';
 
 const sampleData = [
   { name: 'Happiness', value: 90 },
@@ -16,6 +17,14 @@ const sampleData = [
   { name: 'Disgust', value: 53 },
   { name: 'Sadness', value: 98 },
 ];
+
+const sampleMoodData = {
+    '2025-06-01': 'happy',
+    '2025-06-02': 'sad',
+    '2025-06-03': 'angry',
+    '2025-06-04': 'fear',
+    '2025-06-05': 'disgust',
+};
 
 const yourBackendValue = 0;
 
@@ -47,7 +56,7 @@ function Home() {
                     <div className="home-calendar-section">
                         {/* Calendar Placeholder */}
                         <div className="calendar-box">
-                            <p>Calendar</p>
+                            <MoodCalendar moodData={sampleMoodData} />
                         </div>
                     </div>
                     <div className="home-pie-section">
