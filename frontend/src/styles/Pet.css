@@ -7,15 +7,15 @@
 }
 
 .pet-gif {
-  width: 37.5rem;
-  max-width: 60vw;
+  width: 50vh;
+  max-width: 100vh;
   height: auto;
   display: block;
 }
 
 @media (max-width: 600px) {
   .pet-gif {
-    width: 120px;
+    width: 80vh;
     max-width: 90vw;
     margin-top: 1rem;
   }

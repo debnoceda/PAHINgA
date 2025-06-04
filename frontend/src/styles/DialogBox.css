@@ -50,13 +50,11 @@
 
 @media (max-width: 600px) {
   .dialog-box {
-    padding: 1.2rem 1.8rem;
     font-size: 1.4rem;
     min-width: 120px;
     max-width: 98vw;
   }
   .dialog-message {
-    font-size: 1.2rem;
     max-width: 90vw;
   }
   .dialog-pointer {
