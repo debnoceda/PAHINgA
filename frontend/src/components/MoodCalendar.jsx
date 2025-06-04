@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/MoodCalendar.css';
 
-// Import your PNG images
 import happyImg from '../assets/CalendarEmoji/CalendarHappy.png';
 import sadImg from '../assets/CalendarEmoji/CalendarSad.png';
 import angryImg from '../assets/CalendarEmoji/CalendarAngry.png';
