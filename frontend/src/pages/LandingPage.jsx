@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Landing.css';
 import mallow from '../assets/Mallow.png';
-import mascot1 from '../assets/SadAnim/PNG_0023.png';
-import mascot2 from '../assets/AngryAnim/PNG_0025.png';
-import mascot3 from '../assets/FearAnim/PNG_0025.png';
-import mascot4 from '../assets/HappyAnim2/PNG_0019.png';
-import mascot5 from '../assets/DisgustAnim/PNG_0029.png';
+import mascot1 from '../assets/GIFs/SadAnim.gif';
+import mascot2 from '../assets/GIFs/AngryAnim.gif';
+import mascot3 from '../assets/GIFs/HappyAnim.gif';
+import mascot4 from '../assets/GIFs/FearAnim.gif';
+import mascot5 from '../assets/GIFs/DisgustAnim.gif';
 
 
 function LandingPage() {
