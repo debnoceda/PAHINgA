@@ -32,6 +32,7 @@ function Entry() {
   const hasCreated = useRef(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const { deleteEntry } = useUser();
+  const [pieChartRefreshKey, setPieChartRefreshKey] = useState(0);
 
   // Add useEffect for advice rotation
   useEffect(() => {
@@ -159,6 +160,7 @@ function Entry() {
       setCurrentAdviceIndex(0); // Reset to first message
   
       alert('Pet analyzed your mood and generated insights!');
+      setPieChartRefreshKey((k) => k + 1); // Refresh PieChart
     } catch (error) {
       console.error('Error processing emotions:', error);
       alert('Failed to analyze pet mood. Please try again later.');
@@ -278,7 +280,7 @@ function Entry() {
               </div>
             </div>
             <div className="chart-container">
-              <PieChart date={date} />
+              <PieChart date={date} refreshKey={pieChartRefreshKey} />
             </div>
           </div>
         </div>

@@ -20,7 +20,7 @@ const moodToEmotionCode = {
   sad: 5,
 };
 
-const PieChart = ({ date, showLabels: showLabelsProp }) => {
+const PieChart = ({ date, showLabels: showLabelsProp, refreshKey }) => {
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 300, height: 300 });
   const { journals } = useUser();
@@ -53,7 +53,7 @@ const PieChart = ({ date, showLabels: showLabelsProp }) => {
       setLoading(false);
     };
     fetchMoodStats();
-  }, [journals, dateString]);
+  }, [journals, dateString, refreshKey]);
 
   // ResizeObserver to track container size
   useEffect(() => {
