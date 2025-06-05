@@ -53,7 +53,7 @@ function Entry() {
 
     const interval = setInterval(() => {
       setCurrentAdviceIndex((prevIndex) => (prevIndex + 1) % adviceMessages.length);
-    }, 10000); // Rotate every 10 seconds
+    }, 15000); // Rotate every 15 seconds
 
     return () => clearInterval(interval);
   }, [adviceMessages]);
