@@ -156,6 +156,87 @@
   flex-shrink: 0;
 }
 
+/* Entry-specific Pet styles */
+.entry-pet {
+  /* transform: scale(1.5); */
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  display: inline-block;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.entry-pet-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: fit-content;
+  scale: 1.0; /* Adjust scale to fit entry-pet */
+}
+
+.entry-pet-container .pet-gif {
+  width: 40vh;
+  max-width: 50vh;
+  height: auto;
+  display: block;
+  z-index: 10;
+  position: relative;
+}
+
+.pet-label {
+  font-family: var(--font-main);
+  font-size: var(--font-small);
+  font-weight: 600;
+  margin-top: 0.5rem;
+  color: var(--color-dark);
+}
+
+/* Entry-specific Dialog Box styles */
+.entry-dialog-box {
+  position: relative;
+  display: inline-block;
+  background: var(--color-beige, #FFFCEE);
+  border: 0.2rem solid #111;
+  border-radius: 1.5rem;
+  padding: 1.5rem 2rem;
+  font-family: var(--font-main);
+  font-size: 1.8rem;
+  color: #222;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+  text-align: center;
+  max-width: 90%;
+  min-width: 120px;
+  width: fit-content;
+  margin-bottom: 1rem;
+}
+
+.entry-dialog-box .dialog-message {
+  display: block;
+  font-size: 1.8rem;
+  font-family: var(--font-main);
+  font-weight: 500;
+  word-break: break-word;
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.entry-dialog-box .dialog-pointer {
+  position: absolute;
+  left: 40px;
+  bottom: -20px;
+  width: 0;
+  height: 0;
+  border: 16px solid transparent;
+  border-top: 20px solid var(--color-beige, #FFFCEE);
+  border-bottom: 0;
+  border-right: 0;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+  z-index: 2;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .entry-grid {
@@ -182,6 +263,16 @@
     gap: 1rem;
   }
   
+  .entry-pet {
+    transform: scale(1.2);
+    width: fit-content;
+    margin: 0 auto;
+  }
+  
+  .entry-pet:hover {
+    transform: scale(1.25);
+  }
+  
   .dotted-paper-section,
   .charts-section {
     padding: 2rem;
@@ -203,5 +294,32 @@
   .back-button {
     width: 5rem;
     height: 5rem;
+  }
+  
+  .entry-pet-container {
+    scale: 0.8;
+    width: fit-content;
+  }
+  
+  .entry-pet-container .pet-gif {
+    width: 15vh;
+    max-width: 20vh;
+  }
+  
+  .entry-dialog-box {
+    font-size: 1.4rem;
+    padding: 1rem 1.5rem;
+    min-width: 100px;
+  }
+  
+  .entry-dialog-box .dialog-message {
+    font-size: 1.4rem;
+  }
+  
+  .entry-dialog-box .dialog-pointer {
+    left: 20px;
+    bottom: -12px;
+    border-width: 10px;
+    border-top-width: 12px;
   }
 }

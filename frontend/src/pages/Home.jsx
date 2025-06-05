@@ -131,9 +131,9 @@ function Home() {
 
     // Get emotion code for dominant mood
     const getDominantEmotionCode = () => {
-        if (!moodStats || !moodStats.dominantMood) return 4; // default to happy
-        console.log(moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4)
-        return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4;
+        if (!moodStats || !moodStats.dominantMood) return 0; // default to neutral for no analysis
+        console.log(moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 0)
+        return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 0;
     };
 
     return (
@@ -152,7 +152,11 @@ function Home() {
                         <MoodCalendar moodData={calendarMoodData} />
                     </div>
                     <div className="home-pie-section">
-                        <PieChart data={getChartData()} emotionCode={yourBackendValue}/>
+                        <PieChart 
+                            data={getChartData()} 
+                            emotionCode={yourBackendValue}
+                            showLabels={!!moodStats}
+                        />
                     </div>
                 </div>
                 <div className="home-content-bottom">

@@ -5,22 +5,8 @@ import PieChart from '../components/PieChart';
 import api from '../api';
 import { useUser } from '../context/UserContext';
 import '../styles/Entry.css';
-
-const sampleData = [
-  { name: 'Happiness', value: 90 },
-  { name: 'Anger', value: 12 },
-  { name: 'Fear', value: 34 },
-  { name: 'Disgust', value: 53 },
-  { name: 'Sadness', value: 98 },
-];
-
-const sampleData2 = [
-  { name: 'Happiness', value: 45 },
-  { name: 'Anger', value: 25 },
-  { name: 'Fear', value: 15 },
-  { name: 'Disgust', value: 10 },
-  { name: 'Sadness', value: 5 },
-];
+import Pet from '../components/Pet';
+import DialogBox from '../components/DialogBox';
 
 const moodToEmotionCode = {
   anger: 1,
@@ -104,6 +90,13 @@ function Entry() {
       return;
     }
 
+    // Reset analysis when content changes (after initial load)
+    if (loaded && (moodStats || adviceMessages.length > 0)) {
+      setMoodStats(null);
+      setAdviceMessages([]);
+      setCurrentAdviceIndex(0);
+    }
+
     // If new entry and either field is filled, auto-create
     if (isNew && !hasCreated.current && (title || text)) {
       addEntry();
@@ -174,15 +167,27 @@ function Entry() {
     }
   };
 
+  const handlePetClick = () => {
+    if (isAnalyzing) return;
+    
+    // If there are advice messages, cycle through them
+    if (adviceMessages.length > 0) {
+      handleAdviceClick();
+    } else {
+      // Otherwise, start analysis
+      handlePetAnalysis();
+    }
+  };
+
   // Convert mood stats to chart data format
   const getChartData = () => {
-    if (!moodStats) [
-      { name: 'Happiness', value: 0 },
-      { name: 'Anger', value: 0 },
-      { name: 'Fear', value: 0 },
-      { name: 'Disgust', value: 0 },
-      { name: 'Sadness', value: 0 },
-  ];; // Fallback to sample data if no mood stats
+    if (!moodStats) return [
+      { name: 'Happiness', value: 20 },
+      { name: 'Anger', value: 20 },
+      { name: 'Fear', value: 20 },
+      { name: 'Disgust', value: 20 },
+      { name: 'Sadness', value: 20 },
+    ]; // Default equal percentages
 
     return [
       { name: 'Happiness', value: parseFloat(moodStats.percentHappiness.toFixed(2)) },
@@ -195,8 +200,8 @@ function Entry() {
 
   // Get emotion code for dominant mood
   const getDominantEmotionCode = () => {
-    if (!moodStats || !moodStats.dominantMood) return 4; // default to happy
-    return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4;
+    if (!moodStats || !moodStats.dominantMood) return 0; // default to neutral for no analysis
+    return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 0;
   };
 
   // Format date to "June 4, 2025" format
@@ -251,29 +256,54 @@ function Entry() {
           {/* Second Column - 2 Rows for Pie Charts */}
           <div className="charts-section">
             <div className="chart-container">
-              <button 
-                onClick={handlePetAnalysis}
-                disabled={isAnalyzing}
+              <div 
+                className="entry-pet"
+                onClick={handlePetClick}
+                style={{ 
+                  cursor: isAnalyzing ? 'default' : 'pointer',
+                  opacity: isAnalyzing ? 0.7 : 1,
+                  pointerEvents: isAnalyzing ? 'none' : 'auto'
+                }}
               >
-                <h3>{isAnalyzing ? 'Analyzing...' : 'Pet'}</h3>
-              </button>
-              {adviceMessages.length > 0 && (
+                <Pet 
+                  emotionCode={getDominantEmotionCode()} 
+                  showDialog={true}
+                  message={
+                    isAnalyzing 
+                      ? "Thinking..."
+                      : adviceMessages.length > 0 
+                        ? adviceMessages[currentAdviceIndex]
+                        : "Click me to evaluate your mood."
+                  }
+                  className="entry-pet-container"
+                  dialogClassName="entry-dialog-box"
+                />
+              </div>
+              {adviceMessages.length > 1 && (
                 <div 
-                  className="advice-message" 
-                  onClick={handleAdviceClick}
-                  style={{ cursor: adviceMessages.length > 1 ? 'pointer' : 'default' }}
+                  className="advice-navigation"
+                  style={{ 
+                    textAlign: 'center',
+                    marginTop: '1rem',
+                    fontSize: 'var(--font-small)',
+                    color: 'var(--color-gray)'
+                  }}
                 >
-                  <p>{adviceMessages[currentAdviceIndex]}</p>
-                  {adviceMessages.length > 1 && (
-                    <small className="advice-hint">Click to see next advice</small>
-                  )}
+                  Click pet to cycle through advice ({currentAdviceIndex + 1}/{adviceMessages.length})
+                </div>
+              )}
+              {isAnalyzing && (
+                <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: 'var(--font-small)' }}>
+                  Analyzing your mood...
                 </div>
               )}
             </div>
             <div className="chart-container">
-              {moodStats && (
-                <PieChart data={getChartData()} emotionCode={getDominantEmotionCode()}/>
-              )}
+              <PieChart 
+                data={getChartData()} 
+                emotionCode={getDominantEmotionCode()}
+                showLabels={!!moodStats}
+              />
             </div>
           </div>
         </div>
