@@ -152,11 +152,7 @@ function Home() {
                         <MoodCalendar moodData={calendarMoodData} />
                     </div>
                     <div className="home-pie-section">
-                        <PieChart 
-                            data={getChartData()} 
-                            emotionCode={yourBackendValue}
-                            showLabels={!!moodStats}
-                        />
+                        <PieChart />
                     </div>
                 </div>
                 <div className="home-content-bottom">

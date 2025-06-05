@@ -1,6 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import '../styles/PieChart.css';
+import { useUser } from '../context/UserContext';
+import api from '../api';
 
 // Emoji imports
 import CalendarAngry from '../assets/CalendarEmoji/CalendarAngry.png';
@@ -10,9 +12,48 @@ import CalendarHappy from '../assets/CalendarEmoji/CalendarHappy.png';
 import CalendarSad from '../assets/CalendarEmoji/CalendarSad.png';
 import NeutralImage from '../assets/Neutral.png';
 
-const PieChart = ({ data, emotionCode = 4, showLabels = true }) => {
+const moodToEmotionCode = {
+  anger: 1,
+  disgust: 2,
+  fear: 3,
+  happy: 4,
+  sad: 5,
+};
+
+const PieChart = ({ date, showLabels: showLabelsProp }) => {
   const containerRef = useRef(null);
-  const [dimensions, setDimensions] = useState({ width: 300, height: 300 }); // Default fallback
+  const [dimensions, setDimensions] = useState({ width: 300, height: 300 });
+  const { journals } = useUser();
+  const [moodStats, setMoodStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // Determine the date to use (default to today)
+  const today = new Date();
+  const dateString = date
+    ? new Date(date).toISOString().slice(0, 10)
+    : today.toISOString().slice(0, 10);
+
+  // Fetch mood stats for the journal entry of the given date
+  useEffect(() => {
+    const fetchMoodStats = async () => {
+      setLoading(true);
+      setMoodStats(null);
+      // Find journal for the date
+      const journal = journals.find(j => (j.date || '').slice(0, 10) === dateString);
+      if (journal) {
+        try {
+          const response = await api.get(`/journals/${journal.id}/`);
+          setMoodStats(response.data.moodStats || null);
+        } catch (err) {
+          setMoodStats(null);
+        }
+      } else {
+        setMoodStats(null);
+      }
+      setLoading(false);
+    };
+    fetchMoodStats();
+  }, [journals, dateString]);
 
   // ResizeObserver to track container size
   useEffect(() => {
@@ -31,6 +72,35 @@ const PieChart = ({ data, emotionCode = 4, showLabels = true }) => {
     return () => observer.disconnect();
   }, []);
 
+  // Prepare chart data
+  const getChartData = () => {
+    if (!moodStats) return [
+      { name: 'Happiness', value: 20 },
+      { name: 'Anger', value: 20 },
+      { name: 'Fear', value: 20 },
+      { name: 'Disgust', value: 20 },
+      { name: 'Sadness', value: 20 },
+    ];
+    return [
+      { name: 'Happiness', value: parseFloat(moodStats.percentHappiness.toFixed(2)) },
+      { name: 'Anger', value: parseFloat(moodStats.percentAnger.toFixed(2)) },
+      { name: 'Fear', value: parseFloat(moodStats.percentFear.toFixed(2)) },
+      { name: 'Disgust', value: parseFloat(moodStats.percentDisgust.toFixed(2)) },
+      { name: 'Sadness', value: parseFloat(moodStats.percentSadness.toFixed(2)) },
+    ];
+  };
+
+  // Get emotion code for dominant mood
+  const getDominantEmotionCode = () => {
+    if (!moodStats || !moodStats.dominantMood) return 0; // neutral
+    return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 0;
+  };
+
+  const data = getChartData();
+  const emotionCode = getDominantEmotionCode();
+  const showLabels = showLabelsProp !== undefined ? showLabelsProp : !!moodStats;
+
+  // --- D3 chart logic (unchanged) ---
   const { width, height } = dimensions;
   const margin = 15;
   const chartWidth = width - margin * 2;
@@ -79,6 +149,10 @@ const PieChart = ({ data, emotionCode = 4, showLabels = true }) => {
   const hoverArcGenerator = d3.arc().innerRadius(innerRadius).outerRadius(radius + 10);
   const labelArcGenerator = d3.arc().innerRadius(radius * 0.8).outerRadius(radius * 0.8);
 
+  if (loading) {
+    return <div className="card pie-chart-container" ref={containerRef} style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>Loading...</div>;
+  }
+
   return (
     <div className="card pie-chart-container" ref={containerRef}>
       <svg
@@ -100,7 +174,7 @@ const PieChart = ({ data, emotionCode = 4, showLabels = true }) => {
               <g key={index}>
                 <path
                   d={isHovered ? hoverArcGenerator(slice) : arcGenerator(slice)}
-                  fill={nameColors[slice.data.name] || '#FEF6BE'} // Changed from colorScale to nameColors
+                  fill={nameColors[slice.data.name] || '#FEF6BE'}
                   stroke="var(--color-dark)"
                   strokeWidth={isHovered ? 3 : 2}
                   style={{
@@ -123,7 +197,6 @@ const PieChart = ({ data, emotionCode = 4, showLabels = true }) => {
                       fill="var(--color-dark)"
                       dy={-12}
                       style={{
-                        // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
                         transition: 'all 0.2s ease-in-out',
                         pointerEvents: 'none',
                         opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1
@@ -141,7 +214,6 @@ const PieChart = ({ data, emotionCode = 4, showLabels = true }) => {
                       dy={16}
                       style={{
                         color: 'rgba(0,0,0,0.7)',
-                        // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
                         transition: 'all 0.2s ease-in-out',
                         pointerEvents: 'none',
                         opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1

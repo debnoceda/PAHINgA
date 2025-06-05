@@ -278,11 +278,7 @@ function Entry() {
               </div>
             </div>
             <div className="chart-container">
-              <PieChart 
-                data={getChartData()} 
-                emotionCode={getDominantEmotionCode()}
-                showLabels={!!moodStats}
-              />
+              <PieChart date={date} />
             </div>
           </div>
         </div>
