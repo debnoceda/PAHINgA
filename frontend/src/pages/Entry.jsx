@@ -176,14 +176,20 @@ function Entry() {
 
   // Convert mood stats to chart data format
   const getChartData = () => {
-    if (!moodStats) return sampleData2; // Fallback to sample data if no mood stats
+    if (!moodStats) [
+      { name: 'Happiness', value: 0 },
+      { name: 'Anger', value: 0 },
+      { name: 'Fear', value: 0 },
+      { name: 'Disgust', value: 0 },
+      { name: 'Sadness', value: 0 },
+  ];; // Fallback to sample data if no mood stats
 
     return [
-      { name: 'Happiness', value: moodStats.percentHappiness },
-      { name: 'Anger', value: moodStats.percentAnger },
-      { name: 'Fear', value: moodStats.percentFear },
-      { name: 'Disgust', value: moodStats.percentDisgust },
-      { name: 'Sadness', value: moodStats.percentSadness },
+      { name: 'Happiness', value: parseFloat(moodStats.percentHappiness.toFixed(2)) },
+      { name: 'Anger', value: parseFloat(moodStats.percentAnger.toFixed(2)) },
+      { name: 'Fear', value: parseFloat(moodStats.percentFear.toFixed(2)) },
+      { name: 'Disgust', value: parseFloat(moodStats.percentDisgust.toFixed(2)) },
+      { name: 'Sadness', value: parseFloat(moodStats.percentSadness.toFixed(2)) },
     ];
   };
 

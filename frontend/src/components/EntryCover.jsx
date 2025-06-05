@@ -41,7 +41,17 @@ const EntryCover = ({ id, title, date, mood }) => {
 
   return (
     <>
-      <button className="entry-cover-container" onClick={handleClick}>
+      <div
+        className="entry-cover-container"
+        onClick={handleClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleClick(e);
+          }
+        }}
+      >
         <div className="entry-cover-image-bg" style={{ background: bg }}>
           <img
             src={img}
@@ -60,7 +70,7 @@ const EntryCover = ({ id, title, date, mood }) => {
           <p className="entry-cover-title">{title || "Untitled"}</p>
           <p className="entry-cover-date small-text">{date}</p>
         </div>
-      </button>
+      </div>
 
       <ConfirmDeleteModal
         isOpen={isDeleteModalOpen}

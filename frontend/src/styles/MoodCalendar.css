@@ -46,7 +46,7 @@
 /* Hide date numbers only for tiles with moods */
 .mood-happy abbr,
 .mood-sad abbr,
-.mood-angry abbr,
+.mood-anger abbr,
 .mood-fear abbr,
 .mood-disgust abbr {
   display: none;
@@ -73,7 +73,7 @@ background-position: center !important;
   background-position: center;
 }
 
-.mood-angry, .mood-angry:active, .mood-angry:hover {
+.mood-anger, .mood-anger:active, .mood-anger:hover {
   background-image: url('../assets/CalendarEmoji/CalendarAngry.png') !important;
   background-size: contain;
   background-repeat: no-repeat;

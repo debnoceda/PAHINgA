@@ -13,15 +13,15 @@ const idleGifs = [IdleAnim, SimpleIdleAnim];
 
 const emotionGifMap = {
   0: () => idleGifs[Math.floor(Math.random() * idleGifs.length)],
-  1: () => idleGifs[Math.floor(Math.random() * idleGifs.length)],
-  2: () => HappyAnim,
-  3: () => SadAnim,
-  4: () => AngryAnim,
-  5: () => FearAnim,
-  6: () => DisgustAnim,
+  1: () => AngryAnim,
+  2: () => DisgustAnim,
+  3: () => FearAnim,
+  4: () => HappyAnim,
+  5: () => SadAnim,
+  6: () => idleGifs[Math.floor(Math.random() * idleGifs.length)],
 };
 
-const Pet = ({ emotionCode = 0 }) => {
+const Pet = ({ emotionCode = 0, message }) => {
   const getGif = () => {
     const fn = emotionGifMap[emotionCode];
     return fn ? fn() : idleGifs[Math.floor(Math.random() * idleGifs.length)];
@@ -31,7 +31,7 @@ const Pet = ({ emotionCode = 0 }) => {
 
   return (
     <div className="pet-container">
-      <DialogBox message="Good Job! Take a rest now." />
+      <DialogBox message={message || "Good Job! Take a rest now."} />
       <img
         src={petGif}
         alt="Pet Animation"
