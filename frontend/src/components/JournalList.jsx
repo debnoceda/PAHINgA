@@ -10,7 +10,7 @@ function formatDate(dateStr) {
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
-function JournalList({ search = '', limit }) {
+function JournalList({ search = '', mood = '', date = null, limit }) {
   const { journals, loading } = useUser();
 
   if (loading) return <div>Loading...</div>;
@@ -20,13 +20,20 @@ function JournalList({ search = '', limit }) {
   // Filter by title, content, date (raw or formatted), or dominant mood
   let filteredJournals = journals.filter(entry => {
     const formattedDate = formatDate(entry.date).toLowerCase();
-    return (
+    const matchesSearch =
       (entry.title?.toLowerCase().includes(searchLower)) ||
       (entry.content?.toLowerCase().includes(searchLower)) ||
       (entry.date?.toLowerCase().includes(searchLower)) ||
       (formattedDate.includes(searchLower)) ||
-      (entry.moodStats?.dominantMood?.toLowerCase().includes(searchLower))
-    );
+      (entry.moodStats?.dominantMood?.toLowerCase().includes(searchLower));
+
+    // Mood filter
+    const matchesMood = !mood || (entry.moodStats?.dominantMood?.toLowerCase() === mood);
+
+    // Date filter (compare formatted date string)
+    const matchesDate = !date || formatDate(entry.date) === formatDate(date);
+
+    return matchesSearch && matchesMood && matchesDate;
   });
 
   // Sort by date (most recent first) and apply limit if provided
