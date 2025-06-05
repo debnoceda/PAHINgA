@@ -13,13 +13,15 @@ const MoodCalendar = () => {
   const moodData = useMemo(() => {
     return journals.reduce((acc, journal) => {
       const date = new Date(journal.date).toLocaleDateString('en-CA');
-      const mood = journal.moodStats?.dominantMood?.toLowerCase() || null;
+      const mood = journal.moodStats?.dominantMood?.toLowerCase() || 'neutral';
       if (mood) {
         acc[date] = mood;
       }
       return acc;
     }, {});
   }, [journals]);
+
+  console.log('Mood data:', moodData); // Debugging line to check moodData structure
 
   const handleDateClick = (date) => {
     const formattedDate = date.toLocaleDateString('en-US', {
