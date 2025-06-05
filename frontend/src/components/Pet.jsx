@@ -21,7 +21,14 @@ const emotionGifMap = {
   6: () => idleGifs[Math.floor(Math.random() * idleGifs.length)],
 };
 
-const Pet = ({ emotionCode = 0, message }) => {
+const Pet = ({ 
+  emotionCode = 0, 
+  message = "Good Job! Take a rest now.", 
+  showDialog = true, 
+  className = "", 
+  showLabel = false,
+  dialogClassName = ""
+}) => {
   const getGif = () => {
     const fn = emotionGifMap[emotionCode];
     return fn ? fn() : idleGifs[Math.floor(Math.random() * idleGifs.length)];
@@ -30,13 +37,20 @@ const Pet = ({ emotionCode = 0, message }) => {
   const petGif = getGif();
 
   return (
-    <div className="pet-container">
-      <DialogBox message={message || "Good Job! Take a rest now."} />
+    <div className={`pet-container ${className}`}>
+      {showDialog && (
+        <DialogBox 
+          message={message} 
+          className={dialogClassName}
+        />
+      )}
       <img
         src={petGif}
         alt="Pet Animation"
         className="pet-gif"
+        loading="lazy"
       />
+      {showLabel && <p className="pet-label">Mallow</p>}
     </div>
   );
 };
