@@ -29,11 +29,38 @@ function Entry() {
   const [moodStats, setMoodStats] = useState(null);
   const [adviceMessages, setAdviceMessages] = useState([]);
   const [currentAdviceIndex, setCurrentAdviceIndex] = useState(0);
+  
   const hasCreated = useRef(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const { deleteEntry } = useUser();
   const [pieChartRefreshKey, setPieChartRefreshKey] = useState(0);
   const createTimeout = useRef(null);
+
+  const defaultMessages = [
+    "Click me to evaluate your mood.",
+    "How are you feeling? Click to find out..",
+    "Tap me and see what happens.",
+    "Click me to explore your current mood.",
+    "Ready to explore your mood?",
+    "Mood mystery? Click me to solve it!",
+    "Ready to reflect on your mood? Click now.",
+
+  ];
+
+  const [currentDefaultMessageIndex, setCurrentDefaultMessageIndex] = useState(() => {
+    return Math.floor(Math.random() * defaultMessages.length);
+  });
+
+  // Add useEffect for default message rotation
+  useEffect(() => {
+    if (adviceMessages.length > 0) return; // Don't rotate if we have advice messages
+
+    const interval = setInterval(() => {
+      setCurrentDefaultMessageIndex((prevIndex) => (prevIndex + 1) % defaultMessages.length);
+    }, 10000); // Rotate every 10 seconds
+
+    return () => clearInterval(interval);
+  }, [adviceMessages]);
 
   // Add useEffect for advice rotation
   useEffect(() => {
@@ -41,7 +68,7 @@ function Entry() {
 
     const interval = setInterval(() => {
       setCurrentAdviceIndex((prevIndex) => (prevIndex + 1) % adviceMessages.length);
-    }, 15000); // Rotate every 15 seconds
+    }, 10000); // Rotate every 10 seconds
 
     return () => clearInterval(interval);
   }, [adviceMessages]);
@@ -301,7 +328,7 @@ function Entry() {
                       ? "Thinking..."
                       : adviceMessages.length > 0 
                         ? adviceMessages[currentAdviceIndex]
-                        : "Click me to evaluate your mood."
+                        : defaultMessages[currentDefaultMessageIndex]
                   }
                   className="entry-pet-container"
                   dialogClassName="entry-dialog-box"
