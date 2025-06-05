@@ -248,9 +248,6 @@ function Entry() {
                 rows={20}
               />
             </div>
-            {/* <button className="save-button" onClick={handleSave}>
-              {isNew ? 'Create Entry' : 'Save Changes'}
-            </button> */}
           </div>
 
           {/* Second Column - 2 Rows for Pie Charts */}
@@ -279,24 +276,6 @@ function Entry() {
                   dialogClassName="entry-dialog-box"
                 />
               </div>
-              {adviceMessages.length > 1 && (
-                <div 
-                  className="advice-navigation"
-                  style={{ 
-                    textAlign: 'center',
-                    marginTop: '1rem',
-                    fontSize: 'var(--font-small)',
-                    color: 'var(--color-gray)'
-                  }}
-                >
-                  Click pet to cycle through advice ({currentAdviceIndex + 1}/{adviceMessages.length})
-                </div>
-              )}
-              {isAnalyzing && (
-                <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: 'var(--font-small)' }}>
-                  Analyzing your mood...
-                </div>
-              )}
             </div>
             <div className="chart-container">
               <PieChart 
