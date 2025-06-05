@@ -56,3 +56,22 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.85; }
 }
+
+@media (max-width: 600px) {
+  .journal-list {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 2rem;
+  }
+
+  .entry-cover-title {
+    font-size: 1.2rem;
+  }
+
+  .entry-cover-date {
+    font-size: 1.2rem !important;
+  }
+
+  .entry-cover-content {
+    padding: 1rem;
+  }
+}
