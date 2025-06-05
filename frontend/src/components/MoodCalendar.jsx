@@ -1,27 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Calendar from 'react-calendar';
 import { Icon } from '@iconify/react';
 import 'react-calendar/dist/Calendar.css';
 import '../styles/MoodCalendar.css';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../context/UserContext';
 
-import happyImg from '../assets/CalendarEmoji/CalendarHappy.png';
-import sadImg from '../assets/CalendarEmoji/CalendarSad.png';
-import angryImg from '../assets/CalendarEmoji/CalendarAngry.png';
-import fearImg from '../assets/CalendarEmoji/CalendarFear.png';
-import disgustImg from '../assets/CalendarEmoji/CalendarDisgust.png';
-
-const moodIcons = {
-  happy: happyImg,
-  sad: sadImg,
-  angry: angryImg,
-  fear: fearImg,
-  disgust: disgustImg,
-  default: happyImg,
-};
-
-const MoodCalendar = ({ moodData = {} }) => {
+const MoodCalendar = () => {
   const navigate = useNavigate();
+  const { journals } = useUser();
+
+  const moodData = useMemo(() => {
+    return journals.reduce((acc, journal) => {
+      const date = new Date(journal.date).toLocaleDateString('en-CA');
+      const mood = journal.moodStats?.dominantMood?.toLowerCase() || null;
+      if (mood) {
+        acc[date] = mood;
+      }
+      return acc;
+    }, {});
+  }, [journals]);
 
   const handleDateClick = (date) => {
     const formattedDate = date.toLocaleDateString('en-US', {
@@ -42,7 +40,7 @@ const MoodCalendar = ({ moodData = {} }) => {
       tileClassName={({ date, view }) => {
         // Format date to match the moodData keys format (YYYY-MM-DD)
         const key = date.toLocaleDateString('en-CA'); // This formats as YYYY-MM-DD
-        const mood = moodData?.[key];
+        const mood = moodData[key];
         const isFuture = date > new Date();
         const isPast = view === 'month' && date < new Date() && !mood;
         const dayOfWeek = date.getDay();
