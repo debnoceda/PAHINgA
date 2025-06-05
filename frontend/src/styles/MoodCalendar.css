@@ -98,7 +98,6 @@ background-position: center !important;
 .react-calendar__tile abbr {
   position: relative;
   z-index: 1;
-  color: rgba(0, 0, 0, 0.35);;
 }
 
 /* Adjust spacing for remaining navigation buttons */
@@ -106,6 +105,7 @@ background-position: center !important;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 0;
 }
 
 .react-calendar__navigation * {
@@ -132,7 +132,7 @@ background-position: center !important;
 .react-calendar__tile--now,
 .react-calendar__tile--now:enabled {
   border: 2px solid #B34798 !important;
-  background-color: #B34798 !important;
+  background-color: rgba(179,71,152, 0.25); /* Remove background color */
 }
 
 .react-calendar__tile--now abbr {
@@ -149,12 +149,18 @@ background-position: center !important;
   border: 2px solid #B34798;
 }
 
+.react-calendar__tile--active {
+  background-color: #B34798 !important; /* Light purple background */
+  color: white !important;
+}
+
 /* PAST DATE STYLE */
 
 /* Style past dates without mood */
 .react-calendar__tile--past {
   background-color: rgba(179, 71, 152, 0.10) !important;
   opacity: 0.8;
+  color: rgba(0, 0, 0, 0.35);
 }
 
 /* Keep hover effect for past dates */
