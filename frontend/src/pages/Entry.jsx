@@ -146,8 +146,28 @@ function Entry() {
     }
   };
 
-  const handleGoBack = () => {
-    navigate(-1); // Go back to previous page
+  const handleGoBack = async () => {
+    // If new, has content, and not yet saved, save first then go back
+    if (
+      isNew &&
+      !hasCreated.current &&
+      ((title && title.length >= 3) || (text && text.length >= 5))
+    ) {
+      // Prevent multiple triggers
+      if (createTimeout.current) clearTimeout(createTimeout.current);
+
+      try {
+        await addEntry();
+        // Wait for addEntry to finish, then go back
+        navigate(-1);
+      } catch (err) {
+        alert('Failed to save before going back.');
+      }
+      return;
+    }
+
+    // Otherwise, just go back
+    navigate(-1);
   };
 
   const handlePetAnalysis = async () => {
