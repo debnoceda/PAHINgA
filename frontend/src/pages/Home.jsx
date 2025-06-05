@@ -73,11 +73,11 @@ function Home() {
     // Convert mood stats to chart data format
     const getChartData = () => {
         if (!moodStats) return [
-            { name: 'Happiness', value: 0 },
-            { name: 'Anger', value: 0 },
-            { name: 'Fear', value: 0 },
-            { name: 'Disgust', value: 0 },
-            { name: 'Sadness', value: 0 },
+            { name: 'Happiness', value: 20 },
+            { name: 'Anger', value: 20 },
+            { name: 'Fear', value: 20 },
+            { name: 'Disgust', value: 20 },
+            { name: 'Sadness', value: 20 },
         ];
 
         return [
@@ -89,12 +89,19 @@ function Home() {
         ];
     };
 
+    // Get emotion code for dominant mood
+    const getDominantEmotionCode = () => {
+        if (!moodStats || !moodStats.dominantMood) return 4; // default to happy
+        console.log(moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4)
+        return moodToEmotionCode[moodStats.dominantMood.toLowerCase()] || 4;
+    };
+
     return (
         <div>
             <NavigationBar />
             <div className="home-container">
                 <div className="home-pet-section">
-                    <Pet emotionCode={yourBackendValue} />
+                    <Pet emotionCode={getDominantEmotionCode()} />
                     <p>Mallow Pet</p>
                 </div>
                 <div className="home-content-top">

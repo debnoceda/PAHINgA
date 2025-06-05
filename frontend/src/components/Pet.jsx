@@ -13,12 +13,12 @@ const idleGifs = [IdleAnim, SimpleIdleAnim];
 
 const emotionGifMap = {
   0: () => idleGifs[Math.floor(Math.random() * idleGifs.length)],
-  1: () => idleGifs[Math.floor(Math.random() * idleGifs.length)],
-  2: () => HappyAnim,
-  3: () => SadAnim,
-  4: () => AngryAnim,
-  5: () => FearAnim,
-  6: () => DisgustAnim,
+  1: () => AngryAnim,
+  2: () => DisgustAnim,
+  3: () => FearAnim,
+  4: () => HappyAnim,
+  5: () => SadAnim,
+  6: () => idleGifs[Math.floor(Math.random() * idleGifs.length)],
 };
 
 const Pet = ({ emotionCode = 0 }) => {
