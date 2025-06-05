@@ -32,10 +32,26 @@ function Home() {
     const navigate = useNavigate();
     const [moodStats, setMoodStats] = useState(null);
     const [yourBackendValue, setYourBackendValue] = useState(4); // default to happy
+    const [calendarMoodData, setCalendarMoodData] = useState({});
 
     useEffect(() => {
         fetchJournals();
     }, [fetchJournals]);
+
+    // Convert mood stats to calendar format
+    const getCalendarMoodData = () => {
+        if (!moodStats) return {};
+        
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toLocaleDateString('en-US');
+        
+        // Convert dominant mood to lowercase for consistency
+        const mood = moodStats.dominantMood.toLowerCase();
+        
+        return {
+            [today]: mood
+        };
+    };
 
     // Fetch mood stats for the most recent journal entry
     useEffect(() => {
@@ -50,6 +66,8 @@ function Home() {
                         if (response.data.moodStats.dominantMood) {
                             setYourBackendValue(moodToEmotionCode[response.data.moodStats.dominantMood.toLowerCase()] || 4);
                         }
+                        // Update calendar mood data
+                        setCalendarMoodData(getCalendarMoodData());
                     }
                 } catch (error) {
                     console.error('Error fetching mood stats:', error);
@@ -108,7 +126,7 @@ function Home() {
                     <div className="home-calendar-section">
                         {/* Calendar Placeholder */}
                         <div className="calendar-box">
-                            <MoodCalendar moodData={sampleMoodData} />
+                            <MoodCalendar moodData={calendarMoodData} />
                         </div>
                     </div>
                     <div className="home-pie-section">
