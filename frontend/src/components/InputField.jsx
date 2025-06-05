@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/InputField.css';
 import { Icon } from '@iconify/react';
 
@@ -9,6 +9,7 @@ import { Icon } from '@iconify/react';
  * - Customizable placeholder, border color, and type.
  * - Error display with icon and message.
  * - Dynamic border color and glow effect on error or focus.
+ * - Password visibility toggle for password type inputs.
  *
  * Props:
  *  - value: string (controlled input value)
@@ -65,13 +66,13 @@ const InputField = ({
   errorMessage = '',
   ...props
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const fallbackId = React.useMemo(() =>
     `input-field-${Math.random().toString(36).slice(2, 11)}`,
     []
   );
 
   const inputId = id || fallbackId;
-
   const inputName = name || inputId;
 
   const style = {
@@ -79,20 +80,56 @@ const InputField = ({
     '--box-shadow': hasError ? '0 0 5px 0.5px rgba(213, 127, 128, 0.7)' : 'none',
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const isPasswordType = type === 'password';
+
   return (
-    <div style={{ width: '100%'}}>
-      <input
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        name={inputName}
-        id={inputId}
-        required={required}
-        className={`custom-input ${className}`}
-        style={style}
-        {...props}
-      />
+    <div style={{ width: '100%', position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
+        <input
+          type={isPasswordType ? (showPassword ? 'text' : 'password') : type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          name={inputName}
+          id={inputId}
+          required={required}
+          className={`custom-input ${className}`}
+          style={style}
+          {...props}
+        />
+        {isPasswordType && (
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="password-toggle"
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1
+            }}
+          >
+            <Icon 
+              icon={showPassword ? "mdi:eye-off" : "mdi:eye"} 
+              width="24" 
+              height="24" 
+              style={{ color: '#1B1212' }} 
+            />
+          </button>
+        )}
+      </div>
       {hasError && (
         <p className="error-text small-text">
           <Icon icon="ci:circle-warning" width="16" height="16" />
