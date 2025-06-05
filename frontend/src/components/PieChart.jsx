@@ -20,7 +20,7 @@ const moodToEmotionCode = {
   sad: 5,
 };
 
-const PieChart = ({ date, showLabels: showLabelsProp, refreshKey }) => {
+const PieChart = ({ date, entryId, showLabels: showLabelsProp, refreshKey }) => {
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 300, height: 300 });
   const { journals } = useUser();
@@ -40,6 +40,19 @@ const PieChart = ({ date, showLabels: showLabelsProp, refreshKey }) => {
       setMoodStats(null);
       // Find journal for the date
       const journal = journals.find(j => (j.date || '').slice(0, 10) === dateString);
+
+      if (entryId) {
+        // Fetch directly by entryId
+        try {
+          const response = await api.get(`/journals/${entryId}/`);
+          setMoodStats(response.data.moodStats || null);
+        } catch (err) {
+          setMoodStats(null);
+        }
+        setLoading(false);
+        return;
+      }
+
       if (journal) {
         try {
           const response = await api.get(`/journals/${journal.id}/`);
@@ -53,7 +66,7 @@ const PieChart = ({ date, showLabels: showLabelsProp, refreshKey }) => {
       setLoading(false);
     };
     fetchMoodStats();
-  }, [journals, dateString, refreshKey]);
+  }, [entryId, journals, dateString, refreshKey]);
 
   // ResizeObserver to track container size
   useEffect(() => {

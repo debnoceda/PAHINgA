@@ -205,25 +205,6 @@ function Entry() {
     }
   };
 
-  // Convert mood stats to chart data format
-  const getChartData = () => {
-    if (!moodStats) return [
-      { name: 'Happiness', value: 20 },
-      { name: 'Anger', value: 20 },
-      { name: 'Fear', value: 20 },
-      { name: 'Disgust', value: 20 },
-      { name: 'Sadness', value: 20 },
-    ]; // Default equal percentages
-
-    return [
-      { name: 'Happiness', value: parseFloat(moodStats.percentHappiness.toFixed(2)) },
-      { name: 'Anger', value: parseFloat(moodStats.percentAnger.toFixed(2)) },
-      { name: 'Fear', value: parseFloat(moodStats.percentFear.toFixed(2)) },
-      { name: 'Disgust', value: parseFloat(moodStats.percentDisgust.toFixed(2)) },
-      { name: 'Sadness', value: parseFloat(moodStats.percentSadness.toFixed(2)) },
-    ];
-  };
-
   // Get emotion code for dominant mood
   const getDominantEmotionCode = () => {
     if (!moodStats || !moodStats.dominantMood) return 0; // default to neutral for no analysis
@@ -328,7 +309,7 @@ function Entry() {
               </div>
             </div>
             <div className="chart-container">
-              <PieChart date={date} refreshKey={pieChartRefreshKey} />
+              <PieChart entryId={entryId} refreshKey={pieChartRefreshKey} />
             </div>
           </div>
         </div>
