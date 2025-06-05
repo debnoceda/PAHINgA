@@ -33,6 +33,7 @@ function Entry() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const { deleteEntry } = useUser();
   const [pieChartRefreshKey, setPieChartRefreshKey] = useState(0);
+  const createTimeout = useRef(null);
 
   // Add useEffect for advice rotation
   useEffect(() => {
@@ -98,10 +99,13 @@ function Entry() {
       setCurrentAdviceIndex(0);
     }
 
-    // If new entry and either field is filled, auto-create
-    if (isNew && !hasCreated.current && (title || text)) {
-      addEntry();
-      return;
+    // If new entry and enough content, debounce creation
+    if (isNew && !hasCreated.current && ((title && title.length >= 3) || (text && text.length >= 5))) {
+      if (createTimeout.current) clearTimeout(createTimeout.current);
+      createTimeout.current = setTimeout(() => {
+        addEntry();
+      }, 500); // 1 second debounce
+      return () => clearTimeout(createTimeout.current);
     }
 
     // If editing existing entry and either field changes, auto-update
@@ -216,6 +220,12 @@ function Entry() {
       day: 'numeric'
     });
   };
+
+  useEffect(() => {
+    return () => {
+      if (createTimeout.current) clearTimeout(createTimeout.current);
+    };
+  }, []);
 
   return (
     <div>
