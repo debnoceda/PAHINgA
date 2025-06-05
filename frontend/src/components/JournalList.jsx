@@ -13,7 +13,20 @@ function formatDate(dateStr) {
 function JournalList({ search = '', mood = '', date = null, limit }) {
   const { journals, loading } = useUser();
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    // Show 3 skeleton cards as placeholders
+    return (
+      <div className="journal-list">
+        {[1, 2, 3].map(i => (
+          <div className="journal-skeleton-card" key={i}>
+            <div className="journal-skeleton-image" />
+            <div className="journal-skeleton-title" />
+            <div className="journal-skeleton-date" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   const searchLower = search.toLowerCase();
 
@@ -60,6 +73,6 @@ function JournalList({ search = '', mood = '', date = null, limit }) {
       )}
     </div>
   );
-}
+} 
 
 export default JournalList;
