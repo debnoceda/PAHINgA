@@ -15,18 +15,21 @@ PAHINgA is a web application that helps users track their mental health through 
 ## Requirements
 
 ### Backend
-- Python 3.8+
-- Django 4.2+
+- Python
+- Django
 - Django REST Framework
 - Simple JWT
-- PostgreSQL (recommended) or SQLite
+- PostgreSQL
 
 ### Frontend
-- Node.js 18+
-- React 18+
+- React Vite
 - Axios
 - React Router DOM
 - JWT Decode
+- D3
+- React-Hot-Toast
+- Iconify
+- React-Calendar
 
 ## Installation Guide
 
@@ -84,8 +87,7 @@ cd frontend
 
 2. Install dependencies:
 ```bash
-npm install
-npm install axios react-router-dom jwt-decode
+npm install axios react-router-dom jwt-decode react-calendar react-hot-toast d3 @iconify/react
 ```
 
 ## Running the Application
