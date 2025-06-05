@@ -13,13 +13,15 @@ const MoodCalendar = () => {
   const moodData = useMemo(() => {
     return journals.reduce((acc, journal) => {
       const date = new Date(journal.date).toLocaleDateString('en-CA');
-      const mood = journal.moodStats?.dominantMood?.toLowerCase() || null;
+      const mood = journal.moodStats?.dominantMood?.toLowerCase() || 'neutral';
       if (mood) {
         acc[date] = mood;
       }
       return acc;
     }, {});
   }, [journals]);
+
+  // console.log('Mood data:', moodData); // Debugging line to check moodData structure
 
   const handleDateClick = (date) => {
     const formattedDate = date.toLocaleDateString('en-US', {
@@ -38,11 +40,16 @@ const MoodCalendar = () => {
       showNeighboringMonth={false}
       onClickDay={handleDateClick}
       tileClassName={({ date, view }) => {
-        // Format date to match the moodData keys format (YYYY-MM-DD)
-        const key = date.toLocaleDateString('en-CA'); // This formats as YYYY-MM-DD
-        const mood = moodData[key];
+        const key = date.toLocaleDateString('en-CA');
+        let mood = null;
+
+        if (Object.prototype.hasOwnProperty.call(moodData, key)) {
+          // Journal exists for this date
+          mood = moodData[key] ? moodData[key].toLowerCase() : 'neutral';
+        }
+
         const isFuture = date > new Date();
-        const isPast = view === 'month' && date < new Date() && !mood;
+        const isPast = view === 'month' && date < new Date();
         const dayOfWeek = date.getDay();
 
         let classes = ['calendar-tile'];

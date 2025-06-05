@@ -7,6 +7,7 @@ import sadImg from '../assets/SadAnim/PNG_0023.png';
 import angryImg from '../assets/AngryAnim/PNG_0023.png';
 import fearImg from '../assets/FearAnim/PNG_0023.png';
 import disgustImg from '../assets/DisgustAnim/PNG_0023.png';
+import neutralImg  from '../assets/Mallow.png';
 import '../styles/EntryCover.css';
 import { useUser } from '../context/UserContext';
 
@@ -16,12 +17,13 @@ const moodConfig = {
   anger:   { img: angryImg,   bg: '#FFC5B7' },
   fear:    { img: fearImg,    bg: '#F1D5FF' },
   disgust: { img: disgustImg, bg: '#C8F0C6' },
+  neutral: { img: neutralImg,   bg: '#F0F0F0' } // Default for unknown moods
 };
 
 const EntryCover = ({ id, title, date, mood }) => {
   const navigate = useNavigate();
   const { deleteEntry } = useUser();
-  const { img, bg } = moodConfig[mood] || moodConfig.happy; // default to happy if mood is not found BUT WILL CHANGE TO NEUTRAL
+  const { img, bg } = moodConfig[mood] || moodConfig.neutral;
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleClick = (e) => {
