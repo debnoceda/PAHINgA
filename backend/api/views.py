@@ -77,13 +77,16 @@ class JournalViewSet(viewsets.ModelViewSet):
             advice_list = get_thought_advice(content)
             
             # Convert emotion probabilities to percentages
+            max_val = max(emotions.values())
+            top_emotions = [k for k, v in emotions.items() if v == max_val]
+            
             mood_stats = {
                 'percentHappiness': emotions['happy'] * 100,
                 'percentFear': emotions['fear'] * 100,
                 'percentSadness': emotions['sad'] * 100,
                 'percentDisgust': emotions['disgust'] * 100,
                 'percentAnger': emotions['anger'] * 100,
-                'dominantMood': max(emotions.items(), key=lambda x: x[1])[0]
+                'dominantMood': top_emotions[0] if len(top_emotions) == 1 else ''
             }
             
             # Create insight from advice
