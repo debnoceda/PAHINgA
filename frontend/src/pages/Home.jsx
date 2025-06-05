@@ -148,11 +148,8 @@ function Home() {
                     <p>Mallow Pet</p>
                 </div>
                 <div className="home-content-top">
-                    <div className="home-calendar-section">
-                        {/* Calendar Placeholder */}
-                        <div className="calendar-box">
-                            <MoodCalendar moodData={calendarMoodData} />
-                        </div>
+                    <div className="home-calendar-section card calendar-box">
+                        <MoodCalendar moodData={calendarMoodData} />
                     </div>
                     <div className="home-pie-section">
                         <PieChart data={getChartData()} emotionCode={yourBackendValue}/>
