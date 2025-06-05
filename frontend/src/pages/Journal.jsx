@@ -50,6 +50,13 @@ function Journal() {
         }
     }, [fetchJournals, location.search]);
 
+    useEffect(() => {
+        document.body.style.overflowY = 'auto';
+        return () => {
+            document.body.style.overflowY = 'hidden';
+        };
+    }, []);
+
     return (
         <div>
             <NavigationBar />
