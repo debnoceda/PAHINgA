@@ -8,8 +8,9 @@ import CalendarDisgust from '../assets/CalendarEmoji/CalendarDisgust.png';
 import CalendarFear from '../assets/CalendarEmoji/CalendarFear.png';
 import CalendarHappy from '../assets/CalendarEmoji/CalendarHappy.png';
 import CalendarSad from '../assets/CalendarEmoji/CalendarSad.png';
+import NeutralImage from '../assets/Neutral.png';
 
-const PieChart = ({ data, emotionCode = 4 }) => {
+const PieChart = ({ data, emotionCode = 4, showLabels = true }) => {
   const containerRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 300, height: 300 }); // Default fallback
 
@@ -39,6 +40,7 @@ const PieChart = ({ data, emotionCode = 4 }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const emotionImages = {
+    0: NeutralImage, // Neutral/default state
     1: CalendarAngry,
     2: CalendarDisgust,
     3: CalendarFear,
@@ -46,7 +48,10 @@ const PieChart = ({ data, emotionCode = 4 }) => {
     5: CalendarSad
   };
 
-  const currentEmotionImage = emotionImages[emotionCode] || CalendarHappy;
+  // Use neutral image for default state or when no labels are shown
+  const currentEmotionImage = showLabels 
+    ? (emotionImages[emotionCode] || CalendarHappy)
+    : NeutralImage;
 
   const pieGenerator = d3.pie().value(d => d.value);
   const pieData = pieGenerator(data);
@@ -107,41 +112,45 @@ const PieChart = ({ data, emotionCode = 4 }) => {
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 />
-                <text
-                  transform={`translate(${labelArcGenerator.centroid(slice)})`}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontSize={isHovered ? baseFontSize : baseFontSize}
-                  fontWeight="bold"
-                  fill="var(--color-dark)"
-                  dy={-12}
-                  style={{
-                    // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
-                    transition: 'all 0.2s ease-in-out',
-                    pointerEvents: 'none',
-                    opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1
-                  }}
-                >
-                  {slice.data.value}
-                </text>
-                <text
-                  transform={`translate(${labelArcGenerator.centroid(slice)})`}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontSize={isHovered ? nameFontSize : nameFontSize}
-                  fontWeight="500"
-                  fill={'black'}
-                  dy={16}
-                  style={{
-                    color: 'rgba(0,0,0,0.7)',
-                    // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
-                    transition: 'all 0.2s ease-in-out',
-                    pointerEvents: 'none',
-                    opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1
-                  }}
-                >
-                  {slice.data.name}
-                </text>
+                {showLabels && (
+                  <>
+                    <text
+                      transform={`translate(${labelArcGenerator.centroid(slice)})`}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fontSize={isHovered ? baseFontSize : baseFontSize}
+                      fontWeight="bold"
+                      fill="var(--color-dark)"
+                      dy={-12}
+                      style={{
+                        // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+                        transition: 'all 0.2s ease-in-out',
+                        pointerEvents: 'none',
+                        opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1
+                      }}
+                    >
+                      {slice.data.value}
+                    </text>
+                    <text
+                      transform={`translate(${labelArcGenerator.centroid(slice)})`}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fontSize={isHovered ? nameFontSize : nameFontSize}
+                      fontWeight="500"
+                      fill={'black'}
+                      dy={16}
+                      style={{
+                        color: 'rgba(0,0,0,0.7)',
+                        // textShadow: '1px 1px 2px rgba(0,0,0,0.7)',
+                        transition: 'all 0.2s ease-in-out',
+                        pointerEvents: 'none',
+                        opacity: hoveredIndex !== null && !isHovered ? 0.6 : 1
+                      }}
+                    >
+                      {slice.data.name}
+                    </text>
+                  </>
+                )}
               </g>
             );
           })}
