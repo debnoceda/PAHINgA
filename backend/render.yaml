@@ -3,19 +3,35 @@ services:
     name: pahinga-backend
     env: python
     buildCommand: |
+      echo "Starting build process..."
       pip install -r requirements.txt
+      echo "Requirements installed"
       python manage.py migrate
+      echo "Migrations completed"
+      echo "Creating superuser..."
       python manage.py create_superuser
+      echo "Superuser creation attempted"
       python manage.py collectstatic --noinput
+      echo "Static files collected"
     startCommand: gunicorn backend.wsgi:application
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: DEBUG
-        value: "False"
+        value: "True"  # Temporarily set to True for debugging
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
       - key: CORS_ALLOWED_ORIGINS
         value: "https://pahi-ng-a.vercel.app"
       - key: STATIC_ROOT
-        value: "/opt/render/project/src/backend/staticfiles" 
+        value: "/opt/render/project/src/backend/staticfiles"
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: "admin"
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: "admin@example.com"
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: "YourSecurePassword123!"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pahinga-db
+          property: connectionString 

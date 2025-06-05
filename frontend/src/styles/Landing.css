@@ -115,8 +115,8 @@
     width: 100%;
   }
 
-  .custom-button {
-    width: auto;
+  .custom-button{
+    width: 100%;
     min-width: 120px;
   }
 }

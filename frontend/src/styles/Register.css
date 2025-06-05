@@ -7,13 +7,13 @@
 .title {
     text-align: center;
     margin: 1.5rem 0;
-    padding-bottom: 2rem;
+    padding-bottom: 0;
     color: #1B1212;
 }
 
 .register-form-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     gap: 10rem;
     align-items: baseline;
     margin: 0 auto;
@@ -28,10 +28,11 @@
     gap: 1.5rem;
     padding: 2rem;
     text-align: center;
+    order: -1;
 }
 
 .text-image-container h1 {
-    font-size: 8rem;
+    font-size: 7rem;
     color: #1B1212;
     margin: 0;
     z-index: 3;
@@ -68,6 +69,10 @@
         font-size: 3.5rem;
     }
 
+    .form-container {
+        margin-bottom: 3rem;
+    }
+
     .register-form-container {
         flex-direction: column;
         gap: 1.5rem;
@@ -90,6 +95,11 @@
     .register-form {
         margin-left: 0;
         width: 100%;
+        order: 1;
+    }
+
+    .form-title {
+        margin-bottom: 0;
     }
 }
 
