@@ -6,7 +6,7 @@ import api from '../api';
 import { useUser } from '../context/UserContext';
 import '../styles/Entry.css';
 import Pet from '../components/Pet';
-import DialogBox from '../components/DialogBox';
+import toast, { Toaster } from 'react-hot-toast';
 
 const moodToEmotionCode = {
   anger: 1,
@@ -129,7 +129,7 @@ function Entry() {
       setEntryId(res.data.id);
       navigate(`/entry/${res.data.id}`, { replace: true });
     } catch (err) {
-      alert('Failed to create entry');
+      toast.error('Failed to create entry');
     }
   };
 
@@ -142,7 +142,7 @@ function Entry() {
       });
       // alert('Entry updated!');
     } catch (err) {
-      alert('Failed to update entry');
+      toast.error('Failed to update entry');
     }
   };
 
@@ -161,7 +161,7 @@ function Entry() {
         // Wait for addEntry to finish, then go back
         navigate(-1);
       } catch (err) {
-        alert('Failed to save before going back.');
+        toast.error('Failed to save before going back.');
       }
       return;
     }
@@ -183,11 +183,11 @@ function Entry() {
       setAdviceMessages(response.data.insights?.advice_messages || []);
       setCurrentAdviceIndex(0); // Reset to first message
   
-      alert('Pet analyzed your mood and generated insights!');
+      toast.success('Pet analyzed your mood and generated insights!');
       setPieChartRefreshKey((k) => k + 1); // Refresh PieChart
     } catch (error) {
       console.error('Error processing emotions:', error);
-      alert('Failed to analyze pet mood. Please try again later.');
+      toast.error('Failed to analyze pet mood. Please try again later.');
     } finally {
       setIsAnalyzing(false);
     }
