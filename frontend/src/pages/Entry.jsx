@@ -34,7 +34,6 @@ function Entry() {
   const { deleteEntry } = useUser();
   const [pieChartRefreshKey, setPieChartRefreshKey] = useState(0);
   const createTimeout = useRef(null);
-  const [isSaving, setIsSaving] = useState(false);
 
   // Add useEffect for advice rotation
   useEffect(() => {
@@ -120,7 +119,6 @@ function Entry() {
   }, [title, text, date, entryId, isNew, loaded]);
 
   const addEntry = async () => {
-    setIsSaving(true);
     try {
       const res = await api.post('/journals/', {
         title,
@@ -132,13 +130,10 @@ function Entry() {
       navigate(`/entry/${res.data.id}`, { replace: true });
     } catch (err) {
       toast.error('Failed to create entry');
-    } finally {
-      setIsSaving(false);
     }
   };
 
   const updateEntry = async (updateId) => {
-    setIsSaving(true);
     try {
       await api.put(`/journals/${updateId}/`, {
         title,
@@ -148,55 +143,25 @@ function Entry() {
       // alert('Entry updated!');
     } catch (err) {
       toast.error('Failed to update entry');
-    } finally {
-      setIsSaving(false);
     }
   };
 
   const handleGoBack = async () => {
-    // If saving is in progress or a timeout is pending, wait for save
-    if (isSaving || createTimeout.current) {
-      toast('Please wait, saving your changes...');
-      // Wait for the save to finish, then go back
-      const waitForSave = () =>
-        new Promise(resolve => {
-          const check = () => {
-            if (!isSaving && !createTimeout.current) resolve();
-            else setTimeout(check, 100);
-          };
-          check();
-        });
-      await waitForSave();
-    }
-
-    // For new entries, save before going back if not yet saved
+    // If new, has content, and not yet saved, save first then go back
     if (
       isNew &&
       !hasCreated.current &&
       ((title && title.length >= 3) || (text && text.length >= 5))
     ) {
+      // Prevent multiple triggers
       if (createTimeout.current) clearTimeout(createTimeout.current);
+
       try {
         await addEntry();
+        // Wait for addEntry to finish, then go back
         navigate(-1);
       } catch (err) {
         toast.error('Failed to save before going back.');
-      }
-      return;
-    }
-
-    // For existing entries, update before going back if there are unsaved changes
-    if (
-      entryId &&
-      !isSaving &&
-      ((title && title.length >= 3) || (text && text.length >= 5))
-    ) {
-      if (createTimeout.current) clearTimeout(createTimeout.current);
-      try {
-        await updateEntry(entryId);
-        navigate(-1);
-      } catch (err) {
-        toast.error('Failed to update before going back.');
       }
       return;
     }
