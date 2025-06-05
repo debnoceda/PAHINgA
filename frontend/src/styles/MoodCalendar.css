@@ -48,7 +48,8 @@
 .mood-sad abbr,
 .mood-anger abbr,
 .mood-fear abbr,
-.mood-disgust abbr {
+.mood-disgust abbr,
+.mood-neutral abbr {
   display: none;
 }
 
@@ -89,6 +90,13 @@ background-position: center !important;
 
 .mood-disgust, .mood-disgust:active, .mood-disgust:hover {
   background-image: url('../assets/CalendarEmoji/CalendarDisgust.png') !important;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.mood-neutral, .mood-neutral:active, .mood-neutral:hover {
+  background-image: url('../assets/Neutral.png') !important;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

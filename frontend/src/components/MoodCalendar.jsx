@@ -38,11 +38,16 @@ const MoodCalendar = () => {
       showNeighboringMonth={false}
       onClickDay={handleDateClick}
       tileClassName={({ date, view }) => {
-        // Format date to match the moodData keys format (YYYY-MM-DD)
-        const key = date.toLocaleDateString('en-CA'); // This formats as YYYY-MM-DD
-        const mood = moodData[key];
+        const key = date.toLocaleDateString('en-CA');
+        let mood = null;
+
+        if (Object.prototype.hasOwnProperty.call(moodData, key)) {
+          // Journal exists for this date
+          mood = moodData[key] ? moodData[key].toLowerCase() : 'neutral';
+        }
+
         const isFuture = date > new Date();
-        const isPast = view === 'month' && date < new Date() && !mood;
+        const isPast = view === 'month' && date < new Date();
         const dayOfWeek = date.getDay();
 
         let classes = ['calendar-tile'];
