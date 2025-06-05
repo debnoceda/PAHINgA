@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
 import FloatingActionButton from '../components/FloatingActionButton';
@@ -9,14 +9,15 @@ import Button from '../components/Button';
 import { useUser } from '../context/UserContext';
 import '../styles/Home.css';
 import MoodCalendar from '../components/MoodCalendar';
+import api from '../api';
 
-const sampleData = [
-  { name: 'Happiness', value: 90 },
-  { name: 'Anger', value: 12 },
-  { name: 'Fear', value: 34 },
-  { name: 'Disgust', value: 53 },
-  { name: 'Sadness', value: 98 },
-];
+const moodToEmotionCode = {
+  anger: 1,
+  disgust: 2,
+  fear: 3,
+  happy: 4,
+  sad: 5,
+};
 
 const sampleMoodData = {
     '2025-06-01': 'happy',
@@ -26,15 +27,40 @@ const sampleMoodData = {
     '2025-06-05': 'disgust',
 };
 
-const yourBackendValue = 0;
-
 function Home() {
     const { fetchJournals, journals, loading } = useUser();
     const navigate = useNavigate();
+    const [moodStats, setMoodStats] = useState(null);
+    const [yourBackendValue, setYourBackendValue] = useState(4); // default to happy
 
     useEffect(() => {
         fetchJournals();
     }, [fetchJournals]);
+
+    // Fetch mood stats for the most recent journal entry
+    useEffect(() => {
+        const fetchMoodStats = async () => {
+            if (journals.length > 0) {
+                try {
+                    const mostRecentJournal = journals[0];
+                    const response = await api.get(`/journals/${mostRecentJournal.id}/`);
+                    if (response.data.moodStats) {
+                        setMoodStats(response.data.moodStats);
+                        // Set the emotion code based on dominant mood
+                        if (response.data.moodStats.dominantMood) {
+                            setYourBackendValue(moodToEmotionCode[response.data.moodStats.dominantMood.toLowerCase()] || 4);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching mood stats:', error);
+                }
+            }
+        };
+
+        if (!loading && journals.length > 0) {
+            fetchMoodStats();
+        }
+    }, [journals, loading]);
 
     const handleSeeAllClick = () => {
         navigate('/journal');
@@ -42,6 +68,25 @@ function Home() {
 
     const handleCreateEntryClick = () => {
         navigate('/entry/new');
+    };
+
+    // Convert mood stats to chart data format
+    const getChartData = () => {
+        if (!moodStats) return [
+            { name: 'Happiness', value: 0 },
+            { name: 'Anger', value: 0 },
+            { name: 'Fear', value: 0 },
+            { name: 'Disgust', value: 0 },
+            { name: 'Sadness', value: 0 },
+        ];
+
+        return [
+            { name: 'Happiness', value: parseFloat(moodStats.percentHappiness.toFixed(2)) },
+            { name: 'Anger', value: parseFloat(moodStats.percentAnger.toFixed(2)) },
+            { name: 'Fear', value: parseFloat(moodStats.percentFear.toFixed(2)) },
+            { name: 'Disgust', value: parseFloat(moodStats.percentDisgust.toFixed(2)) },
+            { name: 'Sadness', value: parseFloat(moodStats.percentSadness.toFixed(2)) },
+        ];
     };
 
     return (
@@ -60,7 +105,7 @@ function Home() {
                         </div>
                     </div>
                     <div className="home-pie-section">
-                        <PieChart data={sampleData} emotionCode={1}/>
+                        <PieChart data={getChartData()} emotionCode={yourBackendValue}/>
                     </div>
                 </div>
                 <div className="home-content-bottom">
