@@ -6,6 +6,7 @@ import PieChart from '../components/PieChart';
 import Pet from '../components/Pet';
 import JournalList from '../components/JournalList';
 import Button from '../components/Button';
+import DialogBox from '../components/DialogBox';
 import { useUser } from '../context/UserContext';
 import '../styles/Home.css';
 import MoodCalendar from '../components/MoodCalendar';
@@ -33,10 +34,28 @@ function Home() {
     const [moodStats, setMoodStats] = useState(null);
     const [yourBackendValue, setYourBackendValue] = useState(4); // default to happy
     const [calendarMoodData, setCalendarMoodData] = useState({});
+    const [adviceMessages, setAdviceMessages] = useState([]);
+    const [currentAdviceIndex, setCurrentAdviceIndex] = useState(0);
 
     useEffect(() => {
         fetchJournals();
     }, [fetchJournals]);
+
+    // Add useEffect for advice rotation
+    useEffect(() => {
+        if (adviceMessages.length <= 1) return;
+
+        const interval = setInterval(() => {
+            setCurrentAdviceIndex((prevIndex) => (prevIndex + 1) % adviceMessages.length);
+        }, 15000); // Rotate every 15 seconds
+
+        return () => clearInterval(interval);
+    }, [adviceMessages]);
+
+    const handleAdviceClick = () => {
+        if (adviceMessages.length <= 1) return;
+        setCurrentAdviceIndex((prevIndex) => (prevIndex + 1) % adviceMessages.length);
+    };
 
     // Convert mood stats to calendar format
     const getCalendarMoodData = () => {
@@ -68,6 +87,9 @@ function Home() {
                         }
                         // Update calendar mood data
                         setCalendarMoodData(getCalendarMoodData());
+                        // Set advice messages
+                        setAdviceMessages(response.data.insights?.advice_messages || []);
+                        setCurrentAdviceIndex(0); // Reset to first message
                     }
                 } catch (error) {
                     console.error('Error fetching mood stats:', error);
@@ -119,7 +141,10 @@ function Home() {
             <NavigationBar />
             <div className="home-container">
                 <div className="home-pet-section">
-                    <Pet emotionCode={getDominantEmotionCode()} />
+                    <Pet 
+                        emotionCode={getDominantEmotionCode()} 
+                        message={adviceMessages.length > 0 ? adviceMessages[currentAdviceIndex] : undefined}
+                    />
                     <p>Mallow Pet</p>
                 </div>
                 <div className="home-content-top">
