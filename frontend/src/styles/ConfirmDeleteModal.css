@@ -22,7 +22,7 @@
 
 .modal-icon {
   margin-bottom: 1rem;
-  color: #e53935;
+  color: #D57F80;
 }
 
 .modal-description {
@@ -41,12 +41,12 @@
 }
 
 .confirm-cancel {
-    background-color: white;
+    background-color: white !important;
 }
 
 .confirm-delete {
-    background-color: #e53935;
-    color: white;
+    background-color: #D57F80 !important;
+    color: white !important;
 }
 
 .confirm-cancel:hover,
