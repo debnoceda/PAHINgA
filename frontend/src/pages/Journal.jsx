@@ -52,9 +52,6 @@ function Journal() {
 
     useEffect(() => {
         document.body.style.overflowY = 'auto';
-        return () => {
-            document.body.style.overflowY = 'hidden';
-        };
     }, []);
 
     return (
