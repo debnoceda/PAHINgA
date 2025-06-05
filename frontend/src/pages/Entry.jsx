@@ -86,7 +86,10 @@ function Entry() {
       setDate(res.data.date || '');
       setText(res.data.content || '');
       setMoodStats(res.data.moodStats || null);
-      setAdviceMessages(res.data.insights?.advice_messages || []);
+      const newAdviceMessages = res.data.insights?.advice_messages || [];
+      setAdviceMessages(newAdviceMessages);
+      // Set random initial index for advice
+      setCurrentAdviceIndex(Math.floor(Math.random() * newAdviceMessages.length));
       setLoaded(true); // Mark as loaded after fetch
     } catch (err) {
       setTitle('');
@@ -156,7 +159,7 @@ function Entry() {
       setEntryId(res.data.id);
       navigate(`/entry/${res.data.id}`, { replace: true });
     } catch (err) {
-      toast.error('Failed to create entry');
+      // toast.error('Failed to create entry');
     }
   };
 

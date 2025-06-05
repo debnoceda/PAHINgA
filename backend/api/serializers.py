@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Journal, MoodStat, Insight, UserStreak, UserProfile
+from .models import Journal, MoodStat, Insight, UserStreak, UserProfile, DailyGreeting
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,3 +75,8 @@ class JournalSerializer(serializers.ModelSerializer):
         if not data.get('title') and not data.get('content'):
             raise serializers.ValidationError("Either title or content must be provided.")
         return data
+
+class DailyGreetingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DailyGreeting
+        fields = ['id', 'greetings', 'date', 'time_period']

@@ -20,6 +20,24 @@ const moodToEmotionCode = {
   sad: 5,
 };
 
+import toast from 'react-hot-toast'
+
+const handleTestDailyGreeting = async () => {
+    try {
+        const response = await api.get('/daily-greetings/today/');
+        if (response.data.greetings && response.data.greetings.length > 0) {
+            // Show the first greeting in a toast or alert
+            toast.success(response.data.greetings[0]);
+            // Or use: alert(response.data.greetings[0]);
+        } else {
+            toast('No greeting found for this period.');
+        }
+    } catch (error) {
+        toast.error('Failed to fetch daily greeting.');
+    }
+};
+
+
 const sampleMoodData = {
     '2025-06-01': 'happy',
     '2025-06-02': 'sad',
@@ -35,7 +53,9 @@ function Home() {
     const [yourBackendValue, setYourBackendValue] = useState(4); // default to happy
     const [calendarMoodData, setCalendarMoodData] = useState({});
     const [adviceMessages, setAdviceMessages] = useState([]);
+    const [dailyGreetings, setDailyGreetings] = useState([]);
     const [currentAdviceIndex, setCurrentAdviceIndex] = useState(0);
+    const [currentGreetingIndex, setCurrentGreetingIndex] = useState(0);
 
     useEffect(() => {
         fetchJournals();
@@ -51,6 +71,17 @@ function Home() {
 
         return () => clearInterval(interval);
     }, [adviceMessages]);
+
+    // Add useEffect for daily greeting rotation
+    useEffect(() => {
+        if (dailyGreetings.length <= 1) return;
+
+        const interval = setInterval(() => {
+            setCurrentGreetingIndex((prevIndex) => (prevIndex + 1) % dailyGreetings.length);
+        }, 15000); // Rotate every 15 seconds
+
+        return () => clearInterval(interval);
+    }, [dailyGreetings]);
 
     const handleAdviceClick = () => {
         if (adviceMessages.length <= 1) return;
@@ -88,8 +119,10 @@ function Home() {
                         // Update calendar mood data
                         setCalendarMoodData(getCalendarMoodData());
                         // Set advice messages
-                        setAdviceMessages(response.data.insights?.advice_messages || []);
-                        setCurrentAdviceIndex(0); // Reset to first message
+                        const newAdviceMessages = response.data.insights?.advice_messages || [];
+                        setAdviceMessages(newAdviceMessages);
+                        // Set random initial index for advice
+                        setCurrentAdviceIndex(Math.floor(Math.random() * newAdviceMessages.length));
                     }
                 } catch (error) {
                     console.error('Error fetching mood stats:', error);
@@ -101,6 +134,32 @@ function Home() {
             fetchMoodStats();
         }
     }, [journals, loading]);
+
+    // Fetch daily greetings
+    useEffect(() => {
+        const fetchDailyGreetings = async () => {
+            try {
+                const response = await api.get('/daily-greetings/today/');
+                if (response.data.greetings) {
+                    const newGreetings = response.data.greetings;
+                    setDailyGreetings(newGreetings);
+                    // Set random initial index for greetings
+                    setCurrentGreetingIndex(Math.floor(Math.random() * newGreetings.length));
+                }
+            } catch (error) {
+                console.error('Error fetching daily greetings:', error);
+            }
+        };
+
+        fetchDailyGreetings();
+
+        // Set up interval to check for time period changes
+        const checkInterval = setInterval(() => {
+            fetchDailyGreetings();
+        }, 5 * 60 * 1000); // Check every 5 minutes
+
+        return () => clearInterval(checkInterval);
+    }, []);
 
     const handleSeeAllClick = () => {
         navigate('/journal');
@@ -143,7 +202,13 @@ function Home() {
                 <div className="home-pet-section">
                     <Pet 
                         emotionCode={getDominantEmotionCode()} 
-                        message={adviceMessages.length > 0 ? adviceMessages[currentAdviceIndex] : undefined}
+                        message={
+                            dailyGreetings.length > 0 
+                                ? dailyGreetings[currentGreetingIndex]
+                                : adviceMessages.length > 0 
+                                    ? adviceMessages[currentAdviceIndex]
+                                    : "Be kind to yourself during this time."
+                        }
                     />
                     <p>Mallow Pet</p>
                 </div>

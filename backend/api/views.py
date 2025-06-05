@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from .models import Journal, MoodStat, Insight, UserStreak, UserProfile
+from .models import Journal, MoodStat, Insight, UserStreak, UserProfile, DailyGreeting
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from .serializers import UserSerializer, JournalSerializer, MoodStatSerializer, InsightSerializer
+from .serializers import UserSerializer, JournalSerializer, MoodStatSerializer, InsightSerializer, DailyGreetingSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from gemini_wrapper.gemini_utils import get_emotion_probabilities, get_thought_advice
+from gemini_wrapper.gemini_utils import get_emotion_probabilities, get_thought_advice, get_daily_greeting_advice
 from django.utils import timezone
 from django.db import transaction
 from rest_framework.decorators import action
@@ -177,3 +177,68 @@ class InsightViewSet(viewsets.ModelViewSet):
     queryset = Insight.objects.all()
     serializer_class = InsightSerializer
     permission_classes = [IsAuthenticated]
+
+class DailyGreetingViewSet(viewsets.ModelViewSet):
+    serializer_class = DailyGreetingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return DailyGreeting.objects.filter(user=self.request.user).order_by('-date')
+
+    def get_time_period(self):
+        """Get the current time period based on hour"""
+        hour = timezone.now().hour
+        if 5 <= hour < 8:
+            return 'dawn'
+        elif 8 <= hour < 12:
+            return 'morning'
+        elif 12 <= hour < 14:
+            return 'noon'
+        elif 14 <= hour < 17:
+            return 'afternoon'
+        elif 17 <= hour < 22:
+            return 'evening'
+        else:  # 22-4
+            return 'midnight'
+
+    @action(detail=False, methods=['get'])
+    def today(self, request):
+        """Get or create today's greetings for the user"""
+        today = timezone.now().date()
+        current_period = self.get_time_period()
+        
+        # Try to get today's greetings
+        try:
+            daily_greeting = DailyGreeting.objects.get(
+                user=request.user, 
+                date=today,
+                time_period=current_period
+            )
+            serializer = self.get_serializer(daily_greeting)
+            return Response(serializer.data)
+        except DailyGreeting.DoesNotExist:
+            # If no greetings exist for this period, create new ones
+            try:
+                # Get today's journal entries
+                today_entries = Journal.objects.filter(
+                    user=request.user,
+                    date=today
+                ).values_list('content', flat=True)
+                
+                # Generate new greetings
+                greetings = get_daily_greeting_advice(list(today_entries))
+                
+                # Create new daily greeting
+                daily_greeting = DailyGreeting.objects.create(
+                    user=request.user,
+                    greetings=greetings,
+                    time_period=current_period
+                )
+                
+                serializer = self.get_serializer(daily_greeting)
+                return Response(serializer.data)
+            except Exception as e:
+                return Response(
+                    {"error": f"Failed to generate daily greetings: {str(e)}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                )

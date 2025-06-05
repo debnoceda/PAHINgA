@@ -76,3 +76,24 @@ def create_user_streak(sender, instance, created, **kwargs):
     if created:
         UserStreak.objects.create(user=instance)
         UserProfile.objects.create(user=instance)
+
+class DailyGreeting(models.Model):
+    TIME_PERIODS = [
+        ('dawn', 'Dawn (5-8)'),
+        ('morning', 'Morning (8-12)'),
+        ('noon', 'Noon (12-14)'),
+        ('afternoon', 'Afternoon (14-17)'),
+        ('evening', 'Evening (17-22)'),
+        ('midnight', 'Midnight (22-5)'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_greetings')
+    greetings = models.JSONField(default=list)  # List of greeting messages
+    date = models.DateField(auto_now_add=True)  # Date when greetings were generated
+    time_period = models.CharField(max_length=10, choices=TIME_PERIODS, default='morning')
+
+    def __str__(self):
+        return f"Daily greetings for {self.user.username} on {self.date} ({self.time_period})"
+
+    class Meta:
+        unique_together = ['user', 'date', 'time_period']  # One set of greetings per user per day per time period
