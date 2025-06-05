@@ -151,6 +151,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "https://your-vercel-domain.vercel.app",
+    "https://pahi-ng-a.vercel.app/",
     "http://localhost:5173"  # For local development
 ]
