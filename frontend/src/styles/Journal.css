@@ -39,6 +39,11 @@
 
 .journal-filter-icon {
     margin-left: 12px;
+    border-radius: 0.5rem;
+}
+
+.journal-filter-icon:hover {
+    background: var(--color-light-blue, #E2F1F7);
 }
 
 .journal-filter-dropdown-container {
@@ -71,6 +76,9 @@
   border-radius: 0.5rem;
   border: 1px solid #ccc;
   font-size: 1.6rem;
+  font-family: var(--font-regular, inherit); /* Use your app's font variable or fallback */
+  background: white;
+  color: black;
 }
 
 .filter-calendar {
