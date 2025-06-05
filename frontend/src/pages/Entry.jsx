@@ -260,25 +260,43 @@ function Entry() {
           {/* First Column - Dotted Paper Style */}
           <div className="dotted-paper-section">
             <div className="entry-header">
-              <input
-                className="entry-title"
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-              />
-              <div className="entry-date small-text">
-                {formatDate(date)}
-              </div>
+              {/* Title */}
+              {!loaded ? (
+                <div className="entry-skeleton-title" />
+              ) : (
+                <input
+                  className="entry-title"
+                  type="text"
+                  placeholder="Title"
+                  value={title}
+                  onChange={e => setTitle(e.target.value)}
+                  disabled={!loaded}
+                />
+              )}
+
+              {/* Date */}
+              {!loaded ? (
+                <div className="entry-skeleton-date" />
+              ) : (
+                <div className="entry-date small-text">
+                  {formatDate(date)}
+                </div>
+              )}
             </div>
             <div className="entry-content">
-              <textarea
-                className="entry-text"
-                placeholder="Write your thoughts here..."
-                value={text}
-                onChange={e => setText(e.target.value)}
-                rows={20}
-              />
+              {/* Text */}
+              {!loaded ? (
+                <div className="entry-skeleton-text" />
+              ) : (
+                <textarea
+                  className="entry-text"
+                  placeholder="Write your thoughts here..."
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                  rows={20}
+                  disabled={!loaded}
+                />
+              )}
             </div>
           </div>
 
