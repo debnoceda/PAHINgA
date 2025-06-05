@@ -21,7 +21,7 @@ const MoodCalendar = () => {
     }, {});
   }, [journals]);
 
-  console.log('Mood data:', moodData); // Debugging line to check moodData structure
+  // console.log('Mood data:', moodData); // Debugging line to check moodData structure
 
   const handleDateClick = (date) => {
     const formattedDate = date.toLocaleDateString('en-US', {
