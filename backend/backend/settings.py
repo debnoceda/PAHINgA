@@ -152,6 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "https://pahi-ng-a.vercel.app",
+    "https://pahinga.vercel.app",
     "http://localhost:5173"  # For local development
 ]
 
