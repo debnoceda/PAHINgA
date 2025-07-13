@@ -2,6 +2,8 @@
 
 PAHINgA is a web application that helps users track their mental health through journaling and AI-powered insights. The application analyzes journal entries to provide mood statistics and personalized insights.
 
+<img alt="Menu" src="https://github.com/debnoceda/PAHINgA/blob/main/frontend/public/PAHINgA-Cover.png">
+
 ## Features
 
 - User Authentication (Register/Login)
